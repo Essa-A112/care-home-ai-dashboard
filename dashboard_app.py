@@ -34,11 +34,14 @@ def normalise(name):
 st.title("🏡 Care Home Investment Dashboard (UK)")
 st.write("Explore Local Authority Districts with predicted care home investment potential using SHAP + GPT explanations.")
 
-# === Selectbox UI ===
+# === LAD List ===
 lad_names = df["Local_Authority"].sort_values().unique()
-selected_lad = st.selectbox("🔍 Choose a Local Authority District (LAD):", lad_names)
 
-# === Folium Map ===
+# === Session state for synced selection ===
+if "selected_lad" not in st.session_state:
+    st.session_state.selected_lad = lad_names[0]  # Default
+
+# === Map first (so we can update the dropdown) ===
 st.subheader("🗺️ Clickable LAD Map")
 m = folium.Map(location=[54.5, -3], zoom_start=5, tiles="cartodbpositron")
 
@@ -54,6 +57,20 @@ folium.GeoJson(
 ).add_to(m)
 
 map_output = st_folium(m, height=500, returned_objects=["last_active_drawing"])
+
+# === Update session state if map was clicked ===
+if map_output and map_output.get("last_active_drawing"):
+    clicked_lad = map_output["last_active_drawing"]["properties"]["LAD25NM"]
+    if clicked_lad in lad_names:
+        st.session_state.selected_lad = clicked_lad
+
+# === Dropdown linked to session_state ===
+selected_lad = st.selectbox(
+    "🔍 Choose a Local Authority District (LAD):",
+    lad_names,
+    index=list(lad_names).index(st.session_state.selected_lad),
+    key="selected_lad"
+)
 
 # === LAD Selection via Map ===
 clicked_lad = None
