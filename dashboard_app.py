@@ -10,68 +10,63 @@ Original file is located at
 import streamlit as st
 import pandas as pd
 import os
-import folium
 import json
+import folium
 from streamlit_folium import st_folium
 
 # === File Paths ===
 DATA_PATH = "final_model_data_useful.csv"
 SHAP_FOLDER = "shap_visuals"
 GPT_FOLDER = "gpt_explanation"
-GEOJSON_PATH = "LAD_MAY_2025_Simplified.geojson"  # keep your simplified GeoJSON here
+GEOJSON_PATH = "LAD_MAY_2025_Simplified.json"  # Ensure file exists and is simplified
 
-# === Load Data ===
+# === Load data ===
 df = pd.read_csv(DATA_PATH)
-with open(GEOJSON_PATH, "r", encoding="utf-8") as f:
+with open(GEOJSON_PATH, "r") as f:
     geojson_data = json.load(f)
 
-# === Helper ===
+# === Helper: Normalise LAD names ===
 def normalise(name):
     return name.strip().lower().replace(" ", "_").replace("-", "_").replace("/", "_")
 
-st.set_page_config(layout="wide")  # fixes white space issue
-
-# === App Title ===
+# === UI ===
+st.set_page_config(layout="wide")
 st.title("🏡 Care Home Investment Dashboard (UK)")
-st.write("Explore Local Authority Districts with predicted care home investment potential using SHAP + GPT explanations.")
+st.markdown("Explore Local Authority Districts with predicted care home investment potential using SHAP + GPT explanations.")
 
-# === Layout Columns ===
-col1, col2 = st.columns([2, 3])
+# === Columns for layout ===
+left, right = st.columns([1, 2])  # Smaller left, wider right
 
-with col1:
-    lad_names = df["Local_Authority"].sort_values().unique()
-    user_selected_lad = st.selectbox("🔍 Choose a Local Authority District (LAD):", lad_names)
+# === LAD Dropdown ===
+lad_names = df["Local_Authority"].sort_values().unique()
+with left:
+    st.markdown("#### 🔍 Choose a Local Authority District (LAD):")
+    selected_lad = st.selectbox("", lad_names, key="lad_dropdown")
 
-# === Folium Map ===
-with col2:
-    st.subheader("🗺️ Click on the Map")
+# === Map ===
+with right:
+    st.markdown("#### 🗺️ Click on the Map")
     m = folium.Map(location=[54.5, -3], zoom_start=5, tiles="cartodbpositron")
 
-    def style_fn(feature):
-        return {"fillOpacity": 0.3, "weight": 0.4, "color": "#3388ff"}
-
-    def highlight_fn(feature):
-        return {"fillColor": "#00BCD4", "color": "#444", "weight": 2, "fillOpacity": 0.6}
+    def on_click(feature):
+        return {"fillColor": "#3186cc", "weight": 1, "fillOpacity": 0.6}
 
     folium.GeoJson(
         geojson_data,
         name="LADs",
-        style_function=style_fn,
-        highlight_function=highlight_fn,
+        style_function=lambda x: {"fillOpacity": 0.3, "weight": 0.2},
+        highlight_function=on_click,
         tooltip=folium.GeoJsonTooltip(fields=["LAD25NM"], aliases=["LAD:"]),
     ).add_to(m)
 
     map_output = st_folium(m, height=500, returned_objects=["last_active_drawing"])
 
-# === Handle Click ===
-clicked_lad = None
+# === Sync map clicks with dropdown ===
 if map_output and map_output.get("last_active_drawing"):
-    clicked_lad = map_output["last_active_drawing"]["properties"]["LAD25NM"]
+    selected_lad = map_output["last_active_drawing"]["properties"]["LAD25NM"]
 
-# === Final LAD Selection (priority: click > dropdown) ===
-selected_lad = clicked_lad if clicked_lad else user_selected_lad
-
-# === Display LAD Info ===
+# === LAD Info ===
+st.markdown("---")
 if selected_lad:
     lad_row = df[df["Local_Authority"] == selected_lad]
     if not lad_row.empty:
@@ -112,3 +107,4 @@ if selected_lad:
 # === Footer ===
 st.markdown("---")
 st.caption("Created as part of MSc Project – AI for Care Home Investment Support (2025)")
+
