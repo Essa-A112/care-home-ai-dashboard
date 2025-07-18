@@ -10,14 +10,21 @@ Original file is located at
 import streamlit as st
 import pandas as pd
 import os
+import folium
+import json
+from streamlit_folium import st_folium
 
 # === File Paths ===
 DATA_PATH = "final_model_data_useful.csv"
 SHAP_FOLDER = "shap_visuals"
 GPT_FOLDER = "gpt_explanation"
+GEOJSON_PATH = "LAD_MAY_2025_Simplified.geojson"
+
 
 # === Load data ===
 df = pd.read_csv(DATA_PATH)
+with open(GEOJSON_PATH, "r") as f:
+    geojson_data = json.load(f)
 
 # === Helper: Normalise LAD names ===
 def normalise(name):
@@ -27,43 +34,71 @@ def normalise(name):
 st.title("🏡 Care Home Investment Dashboard (UK)")
 st.write("Explore Local Authority Districts with predicted care home investment potential using SHAP + GPT explanations.")
 
+# === Selectbox UI ===
 lad_names = df["Local_Authority"].sort_values().unique()
 selected_lad = st.selectbox("🔍 Choose a Local Authority District (LAD):", lad_names)
 
+# === Folium Map ===
+st.subheader("🗺️ Clickable LAD Map")
+m = folium.Map(location=[54.5, -3], zoom_start=5, tiles="cartodbpositron")
+
+def on_click(feature):
+    return {"fillColor": "#3186cc", "weight": 1, "fillOpacity": 0.6}
+
+folium.GeoJson(
+    geojson_data,
+    name="LADs",
+    style_function=lambda x: {"fillOpacity": 0.3, "weight": 0.2},
+    highlight_function=on_click,
+    tooltip=folium.GeoJsonTooltip(fields=["LAD25NM"], aliases=["LAD:"]),
+).add_to(m)
+
+map_output = st_folium(m, height=500, returned_objects=["last_active_drawing"])
+
+# === LAD Selection via Map ===
+clicked_lad = None
+if map_output and map_output.get("last_active_drawing"):
+    clicked_lad = map_output["last_active_drawing"]["properties"]["LAD25NM"]
+    selected_lad = clicked_lad
+
+# === Show LAD Info ===
 if selected_lad:
-    lad_row = df[df["Local_Authority"] == selected_lad].iloc[0]
+    lad_row = df[df["Local_Authority"] == selected_lad]
+    if not lad_row.empty:
+        lad_row = lad_row.iloc[0]
 
-    st.subheader(f"📊 Investment Summary: {selected_lad}")
-    st.markdown(f"""
-    - **Investment Score:** `{lad_row['Investment_Potential_Score']:.2f}`
-    - **Predicted Label:** `{'🟢 HIGH' if lad_row['High_Investment_Potential'] == 1 else '🔴 LOW'}`
-    - **% Aged 65+:** `{lad_row['Percent_65plus']}%`
-    - **GDHI per Head:** `£{int(lad_row['GDHI_per_head_2022'])}`
-    - **House Price Growth:** `{lad_row['House_Price_Growth_%']}%`
-    - **Care Homes Count:** `{lad_row['Care_Homes_Count']}`
-    - **Care Homes per 10k:** `{lad_row['Care_Homes_per_10k']:.2f}`
-    - **% CQC Good:** `{lad_row['%_CQC_Good']}%`
-    - **% Requires Improvement:** `{lad_row['%_CQC_RequiresImprovement']}%`
-    """)
+        st.subheader(f"📊 Investment Summary: {selected_lad}")
+        st.markdown(f"""
+        - **Investment Score:** `{lad_row['Investment_Potential_Score']:.2f}`
+        - **Predicted Label:** `{'🟢 HIGH' if lad_row['High_Investment_Potential'] == 1 else '🔴 LOW'}`
+        - **% Aged 65+:** `{lad_row['Percent_65plus']}%`
+        - **GDHI per Head:** `£{int(lad_row['GDHI_per_head_2022'])}`
+        - **House Price Growth:** `{lad_row['House_Price_Growth_%']}%`
+        - **Care Homes Count:** `{lad_row['Care_Homes_Count']}`
+        - **Care Homes per 10k:** `{lad_row['Care_Homes_per_10k']:.2f}`
+        - **% CQC Good:** `{lad_row['%_CQC_Good']}%`
+        - **% Requires Improvement:** `{lad_row['%_CQC_RequiresImprovement']}%`
+        """)
 
-    # === SHAP image ===
-    norm_name = normalise(selected_lad)
-    shap_path = os.path.join(SHAP_FOLDER, f"{norm_name}.png")
-    if os.path.exists(shap_path):
-        st.subheader("🧠 SHAP Visualisation")
-        st.image(shap_path, use_container_width=True)
+        norm_name = normalise(selected_lad)
+        shap_path = os.path.join(SHAP_FOLDER, f"{norm_name}.png")
+        if os.path.exists(shap_path):
+            st.subheader("🧠 SHAP Visualisation")
+            st.image(shap_path, use_container_width=True)
+        else:
+            st.warning("No SHAP image available for this LAD.")
+
+        gpt_path = os.path.join(GPT_FOLDER, f"{norm_name}.txt")
+        if os.path.exists(gpt_path):
+            st.subheader("💬 GPT Explanation")
+            with open(gpt_path, "r", encoding="utf-8") as f:
+                st.markdown(f.read())
+        else:
+            st.info("No GPT explanation available for this LAD.")
     else:
-        st.warning("No SHAP image available for this LAD.")
-
-    # === GPT Explanation ===
-    gpt_path = os.path.join(GPT_FOLDER, f"{norm_name}.txt")
-    if os.path.exists(gpt_path):
-        st.subheader("💬 GPT Explanation")
-        with open(gpt_path, "r", encoding="utf-8") as f:
-            st.markdown(f.read())
-    else:
-        st.info("No GPT explanation available for this LAD.")
+        st.warning("This LAD is not in the model dataset.")
 
 # === Footer ===
 st.markdown("---")
 st.caption("Created as part of MSc Project – AI for Care Home Investment Support (2025)")
+
