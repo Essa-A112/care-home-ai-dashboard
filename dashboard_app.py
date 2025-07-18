@@ -95,7 +95,7 @@ if selected_lad:
         shap_path = os.path.join(SHAP_FOLDER, f"{norm_name}.png")
         if os.path.exists(shap_path):
             st.subheader("🧠 SHAP Visualisation")
-            st.image(shap_path, use_container_width=True)
+            st.image(shap_path, use_column_width=True)
         else:
             st.warning("No SHAP image available for this LAD.")
 
