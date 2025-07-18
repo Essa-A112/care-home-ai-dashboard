@@ -10,15 +10,16 @@ Original file is located at
 import streamlit as st
 import pandas as pd
 import os
-import json
 import folium
+import json
 from streamlit_folium import st_folium
 
 # === File Paths ===
 DATA_PATH = "final_model_data_useful.csv"
 SHAP_FOLDER = "shap_visuals"
 GPT_FOLDER = "gpt_explanation"
-GEOJSON_PATH = "LAD_MAY_2025_Simplified.geojson"  # Ensure file exists and is simplified
+GEOJSON_PATH = "LAD_MAY_2025_Simplified.geojson"
+
 
 # === Load data ===
 df = pd.read_csv(DATA_PATH)
@@ -30,43 +31,37 @@ def normalise(name):
     return name.strip().lower().replace(" ", "_").replace("-", "_").replace("/", "_")
 
 # === UI ===
-st.set_page_config(layout="wide")
 st.title("🏡 Care Home Investment Dashboard (UK)")
-st.markdown("Explore Local Authority Districts with predicted care home investment potential using SHAP + GPT explanations.")
+st.write("Explore Local Authority Districts with predicted care home investment potential using SHAP + GPT explanations.")
 
-# === Columns for layout ===
-left, right = st.columns([1, 2])  # Smaller left, wider right
-
-# === LAD Dropdown ===
+# === Selectbox UI ===
 lad_names = df["Local_Authority"].sort_values().unique()
-with left:
-    st.markdown("#### 🔍 Choose a Local Authority District (LAD):")
-    selected_lad = st.selectbox("", lad_names, key="lad_dropdown")
+selected_lad = st.selectbox("🔍 Choose a Local Authority District (LAD):", lad_names)
 
-# === Map ===
-with right:
-    st.markdown("#### 🗺️ Click on the Map")
-    m = folium.Map(location=[54.5, -3], zoom_start=5, tiles="cartodbpositron")
+# === Folium Map ===
+st.subheader("🗺️ Clickable LAD Map")
+m = folium.Map(location=[54.5, -3], zoom_start=5, tiles="cartodbpositron")
 
-    def on_click(feature):
-        return {"fillColor": "#3186cc", "weight": 1, "fillOpacity": 0.6}
+def on_click(feature):
+    return {"fillColor": "#3186cc", "weight": 1, "fillOpacity": 0.6}
 
-    folium.GeoJson(
-        geojson_data,
-        name="LADs",
-        style_function=lambda x: {"fillOpacity": 0.3, "weight": 0.2},
-        highlight_function=on_click,
-        tooltip=folium.GeoJsonTooltip(fields=["LAD25NM"], aliases=["LAD:"]),
-    ).add_to(m)
+folium.GeoJson(
+    geojson_data,
+    name="LADs",
+    style_function=lambda x: {"fillOpacity": 0.3, "weight": 0.2},
+    highlight_function=on_click,
+    tooltip=folium.GeoJsonTooltip(fields=["LAD25NM"], aliases=["LAD:"]),
+).add_to(m)
 
-    map_output = st_folium(m, height=500, returned_objects=["last_active_drawing"])
+map_output = st_folium(m, height=500, returned_objects=["last_active_drawing"])
 
-# === Sync map clicks with dropdown ===
+# === LAD Selection via Map ===
+clicked_lad = None
 if map_output and map_output.get("last_active_drawing"):
-    selected_lad = map_output["last_active_drawing"]["properties"]["LAD25NM"]
+    clicked_lad = map_output["last_active_drawing"]["properties"]["LAD25NM"]
+    selected_lad = clicked_lad
 
-# === LAD Info ===
-st.markdown("---")
+# === Show LAD Info ===
 if selected_lad:
     lad_row = df[df["Local_Authority"] == selected_lad]
     if not lad_row.empty:
@@ -74,19 +69,18 @@ if selected_lad:
 
         st.subheader(f"📊 Investment Summary: {selected_lad}")
         st.markdown(f"""
-        - **Investment Score:** `{lad_row['Investment_Potential_Score']:.2f}`
-        - **Predicted Label:** `{'🟢 HIGH' if lad_row['High_Investment_Potential'] == 1 else '🔴 LOW'}`
-        - **% Aged 65+:** `{lad_row['Percent_65plus']}%`
-        - **GDHI per Head:** `£{int(lad_row['GDHI_per_head_2022'])}`
-        - **House Price Growth:** `{lad_row['House_Price_Growth_%']}%`
-        - **Care Homes Count:** `{lad_row['Care_Homes_Count']}`
-        - **Care Homes per 10k:** `{lad_row['Care_Homes_per_10k']:.2f}`
-        - **% CQC Good:** `{lad_row['%_CQC_Good']}%`
-        - **% Requires Improvement:** `{lad_row['%_CQC_RequiresImprovement']}%`
+        - **Investment Score:** {lad_row['Investment_Potential_Score']:.2f}
+        - **Predicted Label:** {'🟢 HIGH' if lad_row['High_Investment_Potential'] == 1 else '🔴 LOW'}
+        - **% Aged 65+:** {lad_row['Percent_65plus']}%
+        - **GDHI per Head:** £{int(lad_row['GDHI_per_head_2022'])}
+        - **House Price Growth:** {lad_row['House_Price_Growth_%']}%
+        - **Care Homes Count:** {lad_row['Care_Homes_Count']}
+        - **Care Homes per 10k:** {lad_row['Care_Homes_per_10k']:.2f}
+        - **% CQC Good:** {lad_row['%_CQC_Good']}%
+        - **% Requires Improvement:** {lad_row['%_CQC_RequiresImprovement']}%
         """)
 
         norm_name = normalise(selected_lad)
-
         shap_path = os.path.join(SHAP_FOLDER, f"{norm_name}.png")
         if os.path.exists(shap_path):
             st.subheader("🧠 SHAP Visualisation")
@@ -107,4 +101,3 @@ if selected_lad:
 # === Footer ===
 st.markdown("---")
 st.caption("Created as part of MSc Project – AI for Care Home Investment Support (2025)")
-
