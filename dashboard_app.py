@@ -13,60 +13,63 @@ import streamlit as st
 import pandas as pd
 import os
 
-# Paths (adjust if not using Colab)
-ROOT = "."
-DATA_PATH = os.path.join(ROOT, "final_model_data_useful.csv")
-SHAP_FOLDER = os.path.join(ROOT, "shap_visuals")
-GPT_FOLDER = os.path.join(ROOT, "gpt_explanation")
+# === File Paths ===
+DATA_PATH = "final_model_data_useful.csv"
+SHAP_FOLDER = "shap_visuals"
+GPT_FOLDER = "gpt_explanation"
 
-# Load dataset
+# === Load data ===
 df = pd.read_csv(DATA_PATH)
 
-# Helper to standardise LAD names
+# === Helper: Normalise LAD names ===
 def normalise(name):
-    return name.strip().lower().replace(" ", "_").replace("-", "_")
+    return name.strip().lower().replace(" ", "_").replace("-", "_").replace("/", "_")
 
-# UI Start
-st.title("📈 Care Home Investment Decision Support Dashboard")
-st.write("Powered by Explainable AI (SHAP/LIME) + GPT-Generated Summaries")
+# === UI ===
+st.title("🏡 Care Home Investment Dashboard (UK)")
+st.write("Explore Local Authority Districts with predicted care home investment potential using SHAP + GPT explanations.")
 
-# LAD selection
 lad_names = df["Local_Authority"].sort_values().unique()
-selected_lad = st.selectbox("🔍 Choose a Local Authority District:", lad_names)
+selected_lad = st.selectbox("🔍 Choose a Local Authority District (LAD):", lad_names)
 
-# Display basic info
-lad_row = df[df["Local_Authority"] == selected_lad].iloc[0]
-st.subheader(f"📊 Investment Details for {selected_lad}")
-st.markdown(f"""
-- **Investment Score:** `{lad_row['Investment_Potential_Score']:.2f}`
-- **Predicted Investment Label:** `{'🟢 HIGH' if lad_row['High_Investment_Potential'] == 1 else '🔴 LOW'}`
-- **% Aged 65+:** `{lad_row['Percent_65plus']}%`
-- **GDHI Per Head:** `£{int(lad_row['GDHI_per_head_2022'])}`
-- **House Price Growth:** `{lad_row['House_Price_Growth_%']}%`
-- **Care Homes Count:** `{lad_row['Care_Homes_Count']}`
-- **Care Homes per 10k:** `{lad_row['Care_Homes_per_10k']:.2f}`
-- **% CQC Good:** `{lad_row['%_CQC_Good']}%`
-- **% Requires Improvement:** `{lad_row['%_CQC_RequiresImprovement']}%`
-""")
+if selected_lad:
+    lad_row = df[df["Local_Authority"] == selected_lad].iloc[0]
 
-# SHAP visual
-norm_name = normalise(selected_lad)
-shap_path = os.path.join(SHAP_FOLDER, f"{norm_name}.png")
-if os.path.exists(shap_path):
-    st.subheader("🧠 SHAP Visualisation")
-    st.image(shap_path, use_column_width=True)
-else:
-    st.warning("No SHAP image available for this LAD.")
+    st.subheader(f"📊 Investment Summary: {selected_lad}")
+    st.markdown(f"""
+    - **Investment Score:** `{lad_row['Investment_Potential_Score']:.2f}`
+    - **Predicted Label:** `{'🟢 HIGH' if lad_row['High_Investment_Potential'] == 1 else '🔴 LOW'}`
+    - **% Aged 65+:** `{lad_row['Percent_65plus']}%`
+    - **GDHI per Head:** `£{int(lad_row['GDHI_per_head_2022'])}`
+    - **House Price Growth:** `{lad_row['House_Price_Growth_%']}%`
+    - **Care Homes Count:** `{lad_row['Care_Homes_Count']}`
+    - **Care Homes per 10k:** `{lad_row['Care_Homes_per_10k']:.2f}`
+    - **% CQC Good:** `{lad_row['%_CQC_Good']}%`
+    - **% Requires Improvement:** `{lad_row['%_CQC_RequiresImprovement']}%`
+    """)
 
-# GPT explanation
-gpt_path = os.path.join(GPT_FOLDER, f"{norm_name}.txt")
-if os.path.exists(gpt_path):
-    st.subheader("💬 LLM Explanation")
-    with open(gpt_path, "r", encoding="utf-8") as f:
-        explanation = f.read()
-    st.markdown(explanation)
-else:
-    st.info("No GPT summary found for this LAD.")
+    # === SHAP image ===
+    norm_name = normalise(selected_lad)
+    shap_path = os.path.join(SHAP_FOLDER, f"{norm_name}.png")
+    if os.path.exists(shap_path):
+        st.subheader("🧠 SHAP Visualisation")
+        st.image(shap_path, use_column_width=True)
+    else:
+        st.warning("No SHAP image available for this LAD.")
+
+    # === GPT Explanation ===
+    gpt_path = os.path.join(GPT_FOLDER, f"{norm_name}.txt")
+    if os.path.exists(gpt_path):
+        st.subheader("💬 GPT Explanation")
+        with open(gpt_path, "r", encoding="utf-8") as f:
+            st.markdown(f.read())
+    else:
+        st.info("No GPT explanation available for this LAD.")
+
+# === Footer ===
+st.markdown("---")
+st.caption("Created as part of MSc Project – AI for Care Home Investment Support (2025)")
+
 
 # Footer
 st.markdown("---")
