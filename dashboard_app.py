@@ -18,7 +18,7 @@ from streamlit_folium import st_folium
 DATA_PATH = "final_model_data_useful.csv"
 SHAP_FOLDER = "shap_visuals"
 GPT_FOLDER = "gpt_explanation"
-GEOJSON_PATH = "LAD_MAY_2025_Simplified.json"  # Ensure file exists and is simplified
+GEOJSON_PATH = "LAD_MAY_2025_Simplified.geojson"  # Ensure file exists and is simplified
 
 # === Load data ===
 df = pd.read_csv(DATA_PATH)
