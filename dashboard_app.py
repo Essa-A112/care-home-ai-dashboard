@@ -67,8 +67,3 @@ if selected_lad:
 # === Footer ===
 st.markdown("---")
 st.caption("Created as part of MSc Project – AI for Care Home Investment Support (2025)")
-
-
-# Footer
-st.markdown("---")
-st.caption("MSc Project – AI for Care Home Investment Support (2025)")
