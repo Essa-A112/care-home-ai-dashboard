@@ -97,7 +97,7 @@ if selected_lad:
         st.subheader(f"📊 Investment Summary: {selected_lad}")
         st.markdown(f"""
         - **Investment Score:** {lad_row['Investment_Potential_Score']:.2f}
-        - **Predicted Label:** {'🟢 HIGH' if lad_row['Investment_Potential_Score'] >= 11.71 else '⚠️ Consider' if lad_row['Investment_Potential_Score'] >= 6.08 else '❌ Avoid'}
+        - **Predicted Label:** {'🟢 HIGH' if lad_row['Investment_Grade'] == 'Good' else '⚠️ Consider' if lad_row['Investment_Grade'] == 'Medium' else '❌ Avoid' if lad_row['Investment_Grade'] == 'Bad' else 'Unknown'}
         - **% Aged 65+:** {lad_row['Percent_65plus']}%
         - **GDHI per Head:** £{int(lad_row['GDHI_per_head_2022'])}
         - **House Price Growth:** {lad_row['House_Price_Growth_%']:.2f}%
