@@ -21,10 +21,20 @@ GPT_FOLDER = "gpt_explanation"
 GEOJSON_PATH = "LAD_MAY_2025_Simplified.geojson"
 
 
-# === Load data ===
-df = pd.read_csv(DATA_PATH)
-with open(GEOJSON_PATH, "r") as f:
-    geojson_data = json.load(f)
+# === Cached loading functions ===
+@st.cache_data
+def load_data():
+    return pd.read_csv(DATA_PATH)
+
+@st.cache_data
+def load_geojson():
+    with open(GEOJSON_PATH, "r") as f:
+        return json.load(f)
+
+# === Load data (cached) ===
+df = load_data()
+geojson_data = load_geojson()
+
 
 # === Helper: Normalise LAD names ===
 def normalise(name):
@@ -65,12 +75,12 @@ if map_output and map_output.get("last_active_drawing"):
         st.session_state.selected_lad = clicked_lad
 
 # === Dropdown linked to session_state ===
-selected_lad = st.selectbox(
+st.selectbox(
     "🔍 Choose a Local Authority District (LAD):",
     lad_names,
-    index=list(lad_names).index(st.session_state.selected_lad),
     key="selected_lad"
 )
+selected_lad = st.session_state.selected_lad
 
 # === LAD Selection via Map ===
 clicked_lad = None
