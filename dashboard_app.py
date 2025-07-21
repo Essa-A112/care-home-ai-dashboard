@@ -95,6 +95,8 @@ if selected_lad:
         lad_row = lad_row.iloc[0]
 
         st.subheader(f"📊 Investment Summary: {selected_lad}")
+        st.write(lad_row.keys())
+
         st.markdown(f"""
         - **Investment Score:** {lad_row['Investment_Potential_Score']:.2f}
         - **Predicted Label:** {'🟢 HIGH' if lad_row['Investment_Grade'] == 'Good' else '🟡 MEDIUM' if lad_row['Investment_Grade'] == 'Medium' else '🔴 LOW'}
