@@ -95,18 +95,16 @@ if selected_lad:
         lad_row = lad_row.iloc[0]
 
         st.subheader(f"📊 Investment Summary: {selected_lad}")
-        st.write(lad_row.keys())
-
         st.markdown(f"""
         - **Investment Score:** {lad_row['Investment_Potential_Score']:.2f}
-        - **Predicted Label:** {'🟢 HIGH' if lad_row['Investment_Grade'] == 'Good' else '🟡 MEDIUM' if lad_row['Investment_Grade'] == 'Medium' else '🔴 LOW'}
+        - **Predicted Label:** {'🟢 HIGH' if lad_row['Investment_Grade'] == 'Good' else '⚠️ Consider' if lad_row['Investment_Grade'] == 'Medium' else '❌ Avoid' if lad_row['Investment_Grade'] == 'Bad'}
         - **% Aged 65+:** {lad_row['Percent_65plus']}%
         - **GDHI per Head:** £{int(lad_row['GDHI_per_head_2022'])}
-        - **House Price Growth:** {lad_row['House_Price_Growth_%']}%
+        - **House Price Growth:** {lad_row['House_Price_Growth_%']:.2f}%
         - **Care Homes Count:** {lad_row['Care_Homes_Count']}
         - **Care Homes per 10k:** {lad_row['Care_Homes_per_10k']:.2f}
-        - **% CQC Good:** {lad_row['%_CQC_Good']}%
-        - **% Requires Improvement:** {lad_row['%_CQC_RequiresImprovement']}%
+        - **% CQC Good:** {lad_row['%_CQC_Good']:.2f}%
+        - **% Requires Improvement:** {lad_row['%_CQC_RequiresImprovement']:.2f}%
         """)
 
         norm_name = normalise(selected_lad)
