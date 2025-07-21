@@ -66,17 +66,9 @@ folium.GeoJson(
     tooltip=folium.GeoJsonTooltip(fields=["LAD25NM"], aliases=["LAD:"]),
 ).add_to(m)
 
-st.markdown("###")
-with st.container():
-    col1, col2 = st.columns([2, 3])
-    with col1:
-        map_output = st_folium(m, height=500, returned_objects=["last_active_drawing"])
-    with col2:
-        st.selectbox(
-            "🔍 Choose a Local Authority District (LAD):",
-            lad_names,
-            key="selected_lad"
-        )
+
+map_output = st_folium(m, height=500, returned_objects=["last_active_drawing"])
+
 
 
 # === Update session state if map was clicked ===
