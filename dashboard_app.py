@@ -15,7 +15,7 @@ import json
 from streamlit_folium import st_folium
 
 # === File Paths ===
-DATA_PATH = "final_model_data_useful.csv"
+DATA_PATH = "final_model_data_with_grade.csv"
 SHAP_FOLDER = "shap_visuals"
 GPT_FOLDER = "gpt_explanation"
 GEOJSON_PATH = "LAD_MAY_2025_Simplified_5.geojson"
@@ -97,7 +97,7 @@ if selected_lad:
         st.subheader(f"📊 Investment Summary: {selected_lad}")
         st.markdown(f"""
         - **Investment Score:** {lad_row['Investment_Potential_Score']:.2f}
-        - **Predicted Label:** {'🟢 HIGH' if lad_row['High_Investment_Potential'] == 1 else '🔴 LOW'}
+        - **Predicted Label:** {'🟢 HIGH' if lad_row['Investment_Grade'] == 'Good' else '🟡 MEDIUM' if lad_row['Investment_Grade'] == 'Medium' else '🔴 LOW'}
         - **% Aged 65+:** {lad_row['Percent_65plus']}%
         - **GDHI per Head:** £{int(lad_row['GDHI_per_head_2022'])}
         - **House Price Growth:** {lad_row['House_Price_Growth_%']}%
