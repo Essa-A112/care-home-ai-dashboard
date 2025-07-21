@@ -18,7 +18,7 @@ from streamlit_folium import st_folium
 DATA_PATH = "final_model_data_useful.csv"
 SHAP_FOLDER = "shap_visuals"
 GPT_FOLDER = "gpt_explanation"
-GEOJSON_PATH = "LAD_MAY_2025_Simplified.geojson"
+GEOJSON_PATH = "LAD_MAY_2025_Simplified_5.geojson"
 
 
 # === Cached loading functions ===
