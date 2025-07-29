@@ -68,6 +68,9 @@ folium.GeoJson(
 
 map_output = st_folium(m, height=500, returned_objects=["last_active_drawing"])
 
+# Fixed spacing to reduce excess white gap between map and dropdown
+st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
+
 # === Update session state if map was clicked ===
 if map_output and map_output.get("last_active_drawing"):
     clicked_lad = map_output["last_active_drawing"]["properties"]["LAD25NM"]
