@@ -72,7 +72,7 @@ with st.expander("🧠 LLM Investment Assistant", expanded=False):
 
             # Try to extract possible LADs from the query
             cleaned_query = query.lower()
-            lad_df["norm"] = lad_df["Local_Authority"].apply(clean_name)
+            df["norm"] = df["Local_Authority"].apply(clean_name)
             matched_lads = [lad for lad in summaries if lad in cleaned_query]
 
             context = ""
@@ -80,7 +80,7 @@ with st.expander("🧠 LLM Investment Assistant", expanded=False):
             if matched_lads:
                 for lad in matched_lads:
                     context += f"\n\n[{lad.replace('_', ' ').title()}]\n{summaries[lad]}"
-                    row = lad_df[lad_df["norm"] == lad]
+                    row = df[df["norm"] == lad]
                     if not row.empty:
                         r = row.iloc[0]
                         context += (
@@ -125,6 +125,7 @@ Explain SHAP visuals if asked. Be concise, helpful, and professional.
 
             except Exception as e:
                 st.error(f"❌ GPT error: {e}")
+
 
 # === LAD List ===
 lad_names = df["Local_Authority"].sort_values().unique()
