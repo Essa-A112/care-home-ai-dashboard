@@ -150,3 +150,48 @@ if selected_lad:
 # === Footer ===
 st.markdown("---")
 st.caption("Created as part of MSc Project – AI for Care Home Investment Support (2025)")
+
+# === LLM Assistant Section ===
+from openai import OpenAI
+client = OpenAI()
+
+st.markdown("---")
+with st.expander("💬 LLM Investment Assistant", expanded=False):
+    st.markdown("Ask investment-related questions. For example:\n- *What is the best place to invest?*\n- *What is the ROI in Bradford?*")
+
+    user_question = st.text_input("Type your question below:")
+    
+    if user_question:
+        # Load all GPT summaries into memory once (you can cache this for performance)
+        summaries = {}
+        for lad in df["Local_Authority"]:
+            norm_name = normalise(lad)
+            gpt_path = os.path.join(GPT_FOLDER, f"{norm_name}.txt")
+            if os.path.exists(gpt_path):
+                with open(gpt_path, "r", encoding="utf-8") as f:
+                    summaries[lad] = f.read()
+
+        # Combine summaries into context (or use selected ones if needed)
+        full_context = "\n\n".join([f"{lad}:\n{summary}" for lad, summary in summaries.items()])
+
+        prompt = f"""
+You are a professional care home investment advisor. Use the following summaries of each local authority's investment data to answer user questions clearly and concisely. Be helpful and professional, and allow creative insight where useful.
+
+Summaries:
+{full_context}
+
+User question: {user_question}
+Answer:"""
+
+        with st.spinner("Thinking..."):
+            response = client.chat.completions.create(
+                model="gpt-4",
+                messages=[
+                    {"role": "system", "content": "You are an expert UK care home investment assistant."},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=0.7,
+                max_tokens=800
+            )
+            st.markdown(response.choices[0].message.content)
+
