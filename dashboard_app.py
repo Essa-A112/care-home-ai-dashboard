@@ -45,7 +45,7 @@ st.write("Explore Local Authority Districts with predicted care home investment 
 
 # === LLM Investment Assistant ===
 import openai
-
+st.write("📌 Columns in df:", df.columns.tolist())
 # === LLM Investment Assistant with LAD Comparison + SHAP Explanation ===
 st.markdown("---")
 with st.expander("🧠 LLM Investment Assistant", expanded=False):
@@ -54,6 +54,7 @@ with st.expander("🧠 LLM Investment Assistant", expanded=False):
     st.markdown("- *Compare Camden and Southwark*")
     st.markdown("- *Explain the SHAP visual for Leeds*")
     st.markdown("- *How were SHAP scores calculated?*")
+
 
     query = st.chat_input("Ask a question...")
 
@@ -85,7 +86,7 @@ with st.expander("🧠 LLM Investment Assistant", expanded=False):
                         r = row.iloc[0]
                         context += (
                             f"\n[Data for {r['Local_Authority']}]:\n"
-                            f"ROI = {r['ROI (%)']:.2f}%, Score = {r['Investment_Potential_Score']:.2f}, "
+                            f"ROI = {r['ROI']:.2f}%, Score = {r['Investment_Potential_Score']:.2f}, ..."
                             f"Good CQC = {r['%_CQC_Good']:.1f}%, Elderly = {r['Percent_65plus']}%\n"
                         )
 
