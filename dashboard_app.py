@@ -147,51 +147,91 @@ if selected_lad:
     else:
         st.warning("This LAD is not in the model dataset.")
 
+# === LLM Investment Assistant ===
+import openai
+
+# === LLM Investment Assistant with LAD Comparison + SHAP Explanation ===
+st.markdown("---")
+with st.expander("🧠 LLM Investment Assistant", expanded=False):
+    st.markdown("Ask investment-related questions like:")
+    st.markdown("- *What’s the ROI in York?*")
+    st.markdown("- *Compare Camden and Southwark*")
+    st.markdown("- *Explain the SHAP visual for Leeds*")
+    st.markdown("- *How were SHAP scores calculated?*")
+
+    query = st.chat_input("Ask a question...")
+
+    if query:
+        with st.spinner("Thinking..."):
+
+            def clean_name(name):
+                return name.strip().lower().replace(" ", "_").replace("-", "_").replace("/", "_")
+
+            # Load summaries
+            summaries_dir = "roi_gpt"
+            summaries = {
+                os.path.splitext(f)[0]: open(os.path.join(summaries_dir, f), "r", encoding="utf-8").read()
+                for f in os.listdir(summaries_dir) if f.endswith(".txt")
+            }
+
+            # Try to extract possible LADs from the query
+            cleaned_query = query.lower()
+            lad_df["norm"] = lad_df["Local_Authority"].apply(clean_name)
+            matched_lads = [lad for lad in summaries if lad in cleaned_query]
+
+            context = ""
+
+            if matched_lads:
+                for lad in matched_lads:
+                    context += f"\n\n[{lad.replace('_', ' ').title()}]\n{summaries[lad]}"
+                    row = lad_df[lad_df["norm"] == lad]
+                    if not row.empty:
+                        r = row.iloc[0]
+                        context += (
+                            f"\n[Data for {r['Local_Authority']}]:\n"
+                            f"ROI = {r['ROI (%)']:.2f}%, Score = {r['Investment_Potential_Score']:.2f}, "
+                            f"Good CQC = {r['%_CQC_Good']:.1f}%, Elderly = {r['Percent_65plus']}%\n"
+                        )
+
+            # Add SHAP explanation if asked
+            if "shap" in cleaned_query or "explain visual" in cleaned_query:
+                context += (
+                    "\n\n[SHAP Explanation]: SHAP (SHapley Additive exPlanations) values show how much each feature "
+                    "contributed to the predicted investment score. Positive SHAP values indicate factors that increased the score "
+                    "(e.g., high ROI, high elderly population), while negative SHAP values reduced it. The visuals show the most influential features for each LAD."
+                )
+
+            # Fallback
+            if not context.strip():
+                context = f"The user asked: {query}"
+
+            # Prompt setup
+            openai.api_key = st.secrets["OPENAI_API_KEY"]
+            prompt = f"""
+You are an expert UK care home investment assistant. Use only the facts below to answer the user's question.
+Context:\n{context}\n\n
+If comparing LADs, use data to support your answer. Avoid guessing. 
+Explain SHAP visuals if asked. Be concise, helpful, and professional.
+"""
+
+            try:
+                response = openai.ChatCompletion.create(
+                    model="gpt-4",
+                    messages=[
+                        {"role": "system", "content": "You are a helpful, expert LLM assistant in UK care home investment analytics."},
+                        {"role": "user", "content": prompt}
+                    ],
+                    temperature=0.6,
+                    max_tokens=700,
+                )
+                output = response.choices[0].message["content"]
+                st.markdown(output)
+
+            except Exception as e:
+                st.error(f"❌ GPT error: {e}")
+
+
+
 # === Footer ===
 st.markdown("---")
 st.caption("Created as part of MSc Project – AI for Care Home Investment Support (2025)")
-
-# === LLM Assistant Section ===
-from openai import OpenAI
-client = OpenAI()
-
-st.markdown("---")
-with st.expander("💬 LLM Investment Assistant", expanded=False):
-    st.markdown("Ask investment-related questions. For example:\n- *What is the best place to invest?*\n- *What is the ROI in Bradford?*")
-
-    user_question = st.text_input("Type your question below:")
-    
-    if user_question:
-        # Load all GPT summaries into memory once (you can cache this for performance)
-        summaries = {}
-        for lad in df["Local_Authority"]:
-            norm_name = normalise(lad)
-            gpt_path = os.path.join(GPT_FOLDER, f"{norm_name}.txt")
-            if os.path.exists(gpt_path):
-                with open(gpt_path, "r", encoding="utf-8") as f:
-                    summaries[lad] = f.read()
-
-        # Combine summaries into context (or use selected ones if needed)
-        full_context = "\n\n".join([f"{lad}:\n{summary}" for lad, summary in summaries.items()])
-
-        prompt = f"""
-You are a professional care home investment advisor. Use the following summaries of each local authority's investment data to answer user questions clearly and concisely. Be helpful and professional, and allow creative insight where useful.
-
-Summaries:
-{full_context}
-
-User question: {user_question}
-Answer:"""
-
-        with st.spinner("Thinking..."):
-            response = client.chat.completions.create(
-                model="gpt-4",
-                messages=[
-                    {"role": "system", "content": "You are an expert UK care home investment assistant."},
-                    {"role": "user", "content": prompt}
-                ],
-                temperature=0.7,
-                max_tokens=800
-            )
-            st.markdown(response.choices[0].message.content)
-
