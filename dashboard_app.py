@@ -13,6 +13,7 @@ import os
 import folium
 import json
 from streamlit_folium import st_folium
+import openai
 
 # === File Paths ===
 DATA_PATH = "final_model_data_with_grade.csv"
@@ -44,7 +45,6 @@ st.title("🏡 Care Home Investment Dashboard (UK)")
 st.write("Explore Local Authority Districts with predicted care home investment potential using SHAP + GPT explanations.")
 
 # === LLM Investment Assistant ===
-import openai
 # === LLM Investment Assistant with LAD Comparison + SHAP Explanation ===
 st.markdown("---")
 with st.expander("🧠 LLM Investment Assistant", expanded=False):
