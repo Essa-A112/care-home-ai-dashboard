@@ -45,7 +45,6 @@ st.write("Explore Local Authority Districts with predicted care home investment 
 
 # === LLM Investment Assistant ===
 import openai
-st.write("📌 Columns in df:", df.columns.tolist())
 # === LLM Investment Assistant with LAD Comparison + SHAP Explanation ===
 st.markdown("---")
 with st.expander("🧠 LLM Investment Assistant", expanded=False):
