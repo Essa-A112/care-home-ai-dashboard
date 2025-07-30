@@ -60,9 +60,8 @@ with st.expander("🧠 LLM Investment Assistant", expanded=False):
     st.markdown("- *Compare Camden and Southwark*")
     st.markdown("- *Explain the SHAP visual for Leeds*")
     st.markdown("- *How were SHAP scores calculated?*")
-
-
-        query = st.chat_input("Ask a question...")
+    
+    query = st.chat_input("Ask a question...")
 
     if query:
         with st.spinner("Thinking..."):
