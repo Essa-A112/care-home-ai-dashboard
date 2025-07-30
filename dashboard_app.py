@@ -88,7 +88,7 @@ with st.expander("🧠 LLM Investment Assistant", expanded=False):
                 for lad in matched_lads:
                     context += f"\n\n[{lad.replace('_', ' ').title()}]\n{summaries[lad]}"
                     row = df[df["norm"] == lad]
-                    roi_row = roi_df[roi_df["Local_Authority"].apply(clean_name) == lad]
+                    roi_row = roi_df[roi_df["District"].apply(clean_name) == lad]
                     
                     if not row.empty:
                         r = row.iloc[0]
