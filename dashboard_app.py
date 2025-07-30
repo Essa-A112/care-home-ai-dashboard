@@ -62,7 +62,7 @@ with st.expander("🧠 LLM Investment Assistant", expanded=False):
     st.markdown("- *How were SHAP scores calculated?*")
 
 
-    query = st.chat_input("Ask a question...")
+        query = st.chat_input("Ask a question...")
 
     if query:
         with st.spinner("Thinking..."):
@@ -70,14 +70,12 @@ with st.expander("🧠 LLM Investment Assistant", expanded=False):
             def clean_name(name):
                 return name.strip().lower().replace(" ", "_").replace("-", "_").replace("/", "_")
 
-            # Load summaries
             summaries_dir = "roi_gpt"
             summaries = {
                 os.path.splitext(f)[0]: open(os.path.join(summaries_dir, f), "r", encoding="utf-8").read()
                 for f in os.listdir(summaries_dir) if f.endswith(".txt")
             }
 
-            # Try to extract possible LADs from the query
             cleaned_query = query.lower()
             df["norm"] = df["Local_Authority"].apply(clean_name)
             matched_lads = [lad for lad in summaries if lad in cleaned_query]
@@ -88,8 +86,20 @@ with st.expander("🧠 LLM Investment Assistant", expanded=False):
                 for lad in matched_lads:
                     context += f"\n\n[{lad.replace('_', ' ').title()}]\n{summaries[lad]}"
                     row = df[df["norm"] == lad]
-                    roi_row = roi_df[roi_df["District"].apply(clean_name) == lad]
-                    
+
+                    # === ROI fallback-safe fetch ===
+                    lad_col = None
+                    for col in roi_df.columns:
+                        if "authority" in col.lower() or "lad" in col.lower():
+                            lad_col = col
+                            break
+
+                    if lad_col:
+                        roi_df["norm_lad"] = roi_df[lad_col].astype(str).apply(clean_name)
+                        roi_row = roi_df[roi_df["norm_lad"] == lad]
+                    else:
+                        roi_row = pd.DataFrame()
+
                     if not row.empty:
                         r = row.iloc[0]
                         roi_str = ""
@@ -104,8 +114,6 @@ with st.expander("🧠 LLM Investment Assistant", expanded=False):
                             f"Good CQC = {r['%_CQC_Good']:.1f}%, Elderly = {r['Percent_65plus']}%\n"
                         )
 
-
-            # Add SHAP explanation if asked
             if "shap" in cleaned_query or "explain visual" in cleaned_query:
                 context += (
                     "\n\n[SHAP Explanation]: SHAP (SHapley Additive exPlanations) values show how much each feature "
@@ -113,12 +121,9 @@ with st.expander("🧠 LLM Investment Assistant", expanded=False):
                     "(e.g., high ROI, high elderly population), while negative SHAP values reduced it. The visuals show the most influential features for each LAD."
                 )
 
-            # Fallback
             if not context.strip():
                 context = f"The user asked: {query}"
 
-            # Prompt setup
-            client = st.secrets["OPENAI_API_KEY"]
             prompt = f"""
 You are an expert UK care home investment assistant. Use only the facts below to answer the user's question.
 Context:\n{context}\n\n
