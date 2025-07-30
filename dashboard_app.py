@@ -127,16 +127,16 @@ Explain SHAP visuals if asked. Be concise, helpful, and professional.
 """
 
             try:
-                response = openai.ChatCompletion.create(
+                response = client.chat.completions.create(
                     model="gpt-4",
                     messages=[
                         {"role": "system", "content": "You are a helpful, expert LLM assistant in UK care home investment analytics."},
                         {"role": "user", "content": prompt}
                     ],
                     temperature=0.6,
-                    max_tokens=700,
                 )
-                output = response.choices[0].message["content"]
+                
+                output = response.choices[0].message.content
                 st.markdown(output)
 
             except Exception as e:
