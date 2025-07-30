@@ -110,11 +110,12 @@ with st.expander("🧠 LLM Investment Assistant", expanded=False):
                             f"- House Price Growth: {r['House_Price_Growth_%']}%\n"
                         )
                     
-                    if lad_col and not roi_df.empty:
+                    if not roi_df.empty and "norm_lad" in roi_df.columns:
                         roi_row = roi_df[roi_df["norm_lad"] == lad]
                         if not roi_row.empty and "ROI (%)" in roi_row.columns:
                             roi_val = roi_row.iloc[0]["ROI (%)"]
                             context += f"- ROI: {roi_val:.2f}%\n"
+
                     
                     # Add optional GPT-generated summary (if available)
                     if lad in summaries:
