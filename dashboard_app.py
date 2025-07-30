@@ -208,6 +208,8 @@ folium.GeoJson(
 
 map_output = st_folium(m, height=500, returned_objects=["last_active_drawing"])
 
+# Insert guaranteed vertical space
+st.empty()  # Placeholder block
 st.markdown("<div style='height: 30px;'></div>", unsafe_allow_html=True)
 
 
