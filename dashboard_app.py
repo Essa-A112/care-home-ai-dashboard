@@ -170,7 +170,7 @@ folium.GeoJson(
     tooltip=folium.GeoJsonTooltip(fields=["LAD25NM"], aliases=["LAD:"]),
 ).add_to(m)
 
-map_output = st_folium(m, height=500, returned_objects=["last_active_drawing"])
+map_output = st_folium(m, height=10, returned_objects=["last_active_drawing"])
 
 # Fixed spacing to reduce excess white gap between map and dropdown
 st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
