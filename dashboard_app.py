@@ -82,6 +82,16 @@ with st.expander("🧠 LLM Investment Assistant", expanded=False):
             matched_lads = [lad for lad in summaries if lad in cleaned_query]
 
             context = ""
+            if len(matched_lads) >= 2:
+                comparison = []
+                for lad in matched_lads:
+                    row = df[df["norm"] == lad]
+                    if not row.empty:
+                        r = row.iloc[0]
+                        roi_row = roi_df[roi_df["norm_lad"] == lad] if "norm_lad" in roi_df.columns else pd.DataFrame()
+                        roi_val = roi_row.iloc[0]["ROI (%)"] if not roi_row.empty and "ROI (%)" in roi_row.columns else "N/A"
+                        comparison.append(f"{lad.replace('_',' ').title()}: Score = {r['Investment_Potential_Score']:.2f}, ROI = {roi_val}, %65+ = {r['Percent_65plus']}%, Good CQC = {r['%_CQC_Good']}%")
+                context += "\n\nComparison:\n" + "\n".join(comparison)
 
             if matched_lads:
                 for lad in matched_lads:
@@ -92,7 +102,7 @@ with st.expander("🧠 LLM Investment Assistant", expanded=False):
                     if not row.empty:
                         r = row.iloc[0]
                         context += (
-                            f"- Investment Score: {r['Investment_Potential_Score']:.2f}\n"
+                            f"- Investment Score: {r['Investment_Potential_Score']:.2f} / 100\n"
                             f"- Grade: {r['Investment_Grade']}\n"
                             f"- % Aged 65+: {r['Percent_65plus']}%\n"
                             f"- % CQC Good: {r['%_CQC_Good']}%\n"
@@ -117,9 +127,22 @@ with st.expander("🧠 LLM Investment Assistant", expanded=False):
                     "- Positive SHAP values indicate factors that increased the score (e.g., high ROI, high elderly population)\n"
                     "- Negative values reduced the score (e.g., low income, poor CQC ratings)\n"
                     "- Visuals highlight which features influenced the score most\n"
-                    "Only explain SHAP visuals if explicitly mentioned in the user query.\n"
-                    "If no SHAP image or values are available, say so clearly and avoid making assumptions."
+                    "- Only explain SHAP visuals if explicitly mentioned in the user query.\n"
+                    "- If no SHAP image or values are available, say so clearly and avoid making assumptions.\n"
                 )
+            
+                # Add file-based info about availability
+                for lad in matched_lads:
+                    shap_path = os.path.join(SHAP_FOLDER, f"{lad}.png")
+                    if os.path.exists(shap_path):
+                        display_name = lad.replace('_', ' ').title()
+                        context += (
+                            f"\nSHAP visual is available for {display_name}. "
+                            "It helps illustrate the top contributing features influencing the investment score for this LAD."
+                        )
+                    else:
+                        context += f"\nNo SHAP image is available for {lad.replace('_', ' ').title()}."
+
 
 
             if not context.strip():
@@ -128,7 +151,11 @@ with st.expander("🧠 LLM Investment Assistant", expanded=False):
 
 
             prompt = f"""
-You are an expert UK care home investment analyst.
+You are an expert UK care home investment analyst. 
+Respond like you’re briefing a colleague or investor.
+
+Use only the information in the context. Never guess or fabricate. 
+Keep it brief, insightful, and practical.
 
 Use only the information provided in the [Context] section. Do NOT guess or invent numbers.
 - If a region has a low investment score, warn the user.
