@@ -13,7 +13,8 @@ import os
 import folium
 import json
 from streamlit_folium import st_folium
-import openai
+import openai as openai_module
+from openai import OpenAI
 
 # === File Paths ===
 DATA_PATH = "final_model_data_with_grade.csv"
@@ -22,6 +23,7 @@ GPT_FOLDER = "gpt_explanation"
 ROI_FOLDER = "roi_gpt"
 GEOJSON_PATH = "LAD_MAY_2025_Simplified_5.geojson"
 ROI_PATH = "roi_by_district.csv"
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 # === Cached loading functions ===
 @st.cache_data
