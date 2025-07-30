@@ -85,48 +85,57 @@ with st.expander("🧠 LLM Investment Assistant", expanded=False):
 
             if matched_lads:
                 for lad in matched_lads:
-                    context += f"\n\n[{lad.replace('_', ' ').title()}]\n{summaries[lad]}"
+                    display_name = lad.replace('_', ' ').title()
+                    context += f"\n\n[{display_name}]\n"
+                    
                     row = df[df["norm"] == lad]
-
-                    # === ROI fallback-safe fetch ===
-                    lad_col = None
-                    for col in roi_df.columns:
-                        if "authority" in col.lower() or "lad" in col.lower():
-                            lad_col = col
-                            break
-
-                    if lad_col:
-                        roi_df["norm_lad"] = roi_df[lad_col].astype(str).apply(clean_name)
-                        roi_row = roi_df[roi_df["norm_lad"] == lad]
-                    else:
-                        roi_row = pd.DataFrame()
-
                     if not row.empty:
                         r = row.iloc[0]
-                        roi_str = ""
+                        context += (
+                            f"- Investment Score: {r['Investment_Potential_Score']:.2f}\n"
+                            f"- Grade: {r['Investment_Grade']}\n"
+                            f"- % Aged 65+: {r['Percent_65plus']}%\n"
+                            f"- % CQC Good: {r['%_CQC_Good']}%\n"
+                            f"- Care Homes per 10k: {r['Care_Homes_per_10k']:.2f}\n"
+                            f"- House Price Growth: {r['House_Price_Growth_%']}%\n"
+                        )
+                    
+                    if lad_col and not roi_df.empty:
+                        roi_row = roi_df[roi_df["norm_lad"] == lad]
                         if not roi_row.empty and "ROI (%)" in roi_row.columns:
                             roi_val = roi_row.iloc[0]["ROI (%)"]
-                            roi_str = f"ROI = {roi_val:.2f}%, "
-                        else:
-                            roi_str = "ROI data not available, "
-                        context += (
-                            f"\n[Data for {r['Local_Authority']}]:\n"
-                            f"{roi_str}Score = {r['Investment_Potential_Score']:.2f}, "
-                            f"Good CQC = {r['%_CQC_Good']:.1f}%, Elderly = {r['Percent_65plus']}%\n"
-                        )
+                            context += f"- ROI: {roi_val:.2f}%\n"
+                    
+                    # Add optional GPT-generated summary (if available)
+                    if lad in summaries:
+                        context += f"\nGPT Summary:\n{summaries[lad]}"
 
             if "shap" in cleaned_query or "explain visual" in cleaned_query:
                 context += (
                     "\n\n[SHAP Explanation]: SHAP (SHapley Additive exPlanations) values show how much each feature "
-                    "contributed to the predicted investment score. Positive SHAP values indicate factors that increased the score "
-                    "(e.g., high ROI, high elderly population), while negative SHAP values reduced it. The visuals show the most influential features for each LAD."
+                    "contributed to the predicted investment score.\n"
+                    "- Positive SHAP values indicate factors that increased the score (e.g., high ROI, high elderly population)\n"
+                    "- Negative values reduced the score (e.g., low income, poor CQC ratings)\n"
+                    "- Visuals highlight which features influenced the score most\n"
+                    "Only explain SHAP visuals if explicitly mentioned in the user query.\n"
+                    "If no SHAP image or values are available, say so clearly and avoid making assumptions."
                 )
 
+
             if not context.strip():
-                context = f"The user asked: {query}"
+                st.warning("Sorry, we couldn't find relevant data for your question. Try asking about a specific LAD or topic.")
+                return
+
 
             prompt = f"""
-You are an expert UK care home investment assistant. Use only the facts below to answer the user's question.
+You are an expert UK care home investment analyst.
+
+Use only the information provided in the [Context] section. Do NOT guess or invent numbers.
+- If a region has a low investment score, warn the user.
+- If a SHAP explanation is requested, provide a breakdown of how features contributed.
+- Do not hallucinate or make up summary text. Only respond to what was asked.
+- Avoid overly generic disclaimers. Make answers actionable and natural.
+- Do not convert scores into /10 unless explicitly provided as such.
 Context:\n{context}\n\n
 If comparing LADs, use data to support your answer. Avoid guessing. 
 Explain SHAP visuals if asked. Be concise, helpful, and professional.
