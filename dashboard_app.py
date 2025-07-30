@@ -141,7 +141,7 @@ Explain SHAP visuals if asked. Be concise, helpful, and professional.
                     ],
                     temperature=0.6,
                 )
-                output = response.choices[0].message["content"]
+                output = response.choices[0].message.content
                 st.markdown(output)
 
             except Exception as e:
