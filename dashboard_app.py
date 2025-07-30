@@ -124,7 +124,7 @@ with st.expander("🧠 LLM Investment Assistant", expanded=False):
 
             if not context.strip():
                 st.warning("Sorry, we couldn't find relevant data for your question. Try asking about a specific LAD or topic.")
-            return
+                st.stop()
 
 
             prompt = f"""
