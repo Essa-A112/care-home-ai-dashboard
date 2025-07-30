@@ -124,7 +124,7 @@ with st.expander("🧠 LLM Investment Assistant", expanded=False):
 
             if not context.strip():
                 st.warning("Sorry, we couldn't find relevant data for your question. Try asking about a specific LAD or topic.")
-                return
+            return
 
 
             prompt = f"""
@@ -174,7 +174,14 @@ def on_click(feature):
 folium.GeoJson(
     geojson_data,
     name="LADs",
-    style_function=lambda x: {"fillOpacity": 0.3, "weight": 0.2},
+    style_function=lambda x:You are an expert UK care home investment analyst.
+
+Use only the information provided in the [Context] section. Do NOT guess or invent numbers.
+- If a region has a low investment score, warn the user.
+- If a SHAP explanation is requested, provide a breakdown of how features contributed.
+- Do not hallucinate or make up summary text. Only respond to what was asked.
+- Avoid overly generic disclaimers. Make answers actionable and natural.
+- Do not convert scores into /10 unless explicitly provided as such. {"fillOpacity": 0.3, "weight": 0.2},
     highlight_function=on_click,
     tooltip=folium.GeoJsonTooltip(fields=["LAD25NM"], aliases=["LAD:"]),
 ).add_to(m)
