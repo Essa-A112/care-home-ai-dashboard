@@ -85,7 +85,7 @@ with st.expander("🧠 LLM Investment Assistant", expanded=False):
                         r = row.iloc[0]
                         context += (
                             f"\n[Data for {r['Local_Authority']}]:\n"
-                            f"ROI = {r['ROI']:.2f}%, Score = {r['Investment_Potential_Score']:.2f}, ..."
+                            f"ROI = {r['ROI (%)']:.2f}%, Score = {r['Investment_Potential_Score']:.2f}, "
                             f"Good CQC = {r['%_CQC_Good']:.1f}%, Elderly = {r['Percent_65plus']}%\n"
                         )
 
