@@ -21,6 +21,7 @@ SHAP_FOLDER = "shap_visuals"
 GPT_FOLDER = "gpt_explanation"
 ROI_FOLDER = "roi_gpt"
 GEOJSON_PATH = "LAD_MAY_2025_Simplified_5.geojson"
+ROI_PATH = "roi_by_district.csv"
 
 # === Cached loading functions ===
 @st.cache_data
@@ -32,9 +33,15 @@ def load_geojson():
     with open(GEOJSON_PATH, "r") as f:
         return json.load(f)
 
+
+@st.cache_data
+def load_roi_data():
+    return pd.read_csv(ROI_PATH)
+
 # === Load data (cached) ===
 df = load_data()
 geojson_data = load_geojson()
+roi_df = load_roi_data()
 
 # === Helper: Normalise LAD names ===
 def normalise(name):
@@ -81,13 +88,22 @@ with st.expander("🧠 LLM Investment Assistant", expanded=False):
                 for lad in matched_lads:
                     context += f"\n\n[{lad.replace('_', ' ').title()}]\n{summaries[lad]}"
                     row = df[df["norm"] == lad]
+                    roi_row = roi_df[roi_df["Local_Authority"].apply(clean_name) == lad]
+                    
                     if not row.empty:
                         r = row.iloc[0]
+                        roi_str = ""
+                        if not roi_row.empty and "ROI (%)" in roi_row.columns:
+                            roi_val = roi_row.iloc[0]["ROI (%)"]
+                            roi_str = f"ROI = {roi_val:.2f}%, "
+                        else:
+                            roi_str = "ROI data not available, "
                         context += (
                             f"\n[Data for {r['Local_Authority']}]:\n"
-                            f"ROI = {r['ROI (%)']:.2f}%, Score = {r['Investment_Potential_Score']:.2f}, "
+                            f"{roi_str}Score = {r['Investment_Potential_Score']:.2f}, "
                             f"Good CQC = {r['%_CQC_Good']:.1f}%, Elderly = {r['Percent_65plus']}%\n"
                         )
+
 
             # Add SHAP explanation if asked
             if "shap" in cleaned_query or "explain visual" in cleaned_query:
