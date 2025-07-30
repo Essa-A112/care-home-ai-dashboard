@@ -118,7 +118,7 @@ with st.expander("🧠 LLM Investment Assistant", expanded=False):
                 context = f"The user asked: {query}"
 
             # Prompt setup
-            openai.api_key = st.secrets["OPENAI_API_KEY"]
+            client  = st.secrets["OPENAI_API_KEY"]
             prompt = f"""
 You are an expert UK care home investment assistant. Use only the facts below to answer the user's question.
 Context:\n{context}\n\n
