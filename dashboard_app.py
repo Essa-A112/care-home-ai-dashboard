@@ -171,7 +171,7 @@ Explain SHAP visuals if asked. Be concise, helpful, and professional.
 
             try:
                 response = client.chat.completions.create(
-                    model="gpt-3.5-turbo",
+                    model="gpt-4",
                     messages=[
                         {"role": "system", "content": "You are a helpful, expert LLM assistant in UK care home investment analytics."},
                         {"role": "user", "content": prompt}
