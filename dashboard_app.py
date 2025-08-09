@@ -176,7 +176,7 @@ Explain SHAP visuals if asked. Be concise, helpful, and professional.
                         {"role": "system", "content": "You are a helpful, expert LLM assistant in UK care home investment analytics."},
                         {"role": "user", "content": prompt}
                     ],
-                    temperature=0.6,
+                    temperature=1,
                 )
                 output = response.choices[0].message.content
                 st.markdown(output)
