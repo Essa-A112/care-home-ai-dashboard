@@ -111,20 +111,15 @@ def load_geojson() -> dict:
 @st.cache_data(show_spinner=False)
 def load_roi_table() -> pd.DataFrame:
     if not os.path.exists(ROI_TABLE_PATH):
-        # Provide an empty table if not present
         return pd.DataFrame(columns=["norm_lad", "ROI (%)"])
     roi = pd.read_csv(ROI_TABLE_PATH)
-    if "norm_lad" not in roi.columns:
-        # best effort: attempt to infer LAD column
-        name_col = None
-        for c in roi.columns:
-            if "lad" in c.lower():
-                name_col = c
-                break
-        if name_col is not None:
-            roi["norm_lad"] = roi[name_col].apply(normalise)
-        else:
-            roi["norm_lad"] = ""
+
+    # Always normalise from 'District'
+    if "District" in roi.columns:
+        roi["norm_lad"] = roi["District"].apply(normalise)
+    else:
+        roi["norm_lad"] = ""
+
     roi.columns = [c.strip() for c in roi.columns]
     return roi
 
@@ -163,21 +158,17 @@ def safe_number(val, digits=2, default="N/A") -> str:
 #           OPENAI LLM          #
 # ----------------------------- #
 
+client = OpenAI(api_key=OPENAI_API_KEY)
+
 def call_openai(prompt: str, model: str) -> str:
     """
-    Lightweight OpenAI Chat Completions caller with minimal dependencies.
-    Uses the official 'openai' package if available, else raises a descriptive error.
+    OpenAI Chat Completions caller using the new >=1.0.0 API.
     """
     if not OPENAI_API_KEY:
         return "No API key was found. Add OPENAI_API_KEY to Streamlit secrets or environment."
 
     try:
-        # Import lazily so app can still run without the package for non-LLM features.
-        import openai
-        openai.api_key = OPENAI_API_KEY
-
-        # Chat Completions
-        resp = openai.ChatCompletion.create(
+        resp = client.chat.completions.create(
             model=model,
             temperature=TEMPERATURE,
             messages=[
@@ -185,14 +176,14 @@ def call_openai(prompt: str, model: str) -> str:
                     "role": "system",
                     "content": (
                         "You are a domain expert in UK care home investment analytics. "
-                        "Write in a concise, board‑ready style. Use only the supplied context. "
+                        "Write in a concise, board-ready style. Use only the supplied context. "
                         "If a fact is not present in the context, state that it is unavailable."
                     ),
                 },
                 {"role": "user", "content": prompt},
             ],
         )
-        return resp["choices"][0]["message"]["content"].strip()
+        return resp.choices[0].message.content.strip()
 
     except Exception as e:
         return f"LLM error: {e}"
@@ -200,18 +191,16 @@ def call_openai(prompt: str, model: str) -> str:
 
 def ask_gpt5_with_retry(prompt: str) -> str:
     """
-    Retry wrapper that prefers GPT‑5 with a single fallback model.
+    Retry wrapper that prefers GPT-5 with a single fallback model.
     """
-    # Primary attempts
     for attempt in range(MAX_RETRIES):
         out = call_openai(prompt, OPENAI_MODEL_PRIMARY)
         if not out.startswith("LLM error:"):
             return out
         time.sleep(RETRY_BACKOFF_SECONDS * (attempt + 1))
-    # Fallback model (one shot)
-    out = call_openai(prompt, OPENAI_MODEL_FALLBACK)
-    return out
 
+    # Fallback model (one shot)
+    return call_openai(prompt, OPENAI_MODEL_FALLBACK)
 
 # ----------------------------- #
 #      CONTEXT CONSTRUCTION     #
