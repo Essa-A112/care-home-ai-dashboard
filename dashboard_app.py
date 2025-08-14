@@ -54,135 +54,193 @@ st.title("🏡 Care Home Investment Dashboard (UK)")
 st.write("Explore Local Authority Districts with predicted care home investment potential using SHAP + GPT explanations.")
 
 # === LLM Investment Assistant ===
-# === LLM Investment Assistant with LAD Comparison + SHAP Explanation ===
+# === LLM Investment Assistant (GPT‑5, grounded, comparison-aware) ===
 st.markdown("---")
 with st.expander("🧠 LLM Investment Assistant", expanded=False):
-    st.markdown("Ask investment-related questions like:")
-    st.markdown("- *What’s the ROI in York?*")
-    st.markdown("- *Compare Camden and Southwark*")
-    st.markdown("- *Explain the SHAP visual for Leeds*")
-    st.markdown("- *How were SHAP scores calculated?*")
-    
-    query = st.chat_input("Ask a question...")
+    st.markdown("Examples:")
+    st.markdown("- *What is the investment outlook for York?*")
+    st.markdown("- *Compare Camden vs Southwark on score and ROI.*")
+    st.markdown("- *Explain the SHAP visual for Leeds.*")
+
+    # ---------- helpers ----------
+    import re
+    from difflib import get_close_matches
+
+    MODEL_NAME = "gpt-5"
+    MAX_CONTEXT_CHARS = 9000  # keep well below model limits
+
+    def norm(s: str) -> str:
+        return re.sub(r"[^a-z0-9]+", "_", s.strip().lower())
+
+    df = df.copy()
+    df["__norm"] = df["Local_Authority"].apply(norm)
+
+    # cache txt summaries from folders
+    @st.cache_data
+    def load_text_folder(folder: str) -> dict:
+        if not os.path.isdir(folder):
+            return {}
+        out = {}
+        for f in os.listdir(folder):
+            if f.endswith(".txt"):
+                key = os.path.splitext(f)[0]
+                try:
+                    with open(os.path.join(folder, f), "r", encoding="utf-8") as fh:
+                        out[key] = fh.read()
+                except Exception:
+                    pass
+        return out
+
+    roi_summaries = load_text_folder(ROI_FOLDER)
+    lad_summaries = load_text_folder(GPT_FOLDER)
+
+    # normalised key for roi/llm summary files
+    def best_lad_keys(query_text: str, max_k: int = 4):
+        # collect possible LAD tokens from query + fuzzy match
+        tokens = re.findall(r"[A-Za-z][A-Za-z\s\-\']{2,}", query_text)
+        candidates = set(norm(t) for t in tokens)
+        known = set(df["__norm"])
+        found = [c for c in candidates if c in known]
+        # fallback to fuzzy match on the full query
+        if not found:
+            close = get_close_matches(norm(query_text), list(known), n=max_k, cutoff=0.92)
+            found.extend(close)
+        # cap to k and keep order stable
+        uniq = []
+        for k in found:
+            if k not in uniq:
+                uniq.append(k)
+        return uniq[:max_k]
+
+    def short_row_block(row):
+        # compact, factual, unit-labelled lines
+        parts = [
+            f"Score: {row['Investment_Potential_Score']:.2f}/100",
+            f"Grade: {row['Investment_Grade']}",
+            f"%65+: {row['Percent_65plus']}%",
+            f"CQC Good: {row['%_CQC_Good']:.2f}%",
+            f"Care homes/10k: {row['Care_Homes_per_10k']:.2f}",
+            f"House price growth: {row['House_Price_Growth_%']:.2f}%"
+        ]
+        return " • ".join(parts)
+
+    def roi_for(lad_norm: str):
+        if "norm_lad" not in roi_df.columns:
+            return None
+        row = roi_df[roi_df["norm_lad"] == lad_norm]
+        if row.empty:
+            return None
+        col = "ROI (%)" if "ROI (%)" in row.columns else None
+        return None if col is None else float(row.iloc[0][col])
+
+    def shap_availability(lad_norm: str) -> str:
+        path = os.path.join(SHAP_FOLDER, f"{lad_norm}.png")
+        return "available" if os.path.exists(path) else "missing"
+
+    def build_context(user_query: str) -> str:
+        lads = best_lad_keys(user_query)
+        blocks = []
+        # comparison header when ≥ 2 LADs
+        if len(lads) >= 2:
+            comp_lines = []
+            for ln in lads:
+                r = df.loc[df["__norm"] == ln]
+                if r.empty:
+                    continue
+                r = r.iloc[0]
+                roi_val = roi_for(ln)
+                comp_lines.append(
+                    f"{r['Local_Authority']}: {short_row_block(r)}"
+                    + (f" • ROI: {roi_val:.2f}%" if roi_val is not None else "")
+                )
+            if comp_lines:
+                blocks.append("Comparison:\n" + "\n".join(comp_lines))
+
+        # per‑LAD sections
+        for ln in lads:
+            r = df.loc[df["__norm"] == ln]
+            if r.empty:
+                continue
+            rr = r.iloc[0]
+            lad_title = rr["Local_Authority"]
+            lines = [
+                f"[{lad_title}]",
+                short_row_block(rr)
+            ]
+            roi_val = roi_for(ln)
+            if roi_val is not None:
+                lines.append(f"ROI: {roi_val:.2f}%")
+            # include brief GPT/ROI file summaries if present
+            if ln in lad_summaries:
+                lines.append(f"LLM_Summary:\n{lad_summaries[ln][:1200]}")
+            if ln in roi_summaries:
+                lines.append(f"ROI_Summary:\n{roi_summaries[ln][:1200]}")
+            # SHAP availability flag
+            lines.append(f"SHAP: {shap_availability(ln)}")
+            blocks.append("\n".join(lines))
+
+        # explicit SHAP explainer guidance if user asks
+        if re.search(r"\b(shap|explain visual|explain the shap)\b", user_query.lower()):
+            blocks.append(
+                "SHAP_Guide:\n"
+                "- Positive values: factors increasing the score.\n"
+                "- Negative values: factors reducing the score.\n"
+                "- Discuss only features evident in the image or dataset; avoid assuming weights."
+            )
+
+        ctx = "\n\n".join(blocks).strip()
+        if len(ctx) > MAX_CONTEXT_CHARS:
+            ctx = ctx[:MAX_CONTEXT_CHARS] + "\n…[truncated]"
+        return ctx
+
+    # ---------- UI ----------
+    query = st.chat_input("Ask an investment question…")
 
     if query:
-        with st.spinner("Thinking..."):
+        with st.spinner("Analyzing…"):
+            context = build_context(query)
 
-            def clean_name(name):
-                return name.strip().lower().replace(" ", "_").replace("-", "_").replace("/", "_")
-
-            summaries_dir = "roi_gpt"
-            summaries = {
-                os.path.splitext(f)[0]: open(os.path.join(summaries_dir, f), "r", encoding="utf-8").read()
-                for f in os.listdir(summaries_dir) if f.endswith(".txt")
-            }
-
-            cleaned_query = query.lower()
-            df["norm"] = df["Local_Authority"].apply(clean_name)
-            matched_lads = [lad for lad in summaries if lad in cleaned_query]
-
-            context = ""
-            if len(matched_lads) >= 2:
-                comparison = []
-                for lad in matched_lads:
-                    row = df[df["norm"] == lad]
-                    if not row.empty:
-                        r = row.iloc[0]
-                        roi_row = roi_df[roi_df["norm_lad"] == lad] if "norm_lad" in roi_df.columns else pd.DataFrame()
-                        roi_val = roi_row.iloc[0]["ROI (%)"] if not roi_row.empty and "ROI (%)" in roi_row.columns else "N/A"
-                        comparison.append(f"{lad.replace('_',' ').title()}: Score = {r['Investment_Potential_Score']:.2f}, ROI = {roi_val}, %65+ = {r['Percent_65plus']}%, Good CQC = {r['%_CQC_Good']}%")
-                context += "\n\nComparison:\n" + "\n".join(comparison)
-
-            if matched_lads:
-                for lad in matched_lads:
-                    display_name = lad.replace('_', ' ').title()
-                    context += f"\n\n[{display_name}]\n"
-                    
-                    row = df[df["norm"] == lad]
-                    if not row.empty:
-                        r = row.iloc[0]
-                        context += (
-                            f"- Investment Score: {r['Investment_Potential_Score']:.2f} / 100\n"
-                            f"- Grade: {r['Investment_Grade']}\n"
-                            f"- % Aged 65+: {r['Percent_65plus']}%\n"
-                            f"- % CQC Good: {r['%_CQC_Good']}%\n"
-                            f"- Care Homes per 10k: {r['Care_Homes_per_10k']:.2f}\n"
-                            f"- House Price Growth: {r['House_Price_Growth_%']}%\n"
-                        )
-                    
-                    if not roi_df.empty and "norm_lad" in roi_df.columns:
-                        roi_row = roi_df[roi_df["norm_lad"] == lad]
-                        if not roi_row.empty and "ROI (%)" in roi_row.columns:
-                            roi_val = roi_row.iloc[0]["ROI (%)"]
-                            context += f"- ROI: {roi_val:.2f}%\n"
-
-                    
-                    # Add optional GPT-generated summary (if available)
-                    if lad in summaries:
-                        context += f"\nGPT Summary:\n{summaries[lad]}"
-
-            if "shap" in cleaned_query or "explain visual" in cleaned_query:
-                context += (
-                    "\n\n[SHAP Explanation]: SHAP (SHapley Additive exPlanations) values show how much each feature "
-                    "contributed to the predicted investment score.\n"
-                    "- Positive SHAP values indicate factors that increased the score (e.g., high ROI, high elderly population)\n"
-                    "- Negative values reduced the score (e.g., low income, poor CQC ratings)\n"
-                    "- Visuals highlight which features influenced the score most\n"
-                    "- Only explain SHAP visuals if explicitly mentioned in the user query.\n"
-                    "- If no SHAP image or values are available, say so clearly and avoid making assumptions.\n"
+            if not context:
+                st.warning("No matching LADs or data were detected. Try naming a specific LAD.")
+            else:
+                system_msg = (
+                    "You are an investment analyst specialising in UK care‑home real estate. "
+                    "Operate only on provided context. Do not invent numbers, dates, or claims. "
+                    "Prefer precise, short sentences. Avoid generic disclaimers. "
+                    "If data is missing, state it plainly. Where relevant, highlight risk and unmet demand."
                 )
-            
-                # Add file-based info about availability
-                for lad in matched_lads:
-                    shap_path = os.path.join(SHAP_FOLDER, f"{lad}.png")
-                    if os.path.exists(shap_path):
-                        display_name = lad.replace('_', ' ').title()
-                        context += (
-                            f"\nSHAP visual is available for {display_name}. "
-                            "It helps illustrate the top contributing features influencing the investment score for this LAD."
-                        )
-                    else:
-                        context += f"\nNo SHAP image is available for {lad.replace('_', ' ').title()}."
 
+                # Decision‑oriented, tightly scoped instruction
+                user_prompt = f"""
+[User Query]
+{query}
 
+[Context]
+{context}
 
-            if not context.strip():
-                st.warning("Sorry, we couldn't find relevant data for your question. Try asking about a specific LAD or topic.")
-                st.stop()
-
-
-            prompt = f"""
-You are an expert UK care home investment analyst. 
-Respond like you’re briefing a colleague or investor.
-
-Use only the information in the context. Never guess or fabricate. 
-Keep it brief, insightful, and practical.
-
-Use only the information provided in the [Context] section. Do NOT guess or invent numbers.
-- If a region has a low investment score, warn the user.
-- If a SHAP explanation is requested, provide a breakdown of how features contributed.
-- Do not hallucinate or make up summary text. Only respond to what was asked.
-- Avoid overly generic disclaimers. Make answers actionable and natural.
-- Do not convert scores into /10 unless explicitly provided as such.
-Context:\n{context}\n\n
-If comparing LADs, use data to support your answer. Avoid guessing. 
-Explain SHAP visuals if asked. Be concise, helpful, and professional.
+[Output Requirements]
+- Answer first in 3–6 crisp sentences addressing the query directly.
+- If multiple LADs appear, include a compact table with: LAD | Score/100 | Grade | ROI% (if available).
+- If asked about SHAP and a visual is "available", describe the 2–4 most influential features expected; if "missing", say so.
+- Provide one action recommendation (e.g., "Proceed", "Proceed with caution", or "Defer") with a one‑line rationale grounded in the context.
+- Do not speculate beyond the context. No references to external sources. No boilerplate.
 """
 
-            try:
-                response = client.chat.completions.create(
-                    model="gpt-5",
-                    messages=[
-                        {"role": "system", "content": "You are a helpful, expert LLM assistant in UK care home investment analytics."},
-                        {"role": "user", "content": prompt}
-                    ],
-                    temperature=1,
-                )
-                output = response.choices[0].message.content
-                st.markdown(output)
+                try:
+                    resp = client.chat.completions.create(
+                        model=MODEL_NAME,
+                        messages=[
+                            {"role": "system", "content": system_msg},
+                            {"role": "user", "content": user_prompt},
+                        ],
+                        temperature=0.2,
+                        top_p=0.9,
+                        max_tokens=700,
+                    )
+                    st.markdown(resp.choices[0].message.content)
+                except Exception as e:
+                    st.error(f"❌ GPT error: {e}")
 
-            except Exception as e:
-                st.error(f"❌ GPT error: {e}")
 
 
 # === LAD List ===
