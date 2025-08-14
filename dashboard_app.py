@@ -273,22 +273,7 @@ def build_context_from_query(
             roi_txt = roi_blobs[key].strip()
             if len(roi_txt) > 1200:
                 roi_txt = roi_txt[:1200].rsplit("\n", 1)[0] + "\n[...]"
-            context_parts.append(f"[ROI_Summary:{ke
-            try:
-                response = client.chat.completions.create(
-                    model="gpt-5",
-                    messages=[
-                        {"role": "system", "content": "You are a helpful, expert LLM assistant in UK care home investment analytics."},
-                        {"role": "user", "content": prompt}
-                    ],
-                    temperature=1,
-                )
-                output = response.choices[0].message.content
-                st.markdown(output)
-
-            except Exception as e:
-                st.error(f"❌ GPT error: {e}")
-y}]\n{roi_txt}")
+            context_parts.append(f"[ROI_Summary:{key}]\n{roi_txt}")
 
     # SHAP help if explicitly asked
     if any(kw in q for kw in ["shap", "explain visual", "feature importance"]):
