@@ -32,7 +32,7 @@ ROI_TABLE_PATH  = "roi_by_district.csv"
 OPENAI_API_KEY        = st.secrets.get("OPENAI_API_KEY", os.getenv("OPENAI_API_KEY", ""))
 OPENAI_MODEL_PRIMARY  = "gpt-5"
 OPENAI_MODEL_FALLBACK = "gpt-4o-mini"
-TEMPERATURE           = 0.2
+TEMPERATURE           = 0.3
 MAX_RETRIES           = 2
 RETRY_BACKOFF_SECONDS = 2.0
 
@@ -123,6 +123,27 @@ def load_text_blob(folder: str) -> Dict[str, str]:
             except Exception:
                 pass
     return data
+
+INTENT_KEYWORDS = {
+    "compare": ["compare", "vs", "versus", "better than", "which is better"],
+    "shap": ["shap", "feature importance", "explain visual", "drivers"],
+    "roi": ["roi", "return", "returns", "appreciation", "yield"],
+    "why": ["why", "rationale", "reason"],
+    "action": ["invest", "proceed", "avoid", "recommend", "should we"]
+}
+
+def infer_intent(user_query: str, matched_lads: list, context: str) -> dict:
+    q = user_query.lower()
+    flags = {
+        "is_compare": len(matched_lads) >= 2 or any(k in q for k in INTENT_KEYWORDS["compare"]),
+        "wants_shap": any(k in q for k in INTENT_KEYWORDS["shap"]) or "SHAP_Primer" in context,
+        "wants_roi": any(k in q for k in INTENT_KEYWORDS["roi"]) or "ROI%" in context or "ROI_Summary" in context,
+        "wants_rationale": any(k in q for k in INTENT_KEYWORDS["why"]),
+        "wants_action": any(k in q for k in INTENT_KEYWORDS["action"]),
+        "has_rich_context": len(context) > 800  # simple proxy
+    }
+    return flags
+
 
 # =========================
 # OPENAI (v1) – graceful fallback
@@ -252,21 +273,51 @@ def build_context_from_query(
 
     return "\n\n".join(p for p in parts if p), matched
 
-def build_prompt(context: str, user_query: str) -> str:
-    return f"""Role: UK care home investment analyst.
-Style: clear, professional, structured — detailed but prioritising relevance.
+def build_prompt(context: str, user_query: str, matched: list | None = None) -> str:
+    matched = matched or []
+    intent = infer_intent(user_query, matched, context)
 
-Output rules:
-1. Begin with a 2–3 sentence executive summary answering the query.
-2. Provide a structured breakdown for each LAD:
-   - Key scores & metrics
-   - ROI trends
-   - SHAP insights (if available)
-   - Notable strengths & risks
-3. If comparing LADs, include a short comparison table (Score, Grade, ROI%).
-4. Follow with a comparative analysis (advantages, disadvantages, and investment suitability).
-5. End with a recommendation (Proceed / Caution / Avoid) and a 1–2 sentence rationale.
-6. Use only the facts in [Context]; if any data is missing, state that clearly.
+    # Core rules always on
+    core_rules = [
+        "Use only [Context]. Do not invent data.",
+        "Write clearly and professionally, prioritising decision usefulness.",
+    ]
+
+    # Adaptive rules – included only when relevant
+    adaptive_rules = []
+    if intent["is_compare"]:
+        adaptive_rules.append(
+            "If multiple LADs are relevant, include a compact comparison table: LAD | Score/100 | Grade | ROI% (if available), then discuss the trade‑offs."
+        )
+    if intent["wants_shap"]:
+        adaptive_rules.append(
+            "If SHAP is available, summarise the top 2–4 drivers and their direction; if missing, state this plainly."
+        )
+    if intent["wants_roi"]:
+        adaptive_rules.append(
+            "Where ROI% is present in context, interpret it briefly (trend/level) and relate it to the investment score."
+        )
+    if intent["wants_rationale"]:
+        adaptive_rules.append("Include a brief rationale that ties the numbers to the conclusion.")
+    if intent["wants_action"]:
+        adaptive_rules.append("Finish with one clear action: Proceed / Proceed with caution / Defer, and a one‑line reason.")
+    # Allow the model to add structure only when it helps
+    if intent["has_rich_context"]:
+        adaptive_rules.append(
+            "If an extra section would materially help (e.g., risks, upside catalysts), add it succinctly."
+        )
+
+    # Target depth: short when simple, deeper when needed
+    depth_line = (
+        "Keep to 3–6 sentences if the query is simple; expand to several short paragraphs only when comparison or explanation merits it."
+    )
+
+    rules_block = "\n- ".join(core_rules + adaptive_rules + [depth_line])
+
+    return f"""Role: UK care‑home investment analyst.
+
+Output guidance:
+- {rules_block}
 
 [User_Query]
 {user_query.strip()}
@@ -274,6 +325,7 @@ Output rules:
 [Context]
 {context if context else "No specific LAD context was located."}
 """
+
 
 # =========================
 # UI
