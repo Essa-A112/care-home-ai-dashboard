@@ -158,7 +158,6 @@ def safe_number(val, digits=2, default="N/A") -> str:
 #           OPENAI LLM          #
 # ----------------------------- #
 
-client = OpenAI(api_key=OPENAI_API_KEY)
 
 def call_openai(prompt: str, model: str) -> str:
     """
