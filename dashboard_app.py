@@ -16,7 +16,7 @@ import os
 import json
 import time
 from typing import Dict, List, Tuple
-
+import openai as openai_module
 from openai import OpenAI
 import pandas as pd
 import streamlit as st
@@ -42,6 +42,7 @@ ROI_FOLDER = "roi_gpt"
 ROI_TABLE_PATH = "roi_by_district.csv"
 
 # OpenAI
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 OPENAI_API_KEY = st.secrets.get("OPENAI_API_KEY", os.getenv("OPENAI_API_KEY", ""))
 OPENAI_MODEL_PRIMARY = "gpt-5"
 OPENAI_MODEL_FALLBACK = "gpt-4o-mini"  # used only if the primary call fails
@@ -159,15 +160,14 @@ def safe_number(val, digits=2, default="N/A") -> str:
 #           OPENAI LLM          #
 # ----------------------------- #
 
+import openai
+
 def call_openai(prompt: str, model: str) -> str:
-    """
-    OpenAI Chat Completions caller using the >=1.0.0 API syntax.
-    """
     if not OPENAI_API_KEY:
         return "No API key was found. Add OPENAI_API_KEY to Streamlit secrets or environment."
 
     try:
-        client = OpenAI(api_key=OPENAI_API_KEY)  # create client here
+        openai.api_key = OPENAI_API_KEY  # set key like before
 
         resp = client.chat.completions.create(
             model=model,
@@ -188,7 +188,6 @@ def call_openai(prompt: str, model: str) -> str:
 
     except Exception as e:
         return f"LLM error: {e}"
-
 
 def ask_gpt5_with_retry(prompt: str) -> str:
     """
