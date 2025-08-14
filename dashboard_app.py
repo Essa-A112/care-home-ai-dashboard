@@ -17,6 +17,7 @@ import json
 import time
 from typing import Dict, List, Tuple
 
+from openai import OpenAI
 import pandas as pd
 import streamlit as st
 import folium
