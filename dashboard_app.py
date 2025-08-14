@@ -474,7 +474,7 @@ with tab_assistant:
         if role == "user":
             st.chat_message("user").markdown(content)
         else:
-            st.chat_message("assistant").markdown(content)st.image(shap_path, width=800)
+            st.chat_message("assistant").markdown(content)
 
     user_query = st.chat_input("Type a question about any LAD(s) …")
     if user_query:
