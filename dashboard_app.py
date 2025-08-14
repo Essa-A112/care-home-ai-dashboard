@@ -44,7 +44,7 @@ ROI_TABLE_PATH = "roi_by_district.csv"
 OPENAI_API_KEY = st.secrets.get("OPENAI_API_KEY", os.getenv("OPENAI_API_KEY", ""))
 OPENAI_MODEL_PRIMARY = "gpt-5"
 OPENAI_MODEL_FALLBACK = "gpt-4o-mini"  # used only if the primary call fails
-TEMPERATURE = 0.2
+TEMPERATURE = 1
 MAX_RETRIES = 2
 RETRY_BACKOFF_SECONDS = 2.0
 
@@ -158,15 +158,16 @@ def safe_number(val, digits=2, default="N/A") -> str:
 #           OPENAI LLM          #
 # ----------------------------- #
 
-
 def call_openai(prompt: str, model: str) -> str:
     """
-    OpenAI Chat Completions caller using the new >=1.0.0 API.
+    OpenAI Chat Completions caller using the >=1.0.0 API syntax.
     """
     if not OPENAI_API_KEY:
         return "No API key was found. Add OPENAI_API_KEY to Streamlit secrets or environment."
 
     try:
+        client = OpenAI(api_key=OPENAI_API_KEY)  # create client here
+
         resp = client.chat.completions.create(
             model=model,
             temperature=TEMPERATURE,
@@ -198,7 +199,6 @@ def ask_gpt5_with_retry(prompt: str) -> str:
             return out
         time.sleep(RETRY_BACKOFF_SECONDS * (attempt + 1))
 
-    # Fallback model (one shot)
     return call_openai(prompt, OPENAI_MODEL_FALLBACK)
 
 # ----------------------------- #
@@ -273,7 +273,22 @@ def build_context_from_query(
             roi_txt = roi_blobs[key].strip()
             if len(roi_txt) > 1200:
                 roi_txt = roi_txt[:1200].rsplit("\n", 1)[0] + "\n[...]"
-            context_parts.append(f"[ROI_Summary:{key}]\n{roi_txt}")
+            context_parts.append(f"[ROI_Summary:{ke
+            try:
+                response = client.chat.completions.create(
+                    model="gpt-5",
+                    messages=[
+                        {"role": "system", "content": "You are a helpful, expert LLM assistant in UK care home investment analytics."},
+                        {"role": "user", "content": prompt}
+                    ],
+                    temperature=1,
+                )
+                output = response.choices[0].message.content
+                st.markdown(output)
+
+            except Exception as e:
+                st.error(f"❌ GPT error: {e}")
+y}]\n{roi_txt}")
 
     # SHAP help if explicitly asked
     if any(kw in q for kw in ["shap", "explain visual", "feature importance"]):
