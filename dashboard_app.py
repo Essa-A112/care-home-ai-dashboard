@@ -438,7 +438,7 @@ with tab_map:
         st.markdown("##### SHAP visual")
         shap_path = os.path.join(SHAP_FOLDER, f"{key}.png")
         if os.path.exists(shap_path):
-            st.image(shap_path, use_column_width=True)
+            st.image(shap_path, width=800)
         else:
             st.info("No SHAP image is available for this LAD.")
 
@@ -474,7 +474,7 @@ with tab_assistant:
         if role == "user":
             st.chat_message("user").markdown(content)
         else:
-            st.chat_message("assistant").markdown(content)
+            st.chat_message("assistant").markdown(content)st.image(shap_path, width=800)
 
     user_query = st.chat_input("Type a question about any LAD(s) …")
     if user_query:
