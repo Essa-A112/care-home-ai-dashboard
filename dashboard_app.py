@@ -253,17 +253,23 @@ def build_context_from_query(
     return "\n\n".join(p for p in parts if p), matched
 
 def build_prompt(context: str, user_query: str) -> str:
-    return f"""Role: UK care‑home investment analyst.
+    return f"""Role: UK care home investment analyst.
+Style: clear, professional, structured — detailed but prioritising relevance.
 
 Output rules:
-- Lead with a 3–6 sentence briefing that answers the query directly.
-- If multiple LADs are mentioned, add a compact table: LAD | Score/100 | Grade | ROI%.
-- If SHAP is requested and 'available', summarise the top 2–4 drivers; if 'missing', say so.
-- End with one clear action: Proceed / Proceed with caution / Defer, with a one‑line rationale.
-- Use only [Context]. Do not invent figures.
+1. Begin with a 2–3 sentence executive summary answering the query.
+2. Provide a structured breakdown for each LAD:
+   - Key scores & metrics
+   - ROI trends
+   - SHAP insights (if available)
+   - Notable strengths & risks
+3. If comparing LADs, include a short comparison table (Score, Grade, ROI%).
+4. Follow with a comparative analysis (advantages, disadvantages, and investment suitability).
+5. End with a recommendation (Proceed / Caution / Avoid) and a 1–2 sentence rationale.
+6. Use only the facts in [Context]; if any data is missing, state that clearly.
 
 [User_Query]
-{user_query}
+{user_query.strip()}
 
 [Context]
 {context if context else "No specific LAD context was located."}
