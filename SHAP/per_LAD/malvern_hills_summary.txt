@@ -1,0 +1,6 @@
+- %=CQC RequiresImprovement: increases (positive); contribution 6.409. High proportion indicates quality risks and remediation costs.
+- House=Price Growth %: increases (positive); contribution 3.114. Signals local market momentum and potential capital appreciation.
+- Percent=65plus: increases (positive); contribution 0.815. Larger elderly cohort typically raises demand for care places.
+- Total=Population: increases (positive); contribution 0.253. Bigger markets can support a wider range of care provision.
+- %=CQC Good: decreases (negative); contribution 0.204. Higher share suggests a healthier care environment and lower operational risk.
+- GDHI=per head 2022: increases (positive); contribution 0.179. Higher incomes support fee sustainability and private-pay demand.

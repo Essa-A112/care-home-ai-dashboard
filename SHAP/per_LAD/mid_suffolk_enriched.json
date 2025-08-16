@@ -1,0 +1,82 @@
+{
+  "lad_key": "mid_suffolk_enriched",
+  "lad_name": "Mid Suffolk Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 5.303341715506492,
+      "abs": 5.303341715506492,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": 3.6224088537154215,
+      "abs": 3.6224088537154215,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": 2.133504755489448,
+      "abs": 2.133504755489448,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": 0.9132428080785272,
+      "abs": 0.9132428080785272,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.6906051254455409,
+      "abs": 0.6906051254455409,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": -0.2199185161386547,
+      "abs": 0.2199185161386547,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.1112705317391044,
+      "abs": 0.1112705317391044,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.0581796906265969,
+      "abs": 0.0581796906265969,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 0.0135191070561768,
+      "abs": 0.0135191070561768,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/mid_suffolk_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/mid_suffolk_enriched_zoning_summary.md"
+  }
+}

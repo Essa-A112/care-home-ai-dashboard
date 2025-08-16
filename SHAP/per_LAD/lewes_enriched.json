@@ -1,0 +1,82 @@
+{
+  "lad_key": "lewes_enriched",
+  "lad_name": "Lewes Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 4.357025506161976,
+      "abs": 4.357025506161976,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": 2.4507230768628143,
+      "abs": 2.4507230768628143,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -0.9471993646805656,
+      "abs": 0.9471993646805656,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.7179215934656652,
+      "abs": 0.7179215934656652,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.1963667632947699,
+      "abs": 0.1963667632947699,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.1675938218252261,
+      "abs": 0.1675938218252261,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.1608657734882889,
+      "abs": 0.1608657734882889,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.1551251767873958,
+      "abs": 0.1551251767873958,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 0.1096226966347255,
+      "abs": 0.1096226966347255,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/lewes_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/lewes_enriched_zoning_summary.md"
+  }
+}

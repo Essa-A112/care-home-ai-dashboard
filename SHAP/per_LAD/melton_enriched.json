@@ -1,0 +1,82 @@
+{
+  "lad_key": "melton_enriched",
+  "lad_name": "Melton Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 6.984292567462235,
+      "abs": 6.984292567462235,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": -5.1031681655443935,
+      "abs": 5.1031681655443935,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": 3.630079102203379,
+      "abs": 3.630079102203379,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": 1.1343148329129202,
+      "abs": 1.1343148329129202,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 1.0739595853880193,
+      "abs": 1.0739595853880193,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.3197872314091354,
+      "abs": 0.3197872314091354,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 0.3116718857176779,
+      "abs": 0.3116718857176779,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.1003336025677044,
+      "abs": 0.1003336025677044,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.0429759518511767,
+      "abs": 0.0429759518511767,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/melton_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/melton_enriched_zoning_summary.md"
+  }
+}
