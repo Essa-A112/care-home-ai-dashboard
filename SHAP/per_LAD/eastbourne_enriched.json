@@ -1,0 +1,82 @@
+{
+  "lad_key": "eastbourne_enriched",
+  "lad_name": "Eastbourne Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "House=Price Growth %",
+      "signed": 7.300322439691495,
+      "abs": 7.300322439691495,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -5.62675769254459,
+      "abs": 5.62675769254459,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -0.8345850963755134,
+      "abs": 0.8345850963755134,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.7483381315435967,
+      "abs": 0.7483381315435967,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.3372286302091631,
+      "abs": 0.3372286302091631,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.155440567377557,
+      "abs": 0.155440567377557,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.1293431625775941,
+      "abs": 0.1293431625775941,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 0.1048733935473495,
+      "abs": 0.1048733935473495,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": -0.0154277110060555,
+      "abs": 0.0154277110060555,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/eastbourne_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/eastbourne_enriched_zoning_summary.md"
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "lad_key": "east_suffolk_enriched",
+  "lad_name": "East Suffolk Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -4.853669585339511,
+      "abs": 4.853669585339511,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": 2.1919424506103304,
+      "abs": 2.1919424506103304,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.8656655108448833,
+      "abs": 0.8656655108448833,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": -0.640451525593558,
+      "abs": 0.640451525593558,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.2606566423393014,
+      "abs": 0.2606566423393014,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -0.1434675425200501,
+      "abs": 0.1434675425200501,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.1239460119255423,
+      "abs": 0.1239460119255423,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.0765969612666678,
+      "abs": 0.0765969612666678,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.057681075261563,
+      "abs": 0.057681075261563,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/east_suffolk_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/east_suffolk_enriched_zoning_summary.md"
+  }
+}

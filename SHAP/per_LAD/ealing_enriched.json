@@ -1,0 +1,82 @@
+{
+  "lad_key": "ealing_enriched",
+  "lad_name": "Ealing Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "House=Price Growth %",
+      "signed": -4.964125806800237,
+      "abs": 4.964125806800237,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 4.3122023959275735,
+      "abs": 4.3122023959275735,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -1.2359422365612756,
+      "abs": 1.2359422365612756,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -1.0600292371548163,
+      "abs": 1.0600292371548163,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.3214347243750382,
+      "abs": 0.3214347243750382,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.1911016793991061,
+      "abs": 0.1911016793991061,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.1878529191724305,
+      "abs": 0.1878529191724305,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.1475759928004889,
+      "abs": 0.1475759928004889,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.1260515318031231,
+      "abs": 0.1260515318031231,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/ealing_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/ealing_enriched_zoning_summary.md"
+  }
+}

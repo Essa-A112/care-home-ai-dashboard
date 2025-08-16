@@ -1,0 +1,82 @@
+{
+  "lad_key": "eastleigh_enriched",
+  "lad_name": "Eastleigh Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 3.635931286121898,
+      "abs": 3.635931286121898,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -0.988965744100124,
+      "abs": 0.988965744100124,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": -0.9246166978317945,
+      "abs": 0.9246166978317945,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.19178091330718,
+      "abs": 0.19178091330718,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.1302282906788391,
+      "abs": 0.1302282906788391,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.0999284444033525,
+      "abs": 0.0999284444033525,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.0828163903512782,
+      "abs": 0.0828163903512782,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.0371996359064698,
+      "abs": 0.0371996359064698,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 5.326985571145381e-05,
+      "abs": 5.326985571145381e-05,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/eastleigh_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/eastleigh_enriched_zoning_summary.md"
+  }
+}

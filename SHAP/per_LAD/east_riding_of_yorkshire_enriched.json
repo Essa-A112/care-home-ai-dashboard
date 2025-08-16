@@ -1,0 +1,82 @@
+{
+  "lad_key": "east_riding_of_yorkshire_enriched",
+  "lad_name": "East Riding Of Yorkshire Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 5.211569752668844,
+      "abs": 5.211569752668844,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": 1.7573339463475333,
+      "abs": 1.7573339463475333,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.8325806282948287,
+      "abs": 0.8325806282948287,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": 0.8072507406511567,
+      "abs": 0.8072507406511567,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": -0.1958327659545496,
+      "abs": 0.1958327659545496,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.1781522250857721,
+      "abs": 0.1781522250857721,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.1572410609569345,
+      "abs": 0.1572410609569345,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.1466288846230225,
+      "abs": 0.1466288846230225,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.0551567896773669,
+      "abs": 0.0551567896773669,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/east_riding_of_yorkshire_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/east_riding_of_yorkshire_enriched_zoning_summary.md"
+  }
+}
