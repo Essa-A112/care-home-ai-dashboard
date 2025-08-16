@@ -1,0 +1,167 @@
+[
+  {
+    "dataset_column": "House_Price_Growth_%",
+    "definition": "Percentage change in average house prices over the period (2020\u20132024).",
+    "expected_direction": "higher_is_better",
+    "why_it_matters": "Signals local market momentum and potential capital appreciation.",
+    "unit": "percentage points",
+    "range_min": -83.88,
+    "range_p25": -3.41,
+    "range_p50": 6.16,
+    "range_p75": 15.08,
+    "range_max": 47.31,
+    "aliases": [
+      "House=Price Growth %",
+      "House Price Growth %",
+      "house_price_growth_%"
+    ]
+  },
+  {
+    "dataset_column": "%_CQC_RequiresImprovement",
+    "definition": "Share of CQC-registered homes rated 'Requires Improvement'.",
+    "expected_direction": "lower_is_better",
+    "why_it_matters": "High proportion indicates quality risks and remediation costs.",
+    "unit": "%",
+    "range_min": 0.0,
+    "range_p25": 11.725,
+    "range_p50": 18.6,
+    "range_p75": 24.125,
+    "range_max": 100.0,
+    "aliases": [
+      "%=CQC RequiresImprovement",
+      "% CQC RequiresImprovement"
+    ]
+  },
+  {
+    "dataset_column": "%_CQC_Good",
+    "definition": "Share of CQC-registered homes rated 'Good'.",
+    "expected_direction": "higher_is_better",
+    "why_it_matters": "Higher share suggests a healthier care environment and lower operational risk.",
+    "unit": "%",
+    "range_min": 0.0,
+    "range_p25": 70.88499999999999,
+    "range_p50": 76.47,
+    "range_p75": 83.395,
+    "range_max": 96.67,
+    "aliases": [
+      "%=CQC Good",
+      "% CQC Good"
+    ]
+  },
+  {
+    "dataset_column": "%_CQC_Inadequate",
+    "definition": "Share of CQC-registered homes rated 'Inadequate'.",
+    "expected_direction": "lower_is_better",
+    "why_it_matters": "Indicates severe quality shortcomings and potential regulatory pressure.",
+    "unit": "%",
+    "range_min": 0.0,
+    "range_p25": 0.0,
+    "range_p50": 0.0,
+    "range_p75": 1.925,
+    "range_max": 18.18,
+    "aliases": [
+      "%=CQC Inadequate",
+      "% CQC Inadequate"
+    ]
+  },
+  {
+    "dataset_column": "%_CQC_Outstanding",
+    "definition": "Share of CQC-registered homes rated 'Outstanding'.",
+    "expected_direction": "higher_is_better",
+    "why_it_matters": "Top-rated provision signals strong service quality and reputation.",
+    "unit": "%",
+    "range_min": 0.0,
+    "range_p25": 0.0,
+    "range_p50": 3.12,
+    "range_p75": 6.25,
+    "range_max": 25.0,
+    "aliases": [
+      "%=CQC Outstanding",
+      "% CQC Outstanding"
+    ]
+  },
+  {
+    "dataset_column": "%_CQC_NotRated",
+    "definition": "Share of CQC-registered homes without a published rating.",
+    "expected_direction": "lower_is_better",
+    "why_it_matters": "Unrated stock increases uncertainty around quality and compliance.",
+    "unit": "%",
+    "range_min": 0.0,
+    "range_p25": 0.0,
+    "range_p50": 0.0,
+    "range_p75": 0.0,
+    "range_max": 0.0,
+    "aliases": [
+      "%=CQC NotRated",
+      "% CQC NotRated"
+    ]
+  },
+  {
+    "dataset_column": "GDHI_per_head_2022",
+    "definition": "Gross disposable household income per head (2022).",
+    "expected_direction": "higher_is_better",
+    "why_it_matters": "Higher incomes support fee sustainability and private-pay demand.",
+    "unit": "\u00a3 per person",
+    "range_min": 15075.0,
+    "range_p25": 19460.0,
+    "range_p50": 22236.0,
+    "range_p75": 25884.0,
+    "range_max": 96578.0,
+    "aliases": [
+      "GDHI=per head 2022",
+      "GDHI per head 2022",
+      "gdhi_per_head_2022"
+    ]
+  },
+  {
+    "dataset_column": "Care_Homes_per_10k",
+    "definition": "Number of registered care homes per 10,000 residents.",
+    "expected_direction": "ambiguous",
+    "why_it_matters": "Higher supply can mean choice but may also reflect competition; interpret with demand metrics.",
+    "unit": "homes per 10k",
+    "range_min": 0.3042972862768009,
+    "range_p25": 2.0714809145113566,
+    "range_p50": 2.653502346691138,
+    "range_p75": 3.5028662936006043,
+    "range_max": 7.817919552506689,
+    "aliases": [
+      "Care=Homes per 10k",
+      "Care Homes per 10k",
+      "care_homes_per_10k"
+    ]
+  },
+  {
+    "dataset_column": "Percent_65plus",
+    "definition": "Population aged 65+ as a share of total population.",
+    "expected_direction": "higher_is_better",
+    "why_it_matters": "Larger elderly cohort typically raises demand for care places.",
+    "unit": "%",
+    "range_min": 5.81,
+    "range_p25": 16.925,
+    "range_p50": 19.78,
+    "range_p75": 23.119999999999997,
+    "range_max": 34.18,
+    "aliases": [
+      "Percent=65plus",
+      "Percent 65plus",
+      "percent_65plus"
+    ]
+  },
+  {
+    "dataset_column": "Total_Population",
+    "definition": "Resident population (latest available year).",
+    "expected_direction": "higher_is_better",
+    "why_it_matters": "Bigger markets can support a wider range of care provision.",
+    "unit": "people",
+    "range_min": 2229.0,
+    "range_p25": 108511.0,
+    "range_p50": 146655.0,
+    "range_p75": 237948.5,
+    "range_max": 1166049.0,
+    "aliases": [
+      "Total=Population",
+      "Total Population",
+      "total_population"
+    ]
+  }
+]
