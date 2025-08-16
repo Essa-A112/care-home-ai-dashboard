@@ -662,8 +662,8 @@ with tab_zoning:
           .tolist()
     )
     if not available_lads:
-    st.info("No zoning reports available for the current filter.")
-    st.stop()  # or `return` if you're inside a function
+        st.info("No zoning reports available for the current filter.")
+        st.stop()  # or `return` if you're inside a function
 
 
     else:
