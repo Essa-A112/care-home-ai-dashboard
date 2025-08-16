@@ -1,0 +1,82 @@
+{
+  "lad_key": "runnymede_enriched",
+  "lad_name": "Runnymede Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "House=Price Growth %",
+      "signed": -5.7417621986023,
+      "abs": 5.7417621986023,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -3.567145122180647,
+      "abs": 3.567145122180647,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -1.1545759058666296,
+      "abs": 1.1545759058666296,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -0.2310870486422971,
+      "abs": 0.2310870486422971,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 0.215403462983524,
+      "abs": 0.215403462983524,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.1916481041713703,
+      "abs": 0.1916481041713703,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.1221030238437408,
+      "abs": 0.1221030238437408,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.0542431124126801,
+      "abs": 0.0542431124126801,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.011949695314132,
+      "abs": 0.011949695314132,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/runnymede_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/runnymede_enriched_zoning_summary.md"
+  }
+}

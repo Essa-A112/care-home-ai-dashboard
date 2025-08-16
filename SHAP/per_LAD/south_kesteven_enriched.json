@@ -1,0 +1,82 @@
+{
+  "lad_key": "south_kesteven_enriched",
+  "lad_name": "South Kesteven Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -4.423056170021795,
+      "abs": 4.423056170021795,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": -0.9144545098578002,
+      "abs": 0.9144545098578002,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.8275804598422627,
+      "abs": 0.8275804598422627,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": -0.3326656438547623,
+      "abs": 0.3326656438547623,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.2917734427851748,
+      "abs": 0.2917734427851748,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -0.1013337102449059,
+      "abs": 0.1013337102449059,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.0459617091761019,
+      "abs": 0.0459617091761019,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": -0.0354476930779694,
+      "abs": 0.0354476930779694,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.0153928905582782,
+      "abs": 0.0153928905582782,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/south_kesteven_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/south_kesteven_enriched_zoning_summary.md"
+  }
+}

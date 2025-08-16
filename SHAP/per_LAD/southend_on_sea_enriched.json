@@ -1,0 +1,82 @@
+{
+  "lad_key": "southend_on_sea_enriched",
+  "lad_name": "Southend On Sea Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -2.3637219569878742,
+      "abs": 2.3637219569878742,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": 1.9681860222302028,
+      "abs": 1.9681860222302028,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -0.7287575069484264,
+      "abs": 0.7287575069484264,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.2084775608333494,
+      "abs": 0.2084775608333494,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.180878721647129,
+      "abs": 0.180878721647129,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.1445264978281757,
+      "abs": 0.1445264978281757,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.0878537219666926,
+      "abs": 0.0878537219666926,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.0542561920329251,
+      "abs": 0.0542561920329251,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -0.0045396751090372,
+      "abs": 0.0045396751090372,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/southend_on_sea_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/southend_on_sea_enriched_zoning_summary.md"
+  }
+}

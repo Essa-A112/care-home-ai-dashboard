@@ -1,0 +1,82 @@
+{
+  "lad_key": "sefton_enriched",
+  "lad_name": "Sefton Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "House=Price Growth %",
+      "signed": -0.6964358474435829,
+      "abs": 0.6964358474435829,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.6301103485150341,
+      "abs": 0.6301103485150341,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -0.562624352218051,
+      "abs": 0.562624352218051,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.2602382190366999,
+      "abs": 0.2602382190366999,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.1917695550601399,
+      "abs": 0.1917695550601399,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.1890238323345454,
+      "abs": 0.1890238323345454,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.1547254461811747,
+      "abs": 0.1547254461811747,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 0.1473719264987504,
+      "abs": 0.1473719264987504,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": -0.0816858806677889,
+      "abs": 0.0816858806677889,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/sefton_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/sefton_enriched_zoning_summary.md"
+  }
+}

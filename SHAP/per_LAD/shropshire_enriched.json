@@ -1,0 +1,82 @@
+{
+  "lad_key": "shropshire_enriched",
+  "lad_name": "Shropshire Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 4.224632778558726,
+      "abs": 4.224632778558726,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": 2.996817712932668,
+      "abs": 2.996817712932668,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.7082762411741714,
+      "abs": 0.7082762411741714,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -0.3789350392815706,
+      "abs": 0.3789350392815706,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.1923382686611763,
+      "abs": 0.1923382686611763,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.1236211824137143,
+      "abs": 0.1236211824137143,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.0900052887164978,
+      "abs": 0.0900052887164978,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.0829620429530781,
+      "abs": 0.0829620429530781,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.024847248540633,
+      "abs": 0.024847248540633,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/shropshire_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/shropshire_enriched_zoning_summary.md"
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "lad_key": "south_oxfordshire_enriched",
+  "lad_name": "South Oxfordshire Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -5.363055334165039,
+      "abs": 5.363055334165039,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": -2.436390193784542,
+      "abs": 2.436390193784542,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.619137471761349,
+      "abs": 0.619137471761349,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": -0.4905159102516152,
+      "abs": 0.4905159102516152,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": 0.2400771807368547,
+      "abs": 0.2400771807368547,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.2388223028872743,
+      "abs": 0.2388223028872743,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.2164145000721164,
+      "abs": 0.2164145000721164,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.0858350053145139,
+      "abs": 0.0858350053145139,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 0.0175686784678346,
+      "abs": 0.0175686784678346,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/south_oxfordshire_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/south_oxfordshire_enriched_zoning_summary.md"
+  }
+}

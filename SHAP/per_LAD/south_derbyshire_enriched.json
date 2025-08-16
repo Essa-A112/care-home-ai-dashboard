@@ -1,0 +1,82 @@
+{
+  "lad_key": "south_derbyshire_enriched",
+  "lad_name": "South Derbyshire Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -4.988410778704892,
+      "abs": 4.988410778704892,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": 3.990561963054888,
+      "abs": 3.990561963054888,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -1.036938058521535,
+      "abs": 1.036938058521535,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.25496450043108,
+      "abs": 0.25496450043108,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.2489567608810199,
+      "abs": 0.2489567608810199,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 0.1226900039370946,
+      "abs": 0.1226900039370946,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -0.0456276190584714,
+      "abs": 0.0456276190584714,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.0403213647339695,
+      "abs": 0.0403213647339695,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.0354055543744851,
+      "abs": 0.0354055543744851,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/south_derbyshire_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/south_derbyshire_enriched_zoning_summary.md"
+  }
+}

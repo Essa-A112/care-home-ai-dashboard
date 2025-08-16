@@ -1,0 +1,82 @@
+{
+  "lad_key": "south_holland_enriched",
+  "lad_name": "South Holland Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 6.848340903900251,
+      "abs": 6.848340903900251,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": 3.155602384762037,
+      "abs": 3.155602384762037,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.5750801848615008,
+      "abs": 0.5750801848615008,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.1908033823440945,
+      "abs": 0.1908033823440945,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 0.1489523672553526,
+      "abs": 0.1489523672553526,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.101090021592384,
+      "abs": 0.101090021592384,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": 0.089413951199536,
+      "abs": 0.089413951199536,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": -0.0328697455519797,
+      "abs": 0.0328697455519797,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.026188004590536,
+      "abs": 0.026188004590536,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/south_holland_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/south_holland_enriched_zoning_summary.md"
+  }
+}

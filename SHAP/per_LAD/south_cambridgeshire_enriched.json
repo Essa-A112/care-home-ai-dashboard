@@ -1,0 +1,82 @@
+{
+  "lad_key": "south_cambridgeshire_enriched",
+  "lad_name": "South Cambridgeshire Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -8.224436466401977,
+      "abs": 8.224436466401977,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -1.3198773703255062,
+      "abs": 1.3198773703255062,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": -0.6310723526246038,
+      "abs": 0.6310723526246038,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": -0.4321299229944302,
+      "abs": 0.4321299229944302,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.2725870430937852,
+      "abs": 0.2725870430937852,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.2381771427012761,
+      "abs": 0.2381771427012761,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.2309793648520673,
+      "abs": 0.2309793648520673,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -0.1635745699117506,
+      "abs": 0.1635745699117506,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.1470289231709064,
+      "abs": 0.1470289231709064,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/south_cambridgeshire_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/south_cambridgeshire_enriched_zoning_summary.md"
+  }
+}

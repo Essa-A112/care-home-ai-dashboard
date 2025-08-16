@@ -1,0 +1,82 @@
+{
+  "lad_key": "south_hams_enriched",
+  "lad_name": "South Hams Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 6.983978575738019,
+      "abs": 6.983978575738019,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": 3.244586573891827,
+      "abs": 3.244586573891827,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.7907882105019128,
+      "abs": 0.7907882105019128,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -0.3547187568468958,
+      "abs": 0.3547187568468958,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 0.2471051478687821,
+      "abs": 0.2471051478687821,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.2317832851328513,
+      "abs": 0.2317832851328513,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.1775731766509344,
+      "abs": 0.1775731766509344,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.1648076023674198,
+      "abs": 0.1648076023674198,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.1484091250393415,
+      "abs": 0.1484091250393415,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/south_hams_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/south_hams_enriched_zoning_summary.md"
+  }
+}

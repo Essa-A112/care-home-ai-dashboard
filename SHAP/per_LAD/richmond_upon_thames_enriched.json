@@ -1,0 +1,82 @@
+{
+  "lad_key": "richmond_upon_thames_enriched",
+  "lad_name": "Richmond Upon Thames Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -7.472863366804303,
+      "abs": 7.472863366804303,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -1.7391170598515264,
+      "abs": 1.7391170598515264,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": 0.8574591232676677,
+      "abs": 0.8574591232676677,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.2079087230976954,
+      "abs": 0.2079087230976954,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.1801671446005971,
+      "abs": 0.1801671446005971,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -0.1640026824321025,
+      "abs": 0.1640026824321025,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.1424261667478092,
+      "abs": 0.1424261667478092,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": 0.0606430992959638,
+      "abs": 0.0606430992959638,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.0336741241607049,
+      "abs": 0.0336741241607049,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/richmond_upon_thames_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/richmond_upon_thames_enriched_zoning_summary.md"
+  }
+}

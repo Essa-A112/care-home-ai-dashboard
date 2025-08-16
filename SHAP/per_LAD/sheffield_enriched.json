@@ -1,0 +1,82 @@
+{
+  "lad_key": "sheffield_enriched",
+  "lad_name": "Sheffield Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "House=Price Growth %",
+      "signed": 6.4008866913900055,
+      "abs": 6.4008866913900055,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -3.006614561375532,
+      "abs": 3.006614561375532,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -0.8022228859600525,
+      "abs": 0.8022228859600525,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.1820076172914784,
+      "abs": 0.1820076172914784,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.1776273889146155,
+      "abs": 0.1776273889146155,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": -0.1327242256172368,
+      "abs": 0.1327242256172368,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -0.0852629756388476,
+      "abs": 0.0852629756388476,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": 0.0129742366062097,
+      "abs": 0.0129742366062097,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.0009386392377662,
+      "abs": 0.0009386392377662,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/sheffield_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/sheffield_enriched_zoning_summary.md"
+  }
+}
