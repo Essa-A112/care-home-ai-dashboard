@@ -113,6 +113,10 @@ def clean_stem(stem: str) -> str:
     s = re.sub(r"_+", "_", s).strip("_")
     return s
 
+def strip_enriched(s: str) -> str:
+    s = normalise(s)
+    return s[:-10] if s.endswith("_enriched") else s
+
 
 @st.cache_data(show_spinner=False)
 def load_base_data() -> pd.DataFrame:
@@ -201,42 +205,80 @@ def load_feature_guide() -> Dict[str, dict]:
 def load_per_lad_shap_drivers() -> Dict[str, List[dict]]:
     """
     Load per-LAD SHAP drivers from JSON/CSV under PER_LAD_SHAP_DIR.
-    Returns norm_lad -> list of driver dicts with at least 'term', 'signed', 'direction', 'strength'
+    Keys are stored under BOTH the raw stem (e.g. 'halton_enriched') and the
+    cleaned stem (e.g. 'halton') so lookups by LAD work.
+    CSVs can have various column names; we normalise them.
     """
     out: Dict[str, List[dict]] = {}
     if not os.path.isdir(PER_LAD_SHAP_DIR):
         return out
+
+    def _normalise_csv(df: pd.DataFrame) -> List[dict]:
+        # unify column names we’ve seen in your repo variants
+        ren = {}
+        for c in df.columns:
+            lc = c.strip().lower()
+            if lc in ("feature", "term", "name"):
+                ren[c] = "term"
+            elif lc in ("value", "signed", "shap_value", "shap", "contribution", "impact"):
+                ren[c] = "signed"
+            elif lc in ("dir", "direction"):
+                ren[c] = "direction"
+            elif lc in ("strength", "importance", "abs", "magnitude"):
+                ren[c] = "strength"
+        if ren:
+            df = df.rename(columns=ren)
+
+        # if we still don’t have 'signed' but do have a numeric candidate, pick the first
+        if "signed" not in df.columns:
+            for c in df.columns:
+                if pd.api.types.is_numeric_dtype(df[c]):
+                    df = df.rename(columns={c: "signed"})
+                    break
+
+        # fill direction/strength if missing
+        if "direction" not in df.columns and "signed" in df.columns:
+            df["direction"] = df["signed"].apply(lambda v: "up" if pd.notna(v) and float(v) >= 0 else "down")
+        if "strength" not in df.columns and "signed" in df.columns:
+            # simple magnitude string
+            df["strength"] = df["signed"].abs().apply(lambda v: f"{float(v):.3g}" if pd.notna(v) else "n/a")
+
+        # keep only rows that have a feature/term
+        keep_cols = [c for c in ["term", "signed", "direction", "strength"] if c in df.columns]
+        df = df.dropna(subset=[c for c in ["term"] if c in df.columns])
+        return df[keep_cols].to_dict("records")
+
     for f in os.listdir(PER_LAD_SHAP_DIR):
         path = os.path.join(PER_LAD_SHAP_DIR, f)
         base, ext = os.path.splitext(f)
-        key_guess = normalise(base)
+        key_raw   = normalise(base)           # e.g. 'halton_enriched'
+        key_clean = strip_enriched(key_raw)   # e.g. 'halton'
+
         try:
+            drivers: List[dict] = []
             if ext.lower() == ".json":
                 with open(path, "r", encoding="utf-8") as fh:
                     obj = json.load(fh)
-                # prefer explicit LAD key if present
-                lad_key = normalise(obj.get("lad_key", base))
-                drivers = obj.get("drivers", [])
-                if isinstance(drivers, list) and drivers:
-                    out[lad_key] = drivers
+                # flexible JSON shape
+                if isinstance(obj, dict) and "drivers" in obj:
+                    drivers = obj["drivers"]
+                elif isinstance(obj, list):
+                    drivers = obj
             elif ext.lower() == ".csv":
-                df = pd.read_csv(path)
-                # expect ('term','signed'...) or SHAP-ish columns
-                cols = [c.lower() for c in df.columns]
-                if "term" in cols or "feature" in cols:
-                    # normalise column names
-                    ren = {}
-                    for c in df.columns:
-                        lc = c.lower()
-                        if lc == "feature": ren[c] = "term"
-                        elif lc == "value": ren[c] = "signed"
-                    if ren:
-                        df = df.rename(columns=ren)
-                    drivers = df.to_dict("records")
-                    out[key_guess] = drivers
+                df_csv = pd.read_csv(path)
+                drivers = _normalise_csv(df_csv)
+            else:
+                continue
+
+            if drivers:
+                out[key_raw] = drivers              # 'halton_enriched'
+                out.setdefault(key_clean, drivers)  # also store under 'halton'
         except Exception:
+            # keep going if a single file fails
             pass
+
     return out
+
 
 @st.cache_data(show_spinner=False)
 def load_per_lad_shap_notes() -> Dict[str, str]:
@@ -423,29 +465,56 @@ def _explain_driver(term: str) -> str:
 def _format_shap_drivers_for_context(lad_key: str, max_items: int = 6) -> Optional[str]:
     """
     Build a SHAP driver snippet for the LLM context.
-    Priority: per-LAD JSON/CSV -> global fallback list -> none.
+    Try multiple keys: exact, + '_enriched', and stripped version.
     """
-    drivers = _shap_perlad.get(lad_key)
+    candidates = [
+        lad_key,
+        f"{lad_key}_enriched",
+        strip_enriched(lad_key),
+    ]
+    drivers: Optional[List[dict]] = None
+    for c in candidates:
+        if c in _shap_perlad and _shap_perlad[c]:
+            drivers = _shap_perlad[c]
+            break
+
     lines: List[str] = []
     if drivers:
         for d in drivers[:max_items]:
-            term = d.get("term") or d.get("feature") or ""
+            term = (d.get("term") or d.get("feature") or "").strip()
             if not term:
                 continue
-            direction = d.get("direction") or ("up" if float(d.get("signed", 0)) > 0 else "down")
-            strength  = (d.get("strength") or "").lower() or "n/a"
+            # compute direction/strength if not provided
+            signed = d.get("signed")
+            direction = d.get("direction")
+            strength  = d.get("strength")
+            if direction is None and signed is not None:
+                try:
+                    direction = "up" if float(signed) >= 0 else "down"
+                except Exception:
+                    direction = "n/a"
+            if strength is None and signed is not None:
+                try:
+                    strength = f"{abs(float(signed)):.3g}"
+                except Exception:
+                    strength = "n/a"
+
             desc = _explain_driver(term)
-            lines.append(f"- {desc} → {direction} ({strength})")
+            parts = [desc]
+            if direction: parts.append(f"→ {direction}")
+            if strength:  parts.append(f"({strength})")
+            lines.append("- " + " ".join(parts))
     else:
         # fallback: global list of features (no signs here)
-        feats = _global_top_drivers.get(lad_key, [])
-        if feats:
-            for f in feats[:max_items]:
-                desc = _explain_driver(f)
-                lines.append(f"- {desc} (top driver)")
+        feats = _global_top_drivers.get(lad_key) or _global_top_drivers.get(f"{lad_key}_enriched") or _global_top_drivers.get(strip_enriched(lad_key)) or []
+        for f in feats[:max_items]:
+            desc = _explain_driver(f)
+            lines.append(f"- {desc} (top driver)")
+
     if not lines:
         return None
     return "Top SHAP drivers:\n" + "\n".join(lines)
+
 
 def _attach_zoning_if_available(lad_key: str, df: pd.DataFrame) -> Optional[str]:
     # try exact, then fuzzy against file stems held in _zoning_blobs
@@ -819,9 +888,10 @@ with tab_zoning:
             st.markdown(shap_txt)
         else:
             st.info("No textual SHAP drivers were found for this LAD.")
-        if lad_key in _shap_notes:
+        note_key = lad_key if lad_key in _shap_notes else f"{lad_key}_enriched" if f"{lad_key}_enriched" in _shap_notes else strip_enriched(lad_key)
+        if note_key in _shap_notes:
             with st.expander("More SHAP notes"):
-                st.markdown(_shap_notes[lad_key])
+                st.markdown(_shap_notes[note_key])
                 
 # Footer (unchanged)
 st.markdown("---")
