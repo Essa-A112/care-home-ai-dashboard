@@ -673,7 +673,6 @@ with tab_map:
         shap_path = os.path.join(SHAP_FOLDER, f"{key}.png")
         st.image(shap_path, width=800) 
         if os.path.exists(shap_path):
-            st.image(shap_path, width=800)
         else:
             st.info("No SHAP image is available for this LAD.")
 
