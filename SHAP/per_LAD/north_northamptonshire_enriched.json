@@ -1,0 +1,82 @@
+{
+  "lad_key": "north_northamptonshire_enriched",
+  "lad_name": "North Northamptonshire Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "House=Price Growth %",
+      "signed": -5.976580829298336,
+      "abs": 5.976580829298336,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -1.961214810068935,
+      "abs": 1.961214810068935,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.3335936127144423,
+      "abs": 0.3335936127144423,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -0.1075021186221352,
+      "abs": 0.1075021186221352,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.0780046659078938,
+      "abs": 0.0780046659078938,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": -0.0696079897718568,
+      "abs": 0.0696079897718568,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": 0.0387574466271496,
+      "abs": 0.0387574466271496,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": -0.0216443877851666,
+      "abs": 0.0216443877851666,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -0.0157236740087093,
+      "abs": 0.0157236740087093,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/north_northamptonshire_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/north_northamptonshire_enriched_zoning_summary.md"
+  }
+}
