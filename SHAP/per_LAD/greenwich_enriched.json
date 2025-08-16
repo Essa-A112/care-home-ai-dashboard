@@ -1,0 +1,82 @@
+{
+  "lad_key": "greenwich_enriched",
+  "lad_name": "Greenwich Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "House=Price Growth %",
+      "signed": -10.221765370325892,
+      "abs": 10.221765370325892,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -5.005516127788727,
+      "abs": 5.005516127788727,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -1.3541281377515546,
+      "abs": 1.3541281377515546,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -0.8093327708407764,
+      "abs": 0.8093327708407764,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.1389189184635059,
+      "abs": 0.1389189184635059,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.1297162051472013,
+      "abs": 0.1297162051472013,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.0813369598853957,
+      "abs": 0.0813369598853957,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.043353966655207,
+      "abs": 0.043353966655207,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.0312486095740522,
+      "abs": 0.0312486095740522,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/greenwich_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/greenwich_enriched_zoning_summary.md"
+  }
+}

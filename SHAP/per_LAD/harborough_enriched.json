@@ -1,0 +1,82 @@
+{
+  "lad_key": "harborough_enriched",
+  "lad_name": "Harborough Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "House=Price Growth %",
+      "signed": -7.845099798646143,
+      "abs": 7.845099798646143,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 4.868613630251109,
+      "abs": 4.868613630251109,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -1.3950778312048653,
+      "abs": 1.3950778312048653,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.345988800685394,
+      "abs": 0.345988800685394,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.2678422010591469,
+      "abs": 0.2678422010591469,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 0.1721525706461965,
+      "abs": 0.1721525706461965,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.1628511665842789,
+      "abs": 0.1628511665842789,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.151535809897136,
+      "abs": 0.151535809897136,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.1174373621583193,
+      "abs": 0.1174373621583193,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/harborough_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/harborough_enriched_zoning_summary.md"
+  }
+}

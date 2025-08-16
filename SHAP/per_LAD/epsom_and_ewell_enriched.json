@@ -1,0 +1,82 @@
+{
+  "lad_key": "epsom_and_ewell_enriched",
+  "lad_name": "Epsom And Ewell Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -6.175270659785692,
+      "abs": 6.175270659785692,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -1.3683502275035575,
+      "abs": 1.3683502275035575,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": -0.6871492968506776,
+      "abs": 0.6871492968506776,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.2654210478883189,
+      "abs": 0.2654210478883189,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.2035062959652616,
+      "abs": 0.2035062959652616,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 0.1117675376429792,
+      "abs": 0.1117675376429792,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.0822909834401875,
+      "abs": 0.0822909834401875,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.0449334303097132,
+      "abs": 0.0449334303097132,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.0027876749355759,
+      "abs": 0.0027876749355759,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/epsom_and_ewell_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/epsom_and_ewell_enriched_zoning_summary.md"
+  }
+}

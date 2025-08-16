@@ -1,0 +1,82 @@
+{
+  "lad_key": "gedling_enriched",
+  "lad_name": "Gedling Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -4.898621011301093,
+      "abs": 4.898621011301093,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": 4.061159873292013,
+      "abs": 4.061159873292013,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -1.0490359147554635,
+      "abs": 1.0490359147554635,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.5054878067479984,
+      "abs": 0.5054878067479984,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.2316696842738219,
+      "abs": 0.2316696842738219,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.228432957606901,
+      "abs": 0.228432957606901,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 0.0935830004890504,
+      "abs": 0.0935830004890504,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.031603634963993,
+      "abs": 0.031603634963993,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": -0.0085194258379314,
+      "abs": 0.0085194258379314,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/gedling_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/gedling_enriched_zoning_summary.md"
+  }
+}

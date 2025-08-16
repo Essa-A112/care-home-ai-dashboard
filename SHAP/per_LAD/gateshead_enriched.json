@@ -1,0 +1,82 @@
+{
+  "lad_key": "gateshead_enriched",
+  "lad_name": "Gateshead Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "House=Price Growth %",
+      "signed": -3.474409390925063,
+      "abs": 3.474409390925063,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -3.462136922495772,
+      "abs": 3.462136922495772,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.2525602838318908,
+      "abs": 0.2525602838318908,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": -0.1937374745662789,
+      "abs": 0.1937374745662789,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": 0.1729190894671823,
+      "abs": 0.1729190894671823,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": 0.0995175282710894,
+      "abs": 0.0995175282710894,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": -0.0938137869774169,
+      "abs": 0.0938137869774169,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.0392042238418186,
+      "abs": 0.0392042238418186,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.0109995875016787,
+      "abs": 0.0109995875016787,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/gateshead_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/gateshead_enriched_zoning_summary.md"
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "lad_key": "great_yarmouth_enriched",
+  "lad_name": "Great Yarmouth Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 10.474952742369224,
+      "abs": 10.474952742369224,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": 5.155508176028359,
+      "abs": 5.155508176028359,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": 3.656678955695954,
+      "abs": 3.656678955695954,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.5155580735257727,
+      "abs": 0.5155580735257727,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 0.2955996725307246,
+      "abs": 0.2955996725307246,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.1270968237605896,
+      "abs": 0.1270968237605896,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": 0.0643781649259383,
+      "abs": 0.0643781649259383,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.0232330394254906,
+      "abs": 0.0232330394254906,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": -0.0144109579965724,
+      "abs": 0.0144109579965724,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/great_yarmouth_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/great_yarmouth_enriched_zoning_summary.md"
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "lad_key": "hastings_enriched",
+  "lad_name": "Hastings Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "House=Price Growth %",
+      "signed": 4.372217187867824,
+      "abs": 4.372217187867824,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 4.029245248732424,
+      "abs": 4.029245248732424,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -1.1232182200797047,
+      "abs": 1.1232182200797047,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.1924978534403182,
+      "abs": 0.1924978534403182,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 0.1686012975412028,
+      "abs": 0.1686012975412028,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.1513360569441264,
+      "abs": 0.1513360569441264,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.1321328269974123,
+      "abs": 0.1321328269974123,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.1285818396809462,
+      "abs": 0.1285818396809462,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": -0.0436272869707745,
+      "abs": 0.0436272869707745,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/hastings_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/hastings_enriched_zoning_summary.md"
+  }
+}

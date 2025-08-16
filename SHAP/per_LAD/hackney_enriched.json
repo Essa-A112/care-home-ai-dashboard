@@ -1,0 +1,82 @@
+{
+  "lad_key": "hackney_enriched",
+  "lad_name": "Hackney Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "House=Price Growth %",
+      "signed": -8.246379186999926,
+      "abs": 8.246379186999926,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -4.572751486407594,
+      "abs": 4.572751486407594,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -1.5120101199243297,
+      "abs": 1.5120101199243297,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -1.0094118381501562,
+      "abs": 1.0094118381501562,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.4026136200281959,
+      "abs": 0.4026136200281959,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.1294055801579715,
+      "abs": 0.1294055801579715,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.1128011774974859,
+      "abs": 0.1128011774974859,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.0745756074128588,
+      "abs": 0.0745756074128588,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.0568321465280264,
+      "abs": 0.0568321465280264,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/hackney_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/hackney_enriched_zoning_summary.md"
+  }
+}
