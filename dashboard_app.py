@@ -1,14 +1,18 @@
 # -*- coding: utf-8 -*-
 """
-Care Home Investment Dashboard (GPT-5, hardened) — Extended
-- Adds SHAP-aware chatbot context using per-LAD JSON/MD + feature guide
-- Adds a dedicated Zoning & Planning tab for available LAD zoning reports
-- Preserves existing behaviours and UI structure
+Care Home Investment Dashboard (GPT-5, hardened)
+- Robust OpenAI v1 client usage with graceful degradation
+- ROI name normalisation from `District`
+- Consistent LAD normalisation across data/files
+- Fuzzy LAD matching for LLM context
+- Choropleth + details + grounded assistant
+- NEW: SHAP explanations wired into the chatbot context (per-LAD + feature guide)
+- NEW: 'Zoning Reports' tab for the LADs you have zoning summaries for (top-5 by score)
 """
 
 from __future__ import annotations
 import os, json, time, re
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Iterable, Optional
 import pandas as pd
 import streamlit as st
 import folium
@@ -22,18 +26,21 @@ st.set_page_config(page_title="Care Home Investment – UK", page_icon="🏡", l
 
 DATA_PATH       = "final_model_data_with_grade.csv"
 GEOJSON_PATH    = "LAD_MAY_2025_Simplified_5.geojson"
+SHAP_FOLDER     = "shap_visuals"               # existing PNGs for Map tab
+GPT_FOLDER      = "gpt_explanation"            # existing per-LAD LLM summaries (.txt)
+ROI_FOLDER      = "roi_gpt"                    # existing ROI summaries (.txt)
+ROI_TABLE_PATH  = "roi_by_district.csv"
 
-# Existing assets
-SHAP_FOLDER     = "shap_visuals"              # PNGs used in Map & Details
-GPT_FOLDER      = "gpt_explanation"           # Per-LAD GPT text blobs
-ROI_FOLDER      = "roi_gpt"                   # Per-LAD ROI text blobs
-ROI_TABLE_PATH  = "roi_by_district.csv"       # Optional table with ROI (%)
-
-# New assets (safe to be missing)
-FEATURE_GUIDE_JSON = "feature_guide.json"     # Field definitions + aliases
-FEATURE_GUIDE_TXT  = "feature_guide.txt"      # Fallback human text (optional)
-PER_LAD_FOLDER     = os.path.join("SHAP", "per_LAD")  # per-LAD JSON/CSV/MD
-ZONING_FOLDER      = "zoning_planning_summary"        # per-LAD zoning MD/TXT
+# NEW paths (non-breaking; all optional and fail-safe)
+PER_LAD_SHAP_DIR    = "SHAP/per_LAD"           # per-LAD JSON/CSV/MD (e.g., adur_enriched.*)
+FEATURE_GUIDE_JSON  = "feature_guide.json"     # feature dictionary (aliases, definitions, ranges)
+FEATURE_GUIDE_TXT   = "feature_guide.txt"      # fallback readable text
+GLOBAL_LAD_SHAP_TOP = "lad_shap_top_drivers.csv"  # optional fallback per-LAD top features
+ZONING_DIR_CANDIDATES = [
+    "zoning_planning_summary",
+    "zoning_reports",
+    "Outputs/gpt_summaries",                   # if copied in-repo
+]
 
 OPENAI_API_KEY        = st.secrets.get("OPENAI_API_KEY", os.getenv("OPENAI_API_KEY", ""))
 OPENAI_MODEL_PRIMARY  = "gpt-5"
@@ -60,10 +67,6 @@ def normalise(name: str) -> str:
         .replace(" ", "_")
     )
 
-def presentable(label: str) -> str:
-    x = str(label).replace("=", " ").replace("_", " ").strip()
-    return re.sub(r"\s+", " ", x).title()
-
 def safe_number(val, digits=2, default="N/A") -> str:
     try:
         if pd.isna(val):
@@ -74,6 +77,23 @@ def safe_number(val, digits=2, default="N/A") -> str:
 
 def shap_available(key: str) -> bool:
     return os.path.exists(os.path.join(SHAP_FOLDER, f"{key}.png"))
+
+def best_match_norm(key_like: str, known: Iterable[str], cutoff: float = 0.84) -> Optional[str]:
+    """Find closest LAD key; also try dropping common suffixes like '_enriched'."""
+    k = normalise(key_like)
+    if k in known:
+        return k
+    # strip common suffixes
+    for suf in ["_enriched", "_lad", "_district"]:
+        if k.endswith(suf):
+            base = k[: -len(suf)]
+            if base in known:
+                return base
+            close = get_close_matches(base, list(known), n=1, cutoff=cutoff)
+            if close:
+                return close[0]
+    close = get_close_matches(k, list(known), n=1, cutoff=cutoff)
+    return close[0] if close else None
 
 @st.cache_data(show_spinner=False)
 def load_base_data() -> pd.DataFrame:
@@ -125,10 +145,8 @@ def load_text_blob(folder: str) -> Dict[str, str]:
     if not os.path.isdir(folder):
         return data
     for f in os.listdir(folder):
-        if f.lower().endswith((".txt", ".md")):
+        if f.lower().endswith(".txt"):
             key = normalise(os.path.splitext(f)[0])
-            # drop suffixes like "_zoning_summary"
-            key = re.sub(r"_(zoning|summary|enriched)$", "", key)
             try:
                 with open(os.path.join(folder, f), "r", encoding="utf-8") as fh:
                     data[key] = fh.read()
@@ -136,103 +154,152 @@ def load_text_blob(folder: str) -> Dict[str, str]:
                 pass
     return data
 
-# ---------- NEW: feature guide + alias map ----------
+# ---------- NEW: SHAP + feature-guide + zoning loaders (optional & safe) ----------
 @st.cache_data(show_spinner=False)
-def load_feature_guide() -> Tuple[Dict[str, dict], Dict[str, str], str]:
+def load_feature_guide() -> Dict[str, dict]:
     """
-    Returns:
-        canonical -> metadata dict,
-        alias_map (alias-token -> canonical name),
-        plain_text_fallback (from TXT if present)
+    Returns alias->entry mapping. Each entry keeps fields like:
+    dataset_column, definition, expected_direction, why_it_matters, unit
     """
-    canon: Dict[str, dict] = {}
-    alias_map: Dict[str, str] = {}
-    plain_txt = ""
+    guide: Dict[str, dict] = {}
     if os.path.exists(FEATURE_GUIDE_JSON):
         try:
-            items = json.load(open(FEATURE_GUIDE_JSON, "r", encoding="utf-8"))
+            with open(FEATURE_GUIDE_JSON, "r", encoding="utf-8") as fh:
+                items = json.load(fh)
             for it in items:
-                canonical = str(it.get("dataset_column"))
-                if not canonical:
-                    continue
-                canon[canonical] = it
-                # map canonical and its aliases to canonical
-                alias_map[canonical] = canonical
-                for a in it.get("aliases", []):
-                    alias_map[str(a)] = canonical
+                # map canonical + aliases
+                names = [it.get("dataset_column","")]
+                names += it.get("aliases", []) or []
+                for nm in names:
+                    if nm:
+                        guide[normalise(nm)] = it
         except Exception:
             pass
-    if os.path.exists(FEATURE_GUIDE_TXT):
-        try:
-            plain_txt = open(FEATURE_GUIDE_TXT, "r", encoding="utf-8").read()
-        except Exception:
-            pass
-    return canon, alias_map, plain_txt
+    # TXT is kept only for display; not used for alias mapping to keep it robust
+    return guide
 
-# ---------- NEW: per-LAD SHAP artifacts (JSON/MD) ----------
 @st.cache_data(show_spinner=False)
-def load_per_lad_artifacts(folder: str) -> Dict[str, dict]:
+def load_per_lad_shap_drivers() -> Dict[str, List[dict]]:
     """
-    Loads *_enriched.json if present, and paired *_enriched.md if present.
-    Returns dict keyed by norm_lad with shape:
-        {
-          "drivers": [ { "term": "...", "signed": ..., "direction": "up|down|neutral", ... }, ... ],
-          "md": "markdown text" | None
-        }
+    Load per-LAD SHAP drivers from JSON/CSV under PER_LAD_SHAP_DIR.
+    Returns norm_lad -> list of driver dicts with at least 'term', 'signed', 'direction', 'strength'
     """
-    out: Dict[str, dict] = {}
-    if not os.path.isdir(folder):
+    out: Dict[str, List[dict]] = {}
+    if not os.path.isdir(PER_LAD_SHAP_DIR):
         return out
+    for f in os.listdir(PER_LAD_SHAP_DIR):
+        path = os.path.join(PER_LAD_SHAP_DIR, f)
+        base, ext = os.path.splitext(f)
+        key_guess = normalise(base)
+        try:
+            if ext.lower() == ".json":
+                with open(path, "r", encoding="utf-8") as fh:
+                    obj = json.load(fh)
+                # prefer explicit LAD key if present
+                lad_key = normalise(obj.get("lad_key", base))
+                drivers = obj.get("drivers", [])
+                if isinstance(drivers, list) and drivers:
+                    out[lad_key] = drivers
+            elif ext.lower() == ".csv":
+                df = pd.read_csv(path)
+                # expect ('term','signed'...) or SHAP-ish columns
+                cols = [c.lower() for c in df.columns]
+                if "term" in cols or "feature" in cols:
+                    # normalise column names
+                    ren = {}
+                    for c in df.columns:
+                        lc = c.lower()
+                        if lc == "feature": ren[c] = "term"
+                        elif lc == "value": ren[c] = "signed"
+                    if ren:
+                        df = df.rename(columns=ren)
+                    drivers = df.to_dict("records")
+                    out[key_guess] = drivers
+        except Exception:
+            pass
+    return out
 
-    # JSON
-    for f in os.listdir(folder):
-        if f.lower().endswith(".json"):
-            key = normalise(os.path.splitext(f)[0])
-            key = key.replace("_enriched", "")
-            try:
-                js = json.load(open(os.path.join(folder, f), "r", encoding="utf-8"))
-                out.setdefault(key, {})["drivers"] = js.get("drivers", [])
-            except Exception:
-                pass
-    # MD
-    for f in os.listdir(folder):
+@st.cache_data(show_spinner=False)
+def load_per_lad_shap_notes() -> Dict[str, str]:
+    """
+    Optional readable markdown notes per LAD in PER_LAD_SHAP_DIR (*.md).
+    """
+    out: Dict[str,str] = {}
+    if not os.path.isdir(PER_LAD_SHAP_DIR):
+        return out
+    for f in os.listdir(PER_LAD_SHAP_DIR):
         if f.lower().endswith(".md"):
-            key = normalise(os.path.splitext(f)[0]).replace("_enriched", "")
+            base = os.path.splitext(f)[0]
             try:
-                out.setdefault(key, {})["md"] = open(os.path.join(folder, f), "r", encoding="utf-8").read()
+                with open(os.path.join(PER_LAD_SHAP_DIR, f), "r", encoding="utf-8") as fh:
+                    out[normalise(base)] = fh.read()
             except Exception:
                 pass
     return out
 
-# ---------- NEW: Zoning summaries ----------
 @st.cache_data(show_spinner=False)
-def load_zoning_summaries(folder: str) -> Dict[str, str]:
-    return load_text_blob(folder)
+def load_global_lad_top_drivers() -> Dict[str, List[str]]:
+    """
+    Optional fallback CSV mapping LAD -> top feature names (strings).
+    """
+    out: Dict[str, List[str]] = {}
+    if not os.path.exists(GLOBAL_LAD_SHAP_TOP):
+        return out
+    try:
+        df = pd.read_csv(GLOBAL_LAD_SHAP_TOP)
+        # heuristics: first column = lad name; next few columns are features
+        if df.shape[1] >= 2:
+            name_col = df.columns[0]
+            for _, r in df.iterrows():
+                key = normalise(r[name_col])
+                feats = [str(v) for v in r.tolist()[1:] if isinstance(v, str) and v.strip()]
+                if feats:
+                    out[key] = feats
+    except Exception:
+        pass
+    return out
 
-# =========================
-# INTENT HEURISTICS
-# =========================
+@st.cache_data(show_spinner=False)
+def load_zoning_blobs() -> Dict[str, str]:
+    """
+    Search candidate directories and collect *.md / *.txt zoning summaries.
+    Keyed by normalised file stem.
+    """
+    out: Dict[str, str] = {}
+    for folder in ZONING_DIR_CANDIDATES:
+        if not os.path.isdir(folder):
+            continue
+        for f in os.listdir(folder):
+            if f.lower().endswith((".md", ".txt")):
+                base = normalise(os.path.splitext(f)[0])
+                try:
+                    with open(os.path.join(folder, f), "r", encoding="utf-8") as fh:
+                        out[base] = fh.read()
+                except Exception:
+                    pass
+    return out
+
+# ---------- INTENT ----------
 INTENT_KEYWORDS = {
     "compare": ["compare", "vs", "versus", "better than", "which is better"],
     "shap": ["shap", "feature importance", "explain visual", "drivers"],
     "roi": ["roi", "return", "returns", "appreciation", "yield"],
     "why": ["why", "rationale", "reason"],
-    "action": ["invest", "proceed", "avoid", "recommend", "should we"],
-    "zoning": ["zoning", "planning", "policy", "use class", "local plan"]
+    "action": ["invest", "proceed", "avoid", "recommend", "should we"]
 }
 
 def infer_intent(user_query: str, matched_lads: list, context: str) -> dict:
     q = user_query.lower()
     flags = {
         "is_compare": len(matched_lads) >= 2 or any(k in q for k in INTENT_KEYWORDS["compare"]),
-        "wants_shap": any(k in q for k in INTENT_KEYWORDS["shap"]) or "SHAP_Primer" in context,
+        "wants_shap": any(k in q for k in INTENT_KEYWORDS["shap"]) or "SHAP_Primer" in context or "SHAP_Drivers" in context,
         "wants_roi": any(k in q for k in INTENT_KEYWORDS["roi"]) or "ROI%" in context or "ROI_Summary" in context,
         "wants_rationale": any(k in q for k in INTENT_KEYWORDS["why"]),
         "wants_action": any(k in q for k in INTENT_KEYWORDS["action"]),
-        "wants_zoning": any(k in q for k in INTENT_KEYWORDS["zoning"]) or "[Zoning]" in context,
         "has_rich_context": len(context) > 800
     }
     return flags
+
 
 # =========================
 # OPENAI (v1) – graceful fallback
@@ -271,7 +338,7 @@ def ask_gpt_with_retry(prompt: str) -> str:
     return call_openai(prompt, OPENAI_MODEL_FALLBACK)
 
 # =========================
-# LLM CONTEXT
+# LLM CONTEXT HELPERS
 # =========================
 def build_lad_snapshot(df: pd.DataFrame, roi: pd.DataFrame, lad_key: str) -> str:
     row = df.loc[df["norm_lad"] == lad_key]
@@ -301,33 +368,74 @@ def extract_possible_lads(text: str) -> List[str]:
     tokens = re.findall(r"[A-Za-z][A-Za-z\s\-\']{2,}", text)
     return [normalise(t) for t in tokens]
 
-def summarise_shap_drivers(drivers: List[dict], alias_map: Dict[str,str], canon_meta: Dict[str,dict], top_n: int = 5) -> str:
-    if not drivers:
-        return "No SHAP drivers were supplied for this LAD."
-    # sort by absolute impact if present
-    try:
-        drivers = sorted(drivers, key=lambda d: float(d.get("abs", 0)), reverse=True)
-    except Exception:
-        pass
-    lines = []
-    for d in drivers[:top_n]:
-        raw = str(d.get("term", ""))
-        canonical = alias_map.get(raw, raw)
-        meta = canon_meta.get(canonical, {})
-        disp = presentable(canonical)
-        direction = d.get("direction", "neutral")
-        signed = d.get("signed", None)
-        exp_dir = meta.get("expected_direction", None)
-        why = meta.get("why_it_matters", "")
-        if signed is not None:
-            signed_str = f"{signed:+.2f}"
-        else:
-            signed_str = direction
-        if exp_dir:
-            lines.append(f"- {disp}: {signed_str} vs expected '{exp_dir}'. {why}")
-        else:
-            lines.append(f"- {disp}: {signed_str}. {why}")
-    return "\n".join(lines)
+# Globals filled later (safe to reference inside functions)
+_feature_guide: Dict[str, dict] = {}
+_shap_perlad: Dict[str, List[dict]] = {}
+_shap_notes: Dict[str, str] = {}
+_global_top_drivers: Dict[str, List[str]] = {}
+_zoning_blobs: Dict[str, str] = {}
+
+def _explain_driver(term: str) -> str:
+    """Return 'name — quick why/how' using feature guide if known."""
+    tkey = normalise(term)
+    info = _feature_guide.get(tkey)
+    if not info:
+        # also try mapping via canonical name if aliases are capitalised with symbols
+        # e.g., transform "House=Price Growth %" -> "house_price_growth_%"
+        tkey2 = normalise(term.replace("=", " ").replace("%", "percent"))
+        info = _feature_guide.get(tkey2)
+    if info:
+        exp_dir = info.get("expected_direction", "")
+        why = info.get("why_it_matters", "")
+        unit = info.get("unit", "")
+        canon = info.get("dataset_column", term)
+        bits = [canon]
+        if unit: bits.append(f"[{unit}]")
+        if exp_dir: bits.append(f"({exp_dir.replace('_',' ')})")
+        line_head = " ".join(bits)
+        if why:
+            return f"{line_head}: {why}"
+        return line_head
+    return term
+
+def _format_shap_drivers_for_context(lad_key: str, max_items: int = 6) -> Optional[str]:
+    """
+    Build a SHAP driver snippet for the LLM context.
+    Priority: per-LAD JSON/CSV -> global fallback list -> none.
+    """
+    drivers = _shap_perlad.get(lad_key)
+    lines: List[str] = []
+    if drivers:
+        for d in drivers[:max_items]:
+            term = d.get("term") or d.get("feature") or ""
+            if not term:
+                continue
+            direction = d.get("direction") or ("up" if float(d.get("signed", 0)) > 0 else "down")
+            strength  = (d.get("strength") or "").lower() or "n/a"
+            desc = _explain_driver(term)
+            lines.append(f"- {desc} → {direction} ({strength})")
+    else:
+        # fallback: global list of features (no signs here)
+        feats = _global_top_drivers.get(lad_key, [])
+        if feats:
+            for f in feats[:max_items]:
+                desc = _explain_driver(f)
+                lines.append(f"- {desc} (top driver)")
+    if not lines:
+        return None
+    return "Top SHAP drivers:\n" + "\n".join(lines)
+
+def _attach_zoning_if_available(lad_key: str, df: pd.DataFrame) -> Optional[str]:
+    # try exact, then fuzzy against file stems held in _zoning_blobs
+    if lad_key in _zoning_blobs:
+        return _zoning_blobs[lad_key][:1600] + ("\n[...]" if len(_zoning_blobs[lad_key]) > 1600 else "")
+    # try by display name variants
+    lad_name = df.loc[df["norm_lad"] == lad_key, "Local_Authority"].iloc[0] if not df.loc[df["norm_lad"] == lad_key].empty else ""
+    guess = best_match_norm(lad_name, _zoning_blobs.keys(), cutoff=0.8)
+    if guess and guess in _zoning_blobs:
+        txt = _zoning_blobs[guess]
+        return txt[:1600] + ("\n[...]" if len(txt) > 1600 else "")
+    return None
 
 def build_context_from_query(
     df: pd.DataFrame,
@@ -335,10 +443,6 @@ def build_context_from_query(
     roi_blobs: Dict[str, str],
     gpt_blobs: Dict[str, str],
     user_query: str,
-    perlad: Dict[str, dict] | None = None,
-    alias_map: Dict[str,str] | None = None,
-    canon_meta: Dict[str,dict] | None = None,
-    zoning_blobs: Dict[str,str] | None = None,
     max_lads: int = 6,
 ) -> Tuple[str, List[str]]:
     q = user_query.strip().lower()
@@ -374,48 +478,30 @@ def build_context_from_query(
         for key in matched:
             parts.append(build_lad_snapshot(df, roi, key))
 
-    # Per-LAD sections
-    perlad = perlad or {}
-    alias_map = alias_map or {}
-    canon_meta = canon_meta or {}
-    zoning_blobs = zoning_blobs or {}
-
     for key in matched:
         parts.append(build_lad_snapshot(df, roi, key))
-
-        # SHAP drivers (JSON)
-        if key in perlad and perlad[key].get("drivers"):
-            parts.append(f"[SHAP_Drivers:{key}]\n" + summarise_shap_drivers(perlad[key]["drivers"], alias_map, canon_meta))
-        else:
-            # hint to model when user asked for SHAP explicitly
-            if any(k in q for k in ["shap", "feature importance", "drivers"]):
-                parts.append(f"[SHAP_Drivers:{key}] No SHAP driver JSON is available for this LAD.")
-
-        # per-LAD MD (narrative)
-        if key in perlad and perlad[key].get("md"):
-            s = perlad[key]["md"].strip()
-            parts.append(f"[SHAP_MD:{key}]\n" + (s[:1200] + ("\n[...]" if len(s) > 1200 else "")))
-
-        # Existing GPT/ROI text blobs
         if key in gpt_blobs:
             s = gpt_blobs[key].strip()
             parts.append(f"[LLM_Summary:{key}]\n" + (s[:1500] + ("\n[...]" if len(s) > 1500 else "")))
         if key in roi_blobs:
             s = roi_blobs[key].strip()
             parts.append(f"[ROI_Summary:{key}]\n" + (s[:1200] + ("\n[...]" if len(s) > 1200 else "")))
+        # NEW: SHAP drivers (per-LAD or fallback) + concise feature explanations
+        shap_txt = _format_shap_drivers_for_context(key)
+        if shap_txt:
+            parts.append(f"[SHAP_Drivers:{key}]\n{shap_txt}")
+        # NEW: attach zoning report excerpt if available
+        ztxt = _attach_zoning_if_available(key, df)
+        if ztxt:
+            parts.append(f"[Zoning_Report:{key}]\n{ztxt}")
 
-        # Zoning snippets if available
-        if key in zoning_blobs:
-            s = zoning_blobs[key].strip()
-            parts.append(f"[Zoning:{key}]\n" + (s[:1200] + ("\n[...]" if len(s) > 1200 else "")))
-
-    # Global primers to steer the model
-    parts.append(
-        "[SHAP_Primer]\n"
-        "SHAP indicates each feature’s contribution to the investment score. "
-        "Positive values increase the score; negative values reduce it. "
-        "Summarise only drivers present in [SHAP_Drivers:*] or [SHAP_MD:*]."
-    )
+    # keep SHAP primer when relevant to the query
+    if any(k in q for k in ["shap", "explain visual", "feature importance"]):
+        parts.append(
+            "[SHAP_Primer]\n"
+            "SHAP shows per-feature contribution to the investment score. "
+            "Positive values increase the score; negative values reduce it."
+        )
 
     return "\n\n".join(p for p in parts if p), matched
 
@@ -431,29 +517,24 @@ def build_prompt(context: str, user_query: str, matched: list | None = None) -> 
     adaptive_rules = []
     if intent["is_compare"]:
         adaptive_rules.append(
-            "If multiple LADs are relevant, include a compact comparison table: LAD | Score/100 | Grade | ROI% (if available), then discuss trade-offs."
+            "If multiple LADs are relevant, include a compact comparison table: LAD | Score/100 | Grade | ROI% (if available), then discuss the trade-offs."
         )
     if intent["wants_shap"]:
         adaptive_rules.append(
-            "When [SHAP_Drivers:*] or [SHAP_MD:*] exists, summarise the top 2–4 drivers and their direction; otherwise state 'SHAP unavailable'."
+            "If SHAP is available, summarise the top 2–4 drivers and their direction; where present, use the brief feature explanations in [SHAP_Drivers]."
         )
     if intent["wants_roi"]:
         adaptive_rules.append(
-            "Where ROI% is present, interpret trend/level and relate it to the investment score."
-        )
-    if intent["wants_zoning"]:
-        adaptive_rules.append(
-            "Use [Zoning:*] to cite relevant planning policies or constraints succinctly."
+            "Where ROI% is present in context, interpret it briefly (trend/level) and relate it to the investment score."
         )
     if intent["wants_rationale"]:
-        adaptive_rules.append("Include a brief rationale tying numbers to the conclusion.")
+        adaptive_rules.append("Include a brief rationale that ties the numbers to the conclusion.")
     if intent["wants_action"]:
-        adaptive_rules.append("Finish with one clear action: Proceed / Proceed with caution / Defer, with a one-line reason.")
+        adaptive_rules.append("Finish with one clear action: Proceed / Proceed with caution / Defer, and a one-line reason.")
     if intent["has_rich_context"]:
-        adaptive_rules.append("Add a short 'Risks' or 'Upside catalysts' section if it improves the decision.")
+        adaptive_rules.append("Add short sections only if they sharpen the decision (e.g., risks, catalysts).")
 
-    depth_line = "Keep to 3–6 sentences for simple queries; expand to short paragraphs when comparison or explanation merits it."
-
+    depth_line = "Keep to 3–6 sentences if the query is simple; expand only when comparison/explanation merits it."
     rules_block = "\n- ".join(core_rules + adaptive_rules + [depth_line])
 
     return f"""Role: UK care-home investment analyst.
@@ -474,14 +555,18 @@ Output guidance:
 st.title("🏡 Care Home Investment Dashboard (UK)")
 st.caption("MSc Project – AI for Care Home Investment Support (2025)")
 
-df               = load_base_data()
-geojson          = load_geojson()
-roi_table        = load_roi_table()
-roi_blobs        = load_text_blob(ROI_FOLDER)
-gpt_blobs        = load_text_blob(GPT_FOLDER)
-canon_meta, alias_map, feature_txt = load_feature_guide()
-perlad_artifacts = load_per_lad_artifacts(PER_LAD_FOLDER)
-zoning_blobs     = load_zoning_summaries(ZONING_FOLDER)
+df           = load_base_data()
+geojson      = load_geojson()
+roi_table    = load_roi_table()
+roi_blobs    = load_text_blob(ROI_FOLDER)
+gpt_blobs    = load_text_blob(GPT_FOLDER)
+
+# NEW: optional data (safe if missing)
+_feature_guide        = load_feature_guide()
+_shap_perlad          = load_per_lad_shap_drivers()
+_shap_notes           = load_per_lad_shap_notes()
+_global_top_drivers   = load_global_lad_top_drivers()
+_zoning_blobs         = load_zoning_blobs()
 
 # Sidebar
 st.sidebar.header("Filters")
@@ -494,9 +579,12 @@ filtered = df[
     & df["Investment_Potential_Score"].between(score_min, score_max)
 ].copy()
 
-tab_overview, tab_map, tab_zoning, tab_assistant = st.tabs(["Overview", "Map & Details", "Zoning & Planning", "LLM Assistant"])
+# ---------- Tabs (existing + NEW 'Zoning Reports') ----------
+tab_overview, tab_map, tab_assistant, tab_zoning = st.tabs(
+    ["Overview", "Map & Details", "LLM Assistant", "Zoning Reports"]
+)
 
-# ===== Overview
+# Overview (unchanged)
 with tab_overview:
     st.subheader("National snapshot")
     c1, c2, c3 = st.columns(3)
@@ -515,7 +603,7 @@ with tab_overview:
     )
     st.dataframe(top, use_container_width=True)
 
-# ===== Map & details
+# Map & details (unchanged)
 with tab_map:
     st.subheader("Clickable LAD map")
     m = folium.Map(location=DEFAULT_MAP_CENTER, zoom_start=DEFAULT_MAP_ZOOM, tiles="cartodbpositron")
@@ -583,19 +671,7 @@ with tab_map:
 
         st.markdown("##### SHAP visual")
         shap_path = os.path.join(SHAP_FOLDER, f"{key}.png")
-        st.image(shap_path, width=800) if os.path.exists(shap_path) else st.info("No SHAP image is available for this LAD.")
-
-        st.markdown("##### SHAP drivers (from per-LAD JSON)")
-        if key in perlad_artifacts and perlad_artifacts[key].get("drivers"):
-            st.markdown(summarise_shap_drivers(perlad_artifacts[key]["drivers"], alias_map, canon_meta))
-        else:
-            st.info("No per-LAD SHAP driver JSON is available for this LAD.")
-
-        st.markdown("##### Narrative (per-LAD MD, if provided)")
-        if key in perlad_artifacts and perlad_artifacts[key].get("md"):
-            st.markdown(perlad_artifacts[key]["md"])
-        else:
-            st.info("No per-LAD narrative MD has been provided for this LAD.")
+        st.image(shap_path, use_column_width=True) if os.path.exists(shap_path) else st.info("No SHAP image is available for this LAD.")
 
         st.markdown("##### LLM summary")
         gpt_path = os.path.join(GPT_FOLDER, f"{key}.txt")
@@ -613,53 +689,10 @@ with tab_map:
         else:
             st.info("No ROI simulation summary was provided for this LAD.")
 
-        st.markdown("##### Zoning & planning snippet")
-        if key in zoning_blobs:
-            st.markdown(zoning_blobs[key])
-        else:
-            st.info("No zoning/planning summary is available for this LAD.")
-
-# ===== NEW: Zoning & Planning tab
-with tab_zoning:
-    st.subheader("Zoning & Planning – available LADs")
-    available_keys = sorted(zoning_blobs.keys())
-    if not available_keys:
-        st.info("No zoning reports were located in the project folder.")
-    else:
-        # Determine top 5 among those with zoning, ranked by score
-        df_z = df[df["norm_lad"].isin(available_keys)].copy()
-        df_z = df_z.sort_values("Investment_Potential_Score", ascending=False)
-        top5_keys = df_z["norm_lad"].head(5).tolist()
-
-        st.markdown("**Top zoning-covered LADs (by score):**")
-        st.dataframe(
-            df_z.loc[:, ["Local_Authority","Investment_Potential_Score","Investment_Grade"]].head(5).rename(
-                columns={"Local_Authority":"LAD","Investment_Potential_Score":"Score","Investment_Grade":"Grade"}
-            ),
-            use_container_width=True,
-            hide_index=True
-        )
-
-        # Selector to browse any available zoning report
-        lookup_name = {k: df.loc[df["norm_lad"] == k, "Local_Authority"].iloc[0] if (df["norm_lad"]==k).any() else k for k in available_keys}
-        default_idx = 0
-        if top5_keys:
-            default_idx = available_keys.index(top5_keys[0]) if top5_keys[0] in available_keys else 0
-
-        chosen_key = st.selectbox(
-            "Select a LAD with a zoning report:",
-            options=available_keys,
-            index=default_idx,
-            format_func=lambda k: lookup_name.get(k, k).title()
-        )
-
-        st.markdown(f"#### {lookup_name.get(chosen_key, chosen_key)} — Zoning Report")
-        st.markdown(zoning_blobs[chosen_key])
-
-# ===== LLM Assistant
+# LLM Assistant (extended only by context enrichment; UI unchanged)
 with tab_assistant:
     st.subheader("🧠 Investment Assistant (GPT-5)")
-    st.write("Examples: *What is the ROI in York?* · *Compare Camden and Southwark* · *Explain the SHAP drivers for Leeds* · *Any planning constraints for Woking?*")
+    st.write("Examples: *What is the ROI in York?* · *Compare Camden and Southwark* · *Explain the SHAP for Leeds* · *Any zoning constraints in Sheffield?*")
 
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
@@ -672,21 +705,82 @@ with tab_assistant:
         st.chat_message("user").markdown(user_query)
         st.session_state.chat_history.append(("user", user_query))
         with st.spinner("Generating grounded answer…"):
-            context, matched = build_context_from_query(
-                df, roi_table, roi_blobs, gpt_blobs, user_query,
-                perlad=perlad_artifacts,
-                alias_map=alias_map,
-                canon_meta=canon_meta,
-                zoning_blobs=zoning_blobs
-            )
+            context, matched = build_context_from_query(df, roi_table, roi_blobs, gpt_blobs, user_query)
             prompt = build_prompt(context, user_query, matched)
             answer = ask_gpt_with_retry(prompt)
         st.chat_message("assistant").markdown(answer)
         st.session_state.chat_history.append(("assistant", answer))
 
-# Footer
+# NEW: Zoning Reports tab (non-intrusive)
+with tab_zoning:
+    st.subheader("📑 Zoning & Planning Reports")
+    if not _zoning_blobs:
+        st.info("No zoning reports found in the repository paths.")
+    else:
+        # Determine which zoning files map to real LADs and rank by score
+        known = df["norm_lad"].unique().tolist()
+        mapped: List[Tuple[str,str,float,str]] = []  # (lad_key, display_name, score, grade)
+        for zkey in _zoning_blobs.keys():
+            lad_key = best_match_norm(zkey, known, cutoff=0.80)
+            if not lad_key:
+                # try match by file stem vs Local_Authority names
+                guess = best_match_norm(zkey.replace("_", " "), known, cutoff=0.80)
+                lad_key = guess if guess else None
+            if lad_key:
+                row = df.loc[df["norm_lad"] == lad_key]
+                if not row.empty:
+                    r = row.iloc[0]
+                    mapped.append((lad_key, r["Local_Authority"], float(r["Investment_Potential_Score"]), str(r["Investment_Grade"])))
+
+        if not mapped:
+            st.info("Zoning files were found but could not be matched to LADs in the dataset.")
+        else:
+            mapped_sorted = sorted(mapped, key=lambda x: x[2], reverse=True)
+            top5 = mapped_sorted[:5]
+
+            st.markdown("These are the LADs with available zoning summaries (top 5 by score shown):")
+            st.dataframe(
+                pd.DataFrame(
+                    [{"LAD": d[1], "Score": d[2], "Grade": d[3]} for d in top5]
+                ),
+                use_container_width=True, hide_index=True
+            )
+
+            # Selection among available zoning LADs
+            options = [d[1] for d in mapped_sorted]
+            pick = st.selectbox("Select a LAD with a zoning report:", options, index=0)
+            sel = next(d for d in mapped_sorted if d[1] == pick)
+            lad_key = sel[0]
+
+            # Quick metrics
+            r = df.loc[df["norm_lad"] == lad_key].iloc[0]
+            c1,c2,c3,c4 = st.columns(4)
+            c1.metric("Score", f"{safe_number(r.get('Investment_Potential_Score'),2)} / 100")
+            c2.metric("Grade", str(r.get("Investment_Grade")))
+            c3.metric("% aged 65+", safe_number(r.get("Percent_65plus"),2))
+            c4.metric("House price growth %", safe_number(r.get("House_Price_Growth_%"),2))
+
+            st.markdown("#### Zoning summary")
+            # fetch the exact zoning text used for this mapped lad
+            z_exact_key = lad_key if lad_key in _zoning_blobs else best_match_norm(r["Local_Authority"], _zoning_blobs.keys(), cutoff=0.8)
+            if z_exact_key and z_exact_key in _zoning_blobs:
+                st.markdown(_zoning_blobs[z_exact_key])
+            else:
+                st.info("Zoning summary matched, but file could not be retrieved.")
+
+            # Optional: SHAP drivers & notes for extra context (if present)
+            st.markdown("#### SHAP context (text)")
+            shap_txt = _format_shap_drivers_for_context(lad_key, max_items=6)
+            if shap_txt:
+                st.markdown(shap_txt)
+            else:
+                st.info("No textual SHAP drivers were found for this LAD.")
+            # per-LAD markdown notes (if any)
+            if lad_key in _shap_notes:
+                with st.expander("More SHAP notes"):
+                    st.markdown(_shap_notes[lad_key])
+
+# Footer (unchanged)
 st.markdown("---")
-st.caption(
-    "Created for the MSc Project (2025). Data includes demographic, financial, and quality-of-care features. "
-    "SHAP images, per-LAD JSON/MD, LLM text, ROI notes, and zoning summaries are loaded when available."
-)
+st.caption("Created for the MSc Project (2025). Data includes demographic, financial, and quality-of-care features. SHAP images and text blobs are loaded when available.")
+
