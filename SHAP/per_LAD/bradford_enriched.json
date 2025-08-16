@@ -1,0 +1,82 @@
+{
+  "lad_key": "bradford_enriched",
+  "lad_name": "Bradford Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 4.564021579138043,
+      "abs": 4.564021579138043,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": 1.959191518207405,
+      "abs": 1.959191518207405,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -0.61472611191656,
+      "abs": 0.61472611191656,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": 0.4155103510750791,
+      "abs": 0.4155103510750791,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": -0.2475579549930529,
+      "abs": 0.2475579549930529,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": 0.1982669200403689,
+      "abs": 0.1982669200403689,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.1409705209983968,
+      "abs": 0.1409705209983968,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.1299153633374157,
+      "abs": 0.1299153633374157,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.1160667689467902,
+      "abs": 0.1160667689467902,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/bradford_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/bradford_enriched_zoning_summary.md"
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "lad_key": "bournemouth_christchurch_and_poole_enriched",
+  "lad_name": "Bournemouth Christchurch And Poole Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -7.9832552797449985,
+      "abs": 7.9832552797449985,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -1.7702771686656966,
+      "abs": 1.7702771686656966,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": -1.0913044758588808,
+      "abs": 1.0913044758588808,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.6026308162577136,
+      "abs": 0.6026308162577136,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.3185813039114213,
+      "abs": 0.3185813039114213,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.2500038932196003,
+      "abs": 0.2500038932196003,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.2236040618251162,
+      "abs": 0.2236040618251162,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.0398015818025264,
+      "abs": 0.0398015818025264,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": -0.0176741323918703,
+      "abs": 0.0176741323918703,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/bournemouth_christchurch_and_poole_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/bournemouth_christchurch_and_poole_enriched_zoning_summary.md"
+  }
+}

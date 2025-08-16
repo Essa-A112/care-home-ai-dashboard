@@ -1,0 +1,82 @@
+{
+  "lad_key": "brent_enriched",
+  "lad_name": "Brent Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "House=Price Growth %",
+      "signed": -10.69632052067554,
+      "abs": 10.69632052067554,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -5.492026309212939,
+      "abs": 5.492026309212939,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -1.1392909874889574,
+      "abs": 1.1392909874889574,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -1.102182566204423,
+      "abs": 1.102182566204423,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.155461509391131,
+      "abs": 0.155461509391131,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.1156417303706152,
+      "abs": 0.1156417303706152,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.064768509520806,
+      "abs": 0.064768509520806,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.0598406361957203,
+      "abs": 0.0598406361957203,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.0480372738070939,
+      "abs": 0.0480372738070939,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/brent_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/brent_enriched_zoning_summary.md"
+  }
+}

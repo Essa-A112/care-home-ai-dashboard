@@ -1,0 +1,82 @@
+{
+  "lad_key": "bristol_city_of_enriched",
+  "lad_name": "Bristol City Of Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -8.407875108948407,
+      "abs": 8.407875108948407,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -1.8480637574862355,
+      "abs": 1.8480637574862355,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -1.2296607878455346,
+      "abs": 1.2296607878455346,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": -1.0866413568053443,
+      "abs": 1.0866413568053443,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.2477211377234868,
+      "abs": 0.2477211377234868,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.2177489964917758,
+      "abs": 0.2177489964917758,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.1500170365506221,
+      "abs": 0.1500170365506221,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.0477628082498945,
+      "abs": 0.0477628082498945,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.0179600638670096,
+      "abs": 0.0179600638670096,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/bristol_city_of_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/bristol_city_of_enriched_zoning_summary.md"
+  }
+}
