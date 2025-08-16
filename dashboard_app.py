@@ -650,10 +650,22 @@ with tab_map:
 with tab_zoning:
     st.subheader("Zoning & planning summaries (selected LADs)")
 
-    available_lads = sorted({ df.loc[df["norm_lad"].isin(zoning_md.keys()), "Local_Authority"].iloc[i]
-                              for i in range(len(df)) if df["norm_lad"].iloc[i] in zoning_md })
+    # Build a robust list of LADs for which we actually have zoning content
+    zoning_index = df[norm_lad].isin(zoning_md.keys())
+    
+    available_lads = (
+        df.loc[zoning_index, "Local_Authority"]
+          .dropna()
+          .astype(str)
+          .drop_duplicates()
+          .sort_values()
+          .tolist()
+    )
     if not available_lads:
-        st.info("No zoning summaries found. Add files to the `zoning_planning_summary/` folder to enable this section.")
+    st.info("No zoning reports available for the current filter.")
+    st.stop()  # or `return` if you're inside a function
+
+
     else:
         zlad = st.selectbox("LAD with zoning summary:", available_lads, index=0)
         key  = normalise(zlad)
