@@ -94,6 +94,25 @@ def best_match_norm(key_like: str, known: Iterable[str], cutoff: float = 0.84) -
                 return close[0]
     close = get_close_matches(k, list(known), n=1, cutoff=cutoff)
     return close[0] if close else None
+    
+def clean_stem(stem: str) -> str:
+    s = normalise(stem)
+    SUFFIXES = [
+        "_zoning_planning_summary", "_zoning_summary", "_planning_summary",
+        "_zoning_report", "_planning_report", "_zoning", "_planning",
+        "_summary", "_report", "_reports", "_llm", "_gpt", "_notes",
+        "_enriched"  # last so "adur_enriched" -> "adur"
+    ]
+    changed = True
+    while changed:
+        changed = False
+        for suf in SUFFIXES:
+            if s.endswith(suf):
+                s = s[: -len(suf)]
+                changed = True
+    s = re.sub(r"_+", "_", s).strip("_")
+    return s
+
 
 @st.cache_data(show_spinner=False)
 def load_base_data() -> pd.DataFrame:
@@ -261,23 +280,26 @@ def load_global_lad_top_drivers() -> Dict[str, List[str]]:
 
 @st.cache_data(show_spinner=False)
 def load_zoning_blobs() -> Dict[str, str]:
-    """
-    Search candidate directories and collect *.md / *.txt zoning summaries.
-    Keyed by normalised file stem.
-    """
     out: Dict[str, str] = {}
     for folder in ZONING_DIR_CANDIDATES:
         if not os.path.isdir(folder):
             continue
         for f in os.listdir(folder):
-            if f.lower().endswith((".md", ".txt")):
-                base = normalise(os.path.splitext(f)[0])
-                try:
-                    with open(os.path.join(folder, f), "r", encoding="utf-8") as fh:
-                        out[base] = fh.read()
-                except Exception:
-                    pass
+            if not f.lower().endswith((".md", ".txt")):
+                continue  # only render text/markdown
+            stem = os.path.splitext(f)[0]
+            path = os.path.join(folder, f)
+            try:
+                with open(path, "r", encoding="utf-8") as fh:
+                    text = fh.read()
+            except Exception:
+                continue
+            key_orig  = normalise(stem)
+            key_clean = clean_stem(stem)
+            out[key_orig]  = text
+            out[key_clean] = text
     return out
+
 
 # ---------- INTENT ----------
 INTENT_KEYWORDS = {
@@ -724,12 +746,27 @@ with tab_zoning:
         # Determine which zoning files map to real LADs and rank by score
         known = df["norm_lad"].unique().tolist()
         mapped: List[Tuple[str,str,float,str]] = []  # (lad_key, display_name, score, grade)
+        
         for zkey in _zoning_blobs.keys():
-            lad_key = best_match_norm(zkey, known, cutoff=0.80)
-            if not lad_key:
-                # try match by file stem vs Local_Authority names
-                guess = best_match_norm(zkey.replace("_", " "), known, cutoff=0.80)
-                lad_key = guess if guess else None
+            candidates = [
+                zkey,
+                clean_stem(zkey),
+                zkey.replace("_", " "),
+                clean_stem(zkey).replace("_", " "),
+            ]
+            lad_key = None
+            for cand in candidates:
+                if cand in known:
+                    lad_key = cand; break
+                # try add/remove "_enriched"
+                if cand.endswith("_enriched") and cand[:-10] in known:
+                    lad_key = cand[:-10]; break
+                if (cand + "_enriched") in known:
+                    lad_key = cand + "_enriched"; break
+                close = get_close_matches(cand, known, n=1, cutoff=0.75)
+                if close:
+                    lad_key = close[0]; break
+        
             if lad_key:
                 row = df.loc[df["norm_lad"] == lad_key]
                 if not row.empty:
