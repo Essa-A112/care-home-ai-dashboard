@@ -673,8 +673,8 @@ with tab_map:
         shap_path = os.path.join(SHAP_FOLDER, f"{key}.png")
         st.image(shap_path, width=800) 
         if os.path.exists(shap_path):
-        else:
-            st.info("No SHAP image is available for this LAD.")
+            else:
+                st.info("No SHAP image is available for this LAD.")
 
 
         st.markdown("##### LLM summary")
