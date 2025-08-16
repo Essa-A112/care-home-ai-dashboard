@@ -622,7 +622,7 @@ with tab_map:
 
         st.markdown("##### SHAP visual")
         shap_path = os.path.join(SHAP_IMG_FOLDER, f"{key}.png")
-        st.image(shap_path, width=800)) 
+        st.image(shap_path, width=800) 
         if os.path.exists(shap_path) 
         else st.info("No SHAP image is available for this LAD.")
 
