@@ -1,0 +1,82 @@
+{
+  "lad_key": "malvern_hills_enriched",
+  "lad_name": "Malvern Hills Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 6.408935153545952,
+      "abs": 6.408935153545952,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": 3.1139096144410976,
+      "abs": 3.1139096144410976,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.814646293159954,
+      "abs": 0.814646293159954,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 0.2534347692405394,
+      "abs": 0.2534347692405394,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -0.2042643728448103,
+      "abs": 0.2042643728448103,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.1793748583274672,
+      "abs": 0.1793748583274672,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.1654462941036932,
+      "abs": 0.1654462941036932,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.1593663221908383,
+      "abs": 0.1593663221908383,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.1287383463081735,
+      "abs": 0.1287383463081735,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/malvern_hills_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/malvern_hills_enriched_zoning_summary.md"
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "lad_key": "maldon_enriched",
+  "lad_name": "Maldon Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "House=Price Growth %",
+      "signed": 3.982266444560628,
+      "abs": 3.982266444560628,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -2.32691137597956,
+      "abs": 2.32691137597956,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": 1.183577282322719,
+      "abs": 1.183577282322719,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.8448407389108665,
+      "abs": 0.8448407389108665,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 0.3914894366280335,
+      "abs": 0.3914894366280335,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": 0.2525475974982375,
+      "abs": 0.2525475974982375,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.2381420478788432,
+      "abs": 0.2381420478788432,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.0945804398760957,
+      "abs": 0.0945804398760957,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.0674620785696248,
+      "abs": 0.0674620785696248,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/maldon_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/maldon_enriched_zoning_summary.md"
+  }
+}

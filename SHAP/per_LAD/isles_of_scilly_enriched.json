@@ -1,0 +1,82 @@
+{
+  "lad_key": "isles_of_scilly_enriched",
+  "lad_name": "Isles Of Scilly Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 25.919634171952765,
+      "abs": 25.919634171952765,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": 13.426646219877073,
+      "abs": 13.426646219877073,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": 4.136890643569278,
+      "abs": 4.136890643569278,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 3.2297926544620683,
+      "abs": 3.2297926544620683,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.5829708322303231,
+      "abs": 0.5829708322303231,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.4253516856189245,
+      "abs": 0.4253516856189245,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.3055173301763576,
+      "abs": 0.3055173301763576,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.211172894544304,
+      "abs": 0.211172894544304,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.1737817421657053,
+      "abs": 0.1737817421657053,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/isles_of_scilly_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/isles_of_scilly_enriched_zoning_summary.md"
+  }
+}

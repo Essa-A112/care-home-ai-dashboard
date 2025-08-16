@@ -1,0 +1,82 @@
+{
+  "lad_key": "leeds_enriched",
+  "lad_name": "Leeds Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 4.355178830996746,
+      "abs": 4.355178830996746,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": -1.6073214188097236,
+      "abs": 1.6073214188097236,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -0.6957595666530723,
+      "abs": 0.6957595666530723,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -0.5067906616063242,
+      "abs": 0.5067906616063242,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.2472046776031908,
+      "abs": 0.2472046776031908,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.2431521073792586,
+      "abs": 0.2431521073792586,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.202512937563998,
+      "abs": 0.202512937563998,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": -0.099255475219282,
+      "abs": 0.099255475219282,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.079212704103604,
+      "abs": 0.079212704103604,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/leeds_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/leeds_enriched_zoning_summary.md"
+  }
+}

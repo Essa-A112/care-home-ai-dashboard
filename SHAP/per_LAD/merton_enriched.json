@@ -1,0 +1,82 @@
+{
+  "lad_key": "merton_enriched",
+  "lad_name": "Merton Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -8.352016832366937,
+      "abs": 8.352016832366937,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": 2.9365566836633854,
+      "abs": 2.9365566836633854,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -1.613088286469594,
+      "abs": 1.613088286469594,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -1.375656482461605,
+      "abs": 1.375656482461605,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.2051976894019635,
+      "abs": 0.2051976894019635,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.1888277472010708,
+      "abs": 0.1888277472010708,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.169908143920369,
+      "abs": 0.169908143920369,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.1555106848353848,
+      "abs": 0.1555106848353848,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.1497225035882772,
+      "abs": 0.1497225035882772,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/merton_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/merton_enriched_zoning_summary.md"
+  }
+}

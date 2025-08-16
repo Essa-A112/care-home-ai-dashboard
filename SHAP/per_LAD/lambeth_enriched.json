@@ -1,0 +1,82 @@
+{
+  "lad_key": "lambeth_enriched",
+  "lad_name": "Lambeth Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "House=Price Growth %",
+      "signed": -5.776779695426894,
+      "abs": 5.776779695426894,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 3.899695025532539,
+      "abs": 3.899695025532539,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -1.1977235722280473,
+      "abs": 1.1977235722280473,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -1.159816631025842,
+      "abs": 1.159816631025842,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.3770883698483541,
+      "abs": 0.3770883698483541,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.2777608369388988,
+      "abs": 0.2777608369388988,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.1486260139223144,
+      "abs": 0.1486260139223144,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.1071278667841905,
+      "abs": 0.1071278667841905,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.0911669173391462,
+      "abs": 0.0911669173391462,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/lambeth_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/lambeth_enriched_zoning_summary.md"
+  }
+}

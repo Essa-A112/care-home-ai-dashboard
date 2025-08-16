@@ -1,0 +1,82 @@
+{
+  "lad_key": "leicester_enriched",
+  "lad_name": "Leicester Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 4.055265216017563,
+      "abs": 4.055265216017563,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -1.2322311062112528,
+      "abs": 1.2322311062112528,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": -1.199094568890832,
+      "abs": 1.199094568890832,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -0.9197968575872526,
+      "abs": 0.9197968575872526,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": -0.4262310817393411,
+      "abs": 0.4262310817393411,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.2669231103455724,
+      "abs": 0.2669231103455724,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.1692863910505779,
+      "abs": 0.1692863910505779,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.1253059146528884,
+      "abs": 0.1253059146528884,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.00448667541988,
+      "abs": 0.00448667541988,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/leicester_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/leicester_enriched_zoning_summary.md"
+  }
+}

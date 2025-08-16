@@ -1,0 +1,82 @@
+{
+  "lad_key": "kingston_upon_thames_enriched",
+  "lad_name": "Kingston Upon Thames Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -7.025312577008304,
+      "abs": 7.025312577008304,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": -3.0456600861859697,
+      "abs": 3.0456600861859697,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -1.35970245211089,
+      "abs": 1.35970245211089,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -0.7817726602521856,
+      "abs": 0.7817726602521856,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": -0.2670249512438333,
+      "abs": 0.2670249512438333,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.1814919869359718,
+      "abs": 0.1814919869359718,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.133281142215926,
+      "abs": 0.133281142215926,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.117191364769688,
+      "abs": 0.117191364769688,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.0671491814489159,
+      "abs": 0.0671491814489159,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/kingston_upon_thames_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/kingston_upon_thames_enriched_zoning_summary.md"
+  }
+}
