@@ -1,0 +1,82 @@
+{
+  "lad_key": "nuneaton_and_bedworth_enriched",
+  "lad_name": "Nuneaton And Bedworth Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 3.356939769671978,
+      "abs": 3.356939769671978,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -1.3310719923702243,
+      "abs": 1.3310719923702243,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": -0.8381324334827552,
+      "abs": 0.8381324334827552,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": -0.2553729315240384,
+      "abs": 0.2553729315240384,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.1930784684384568,
+      "abs": 0.1930784684384568,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.1715509206259161,
+      "abs": 0.1715509206259161,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -0.0352460591270599,
+      "abs": 0.0352460591270599,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.0150998603354135,
+      "abs": 0.0150998603354135,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 0.007906024574719,
+      "abs": 0.007906024574719,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/nuneaton_and_bedworth_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/nuneaton_and_bedworth_enriched_zoning_summary.md"
+  }
+}
