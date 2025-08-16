@@ -758,7 +758,6 @@ with tab_zoning:
             for cand in candidates:
                 if cand in known:
                     lad_key = cand; break
-                # try add/remove "_enriched"
                 if cand.endswith("_enriched") and cand[:-10] in known:
                     lad_key = cand[:-10]; break
                 if (cand + "_enriched") in known:
@@ -772,6 +771,61 @@ with tab_zoning:
                 if not row.empty:
                     r = row.iloc[0]
                     mapped.append((lad_key, r["Local_Authority"], float(r["Investment_Potential_Score"]), str(r["Investment_Grade"])))
+        
+        # --- NEW: de-duplicate by LAD key (keep the highest score if multiple) ---
+        unique: Dict[str, Tuple[str, float, str]] = {}
+        for lad_key, name, score, grade in mapped:
+            if lad_key not in unique or score > unique[lad_key][1]:
+                unique[lad_key] = (name, score, grade)
+        
+        # back to a list and sort
+        mapped_unique = [(k, v[0], v[1], v[2]) for k, v in unique.items()]
+        mapped_sorted = sorted(mapped_unique, key=lambda x: x[2], reverse=True)
+        
+        if not mapped_sorted:
+            st.info("Zoning files were found but could not be matched to LADs in the dataset.")
+        else:
+            top5 = mapped_sorted[:5]
+            st.markdown("These are the LADs with available zoning summaries (top 5 by score shown):")
+            st.dataframe(
+                pd.DataFrame([{"LAD": name, "Score": score, "Grade": grade} for _, name, score, grade in top5])
+                .drop_duplicates(subset=["LAD"]),  # extra guard
+                use_container_width=True, hide_index=True
+            )
+        
+            # Selection among unique LADs only
+            options = [name for _, name, _, _ in mapped_sorted]
+            options = list(dict.fromkeys(options))  # de-dupe by display name, keep order
+            pick = st.selectbox("Select a LAD with a zoning report:", options, index=0)
+            # recover lad_key for the picked name
+            sel = next(item for item in mapped_sorted if item[1] == pick)
+            lad_key = sel[0]
+        
+            # Quick metrics
+            r = df.loc[df["norm_lad"] == lad_key].iloc[0]
+            c1, c2, c3, c4 = st.columns(4)
+            c1.metric("Score", f"{safe_number(r.get('Investment_Potential_Score'),2)} / 100")
+            c2.metric("Grade", str(r.get("Investment_Grade")))
+            c3.metric("% aged 65+", safe_number(r.get("Percent_65plus"),2))
+            c4.metric("House price growth %", safe_number(r.get("House_Price_Growth_%"),2))
+        
+            st.markdown("#### Zoning summary")
+            z_exact_key = lad_key if lad_key in _zoning_blobs else best_match_norm(r["Local_Authority"], _zoning_blobs.keys(), cutoff=0.8)
+            if z_exact_key and z_exact_key in _zoning_blobs:
+                st.markdown(_zoning_blobs[z_exact_key])
+            else:
+                st.info("Zoning summary matched, but file could not be retrieved.")
+        
+            st.markdown("#### SHAP context (text)")
+            shap_txt = _format_shap_drivers_for_context(lad_key, max_items=6)
+            if shap_txt:
+                st.markdown(shap_txt)
+            else:
+                st.info("No textual SHAP drivers were found for this LAD.")
+            if lad_key in _shap_notes:
+                with st.expander("More SHAP notes"):
+                    st.markdown(_shap_notes[lad_key])
+        
 
         if not mapped:
             st.info("Zoning files were found but could not be matched to LADs in the dataset.")
