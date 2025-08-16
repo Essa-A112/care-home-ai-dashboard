@@ -637,7 +637,7 @@ with tab_map:
         clicked_lad = map_output["last_active_drawing"]["properties"]["LAD25NM"]
         if clicked_lad in lad_names:
             st.session_state.selected_lad = clicked_lad
-
+  if os.path.exists(shap_path): else:st.info("No SHAP image is available for this LAD.")
     selected_lad = st.selectbox("Select a Local Authority District:", lad_names, index=lad_names.index(st.session_state.selected_lad))
 
     sel = df.loc[df["Local_Authority"] == selected_lad]
@@ -670,9 +670,10 @@ with tab_map:
         st.dataframe(core, hide_index=True, use_container_width=True)
 
         st.markdown("##### SHAP visual")
-        shap_path = os.path.join(SHAP_FOLDER, f"{key}.png")
-        st.image(shap_path, width=800) 
-        if os.path.exists(shap_path): else:st.info("No SHAP image is available for this LAD.")
+        if os.path.exists(shap_path):
+            st.image(shap_path, width=800)
+        else:
+            st.info("No SHAP image is available for this LAD.")
 
 
         st.markdown("##### LLM summary")
