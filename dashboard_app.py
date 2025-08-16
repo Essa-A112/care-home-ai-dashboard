@@ -637,7 +637,7 @@ with tab_map:
         clicked_lad = map_output["last_active_drawing"]["properties"]["LAD25NM"]
         if clicked_lad in lad_names:
             st.session_state.selected_lad = clicked_lad
-  if os.path.exists(shap_path): else:st.info("No SHAP image is available for this LAD.")
+            
     selected_lad = st.selectbox("Select a Local Authority District:", lad_names, index=lad_names.index(st.session_state.selected_lad))
 
     sel = df.loc[df["Local_Authority"] == selected_lad]
