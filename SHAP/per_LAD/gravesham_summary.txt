@@ -1,0 +1,6 @@
+- %=CQC RequiresImprovement: increases (positive); contribution 12.252. High proportion indicates quality risks and remediation costs.
+- House=Price Growth %: increases (positive); contribution 6.886. Signals local market momentum and potential capital appreciation.
+- %=CQC Good: increases (positive); contribution 6.292. Higher share suggests a healthier care environment and lower operational risk.
+- %=CQC Inadequate: increases (positive); contribution 1.019. Indicates severe quality shortcomings and potential regulatory pressure.
+- %=CQC Outstanding: increases (positive); contribution 0.403. Top-rated provision signals strong service quality and reputation.
+- Care=Homes per 10k: increases (positive); contribution 0.195. Higher supply can mean choice but may also reflect competition; interpret with demand metrics.
