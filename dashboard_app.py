@@ -670,6 +670,7 @@ with tab_map:
         st.dataframe(core, hide_index=True, use_container_width=True)
 
         st.markdown("##### SHAP visual")
+        shap_path = os.path.join(SHAP_FOLDER, f"{key}.png")
         if os.path.exists(shap_path):
             st.image(shap_path, width=800)
         else:
