@@ -1,0 +1,82 @@
+{
+  "lad_key": "newark_and_sherwood_enriched",
+  "lad_name": "Newark And Sherwood Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "House=Price Growth %",
+      "signed": 4.272337834179514,
+      "abs": 4.272337834179514,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -2.436628287389482,
+      "abs": 2.436628287389482,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.5284976379729664,
+      "abs": 0.5284976379729664,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -0.2741226759539753,
+      "abs": 0.2741226759539753,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.2067684429131945,
+      "abs": 0.2067684429131945,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": -0.0929978010459885,
+      "abs": 0.0929978010459885,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.0730162937270231,
+      "abs": 0.0730162937270231,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.0533289486953327,
+      "abs": 0.0533289486953327,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.01796377044736,
+      "abs": 0.01796377044736,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/newark_and_sherwood_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/newark_and_sherwood_enriched_zoning_summary.md"
+  }
+}

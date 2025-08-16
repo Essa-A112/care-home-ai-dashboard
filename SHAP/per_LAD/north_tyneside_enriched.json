@@ -1,0 +1,82 @@
+{
+  "lad_key": "north_tyneside_enriched",
+  "lad_name": "North Tyneside Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -2.3470943085446416,
+      "abs": 2.3470943085446416,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": 0.5953717463880285,
+      "abs": 0.5953717463880285,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.5554076191489916,
+      "abs": 0.5554076191489916,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": -0.245539324338789,
+      "abs": 0.245539324338789,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.2422767365807393,
+      "abs": 0.2422767365807393,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": -0.1407300078246516,
+      "abs": 0.1407300078246516,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.0570856863047967,
+      "abs": 0.0570856863047967,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": 0.0545273472522218,
+      "abs": 0.0545273472522218,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.017660567908383,
+      "abs": 0.017660567908383,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/north_tyneside_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/north_tyneside_enriched_zoning_summary.md"
+  }
+}

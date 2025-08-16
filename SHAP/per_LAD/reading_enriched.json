@@ -1,0 +1,82 @@
+{
+  "lad_key": "reading_enriched",
+  "lad_name": "Reading Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 4.861957904635009,
+      "abs": 4.861957904635009,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": 2.924232485483136,
+      "abs": 2.924232485483136,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -1.3321904406809135,
+      "abs": 1.3321904406809135,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.2107273449730151,
+      "abs": 0.2107273449730151,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": -0.2051930198427693,
+      "abs": 0.2051930198427693,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.1955921874574865,
+      "abs": 0.1955921874574865,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -0.194039117328009,
+      "abs": 0.194039117328009,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.162690338792896,
+      "abs": 0.162690338792896,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.1327367492224384,
+      "abs": 0.1327367492224384,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/reading_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/reading_enriched_zoning_summary.md"
+  }
+}

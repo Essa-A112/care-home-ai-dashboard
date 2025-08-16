@@ -1,0 +1,82 @@
+{
+  "lad_key": "oadby_and_wigston_enriched",
+  "lad_name": "Oadby And Wigston Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -4.314458949059276,
+      "abs": 4.314458949059276,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -0.8668621137519071,
+      "abs": 0.8668621137519071,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.2827324514058159,
+      "abs": 0.2827324514058159,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.2566818101360237,
+      "abs": 0.2566818101360237,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.2136745042187395,
+      "abs": 0.2136745042187395,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": -0.152552517482671,
+      "abs": 0.152552517482671,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 0.1463038648517718,
+      "abs": 0.1463038648517718,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": -0.112793893326955,
+      "abs": 0.112793893326955,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.0656344360855678,
+      "abs": 0.0656344360855678,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/oadby_and_wigston_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/oadby_and_wigston_enriched_zoning_summary.md"
+  }
+}

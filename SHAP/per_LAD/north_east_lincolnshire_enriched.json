@@ -1,0 +1,82 @@
+{
+  "lad_key": "north_east_lincolnshire_enriched",
+  "lad_name": "North East Lincolnshire Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -4.316773787343918,
+      "abs": 4.316773787343918,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": 0.4302166241411173,
+      "abs": 0.4302166241411173,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": -0.4271698966943997,
+      "abs": 0.4271698966943997,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.3868995526534072,
+      "abs": 0.3868995526534072,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.2864676205934574,
+      "abs": 0.2864676205934574,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": -0.2355147516735239,
+      "abs": 0.2355147516735239,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -0.163778322901695,
+      "abs": 0.163778322901695,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.0874703544036846,
+      "abs": 0.0874703544036846,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.0817874617257276,
+      "abs": 0.0817874617257276,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/north_east_lincolnshire_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/north_east_lincolnshire_enriched_zoning_summary.md"
+  }
+}

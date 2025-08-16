@@ -1,0 +1,82 @@
+{
+  "lad_key": "oldham_enriched",
+  "lad_name": "Oldham Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "House=Price Growth %",
+      "signed": 5.254343607511743,
+      "abs": 5.254343607511743,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -1.0557133023478862,
+      "abs": 1.0557133023478862,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -0.5568757402374704,
+      "abs": 0.5568757402374704,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -0.2562536789279694,
+      "abs": 0.2562536789279694,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.1894276996429213,
+      "abs": 0.1894276996429213,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": -0.1778748212969488,
+      "abs": 0.1778748212969488,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.1654051959133675,
+      "abs": 0.1654051959133675,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.1556434139626219,
+      "abs": 0.1556434139626219,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.117565456743789,
+      "abs": 0.117565456743789,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/oldham_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/oldham_enriched_zoning_summary.md"
+  }
+}

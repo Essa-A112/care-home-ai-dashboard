@@ -1,0 +1,82 @@
+{
+  "lad_key": "preston_enriched",
+  "lad_name": "Preston Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 3.1242933664810386,
+      "abs": 3.1242933664810386,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": -1.4504014118221138,
+      "abs": 1.4504014118221138,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -1.1446093476826502,
+      "abs": 1.1446093476826502,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -0.7576523967829389,
+      "abs": 0.7576523967829389,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": -0.3650100600981428,
+      "abs": 0.3650100600981428,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.21399307746468,
+      "abs": 0.21399307746468,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.1884134648798701,
+      "abs": 0.1884134648798701,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.0738874694433789,
+      "abs": 0.0738874694433789,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.0485063869285389,
+      "abs": 0.0485063869285389,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/preston_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/preston_enriched_zoning_summary.md"
+  }
+}
