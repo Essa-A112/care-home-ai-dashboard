@@ -697,21 +697,29 @@ with tab_overview:
 # Map & details (unchanged)
 with tab_map:
     st.subheader("Clickable LAD map")
+
+    # --- use the FILTERED data for the map ---
+    df_map = filtered.copy()
+
+    # Build a choropleth only for filtered LADs
     m = folium.Map(location=DEFAULT_MAP_CENTER, zoom_start=DEFAULT_MAP_ZOOM, tiles="cartodbpositron")
-    score_map = {r["Local_Authority"]: float(r["Investment_Potential_Score"]) for _, r in df.iterrows()}
+    score_map = {r["Local_Authority"]: float(r["Investment_Potential_Score"]) for _, r in df_map.iterrows()}
 
     folium.Choropleth(
         geo_data=geojson,
         data=pd.DataFrame({"LAD": list(score_map.keys()), "Score": list(score_map.values())}),
-        columns=["LAD","Score"],
+        columns=["LAD", "Score"],
         key_on="feature.properties.LAD25NM",
-        fill_color="YlGnBu", nan_fill_color="#efefef",
-        fill_opacity=0.7, line_opacity=0.2,
+        fill_color="YlGnBu",
+        nan_fill_color="#efefef",     # LADs outside filter appear grey
+        fill_opacity=0.7,
+        line_opacity=0.2,
         legend_name="Investment Potential Score",
     ).add_to(m)
 
     folium.GeoJson(
-        geojson, name="LADs",
+        geojson,
+        name="LADs",
         style_function=lambda x: {"fillOpacity": 0, "weight": 0.3, "color": "#333"},
         highlight_function=lambda x: {"weight": 2, "color": "#111"},
         tooltip=folium.GeoJsonTooltip(fields=["LAD25NM"], aliases=["LAD:"]),
@@ -720,23 +728,31 @@ with tab_map:
     map_output = st_folium(m, height=540, returned_objects=["last_active_drawing"])
     st.markdown("---")
 
-    lad_names = df["Local_Authority"].sort_values().unique().tolist()
-    if "selected_lad" not in st.session_state:
+    # --- dropdown should also use FILTERED LADs ---
+    lad_names = df_map["Local_Authority"].sort_values().unique().tolist()
+    if not lad_names:
+        st.info("No LADs match the current filters.")
+        st.stop()
+
+    # ensure session selection is valid for the filtered set
+    if "selected_lad" not in st.session_state or st.session_state.selected_lad not in lad_names:
         st.session_state.selected_lad = lad_names[0]
 
+    # update selection from map click, but only if clicked LAD is in the filtered set
     if map_output and map_output.get("last_active_drawing"):
         clicked_lad = map_output["last_active_drawing"]["properties"]["LAD25NM"]
         if clicked_lad in lad_names:
             st.session_state.selected_lad = clicked_lad
-            
+
     selected_lad = st.selectbox("Select a Local Authority District:", lad_names, index=lad_names.index(st.session_state.selected_lad))
 
-    sel = df.loc[df["Local_Authority"] == selected_lad]
+    # --- details panel uses FILTERED row (so it reflects the filters) ---
+    sel = df_map.loc[df_map["Local_Authority"] == selected_lad]
     if not sel.empty:
         r   = sel.iloc[0]
         key = r["norm_lad"]
 
-        cA,cB,cC,cD = st.columns(4)
+        cA, cB, cC, cD = st.columns(4)
         cA.metric("Score", f"{safe_number(r.get('Investment_Potential_Score'),2)} / 100")
         cB.metric("Grade", str(r.get("Investment_Grade")))
         cC.metric("% aged 65+", safe_number(r.get("Percent_65plus"),2))
@@ -746,8 +762,8 @@ with tab_map:
         core = pd.DataFrame(
             {
                 "Indicator": [
-                    "GDHI per head (2022)","Care homes (count)","Care homes per 10k",
-                    "CQC Good %","CQC Requires Improvement %"
+                    "GDHI per head (2022)", "Care homes (count)", "Care homes per 10k",
+                    "CQC Good %", "CQC Requires Improvement %"
                 ],
                 "Value": [
                     f"£{safe_number(r.get('GDHI_per_head_2022'),0)}",
@@ -766,7 +782,6 @@ with tab_map:
             st.image(shap_path, width=800)
         else:
             st.info("No SHAP image is available for this LAD.")
-
 
         st.markdown("##### LLM summary")
         gpt_path = os.path.join(GPT_FOLDER, f"{key}.txt")
