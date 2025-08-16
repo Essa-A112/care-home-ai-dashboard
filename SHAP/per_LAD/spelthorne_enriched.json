@@ -1,0 +1,82 @@
+{
+  "lad_key": "spelthorne_enriched",
+  "lad_name": "Spelthorne Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "House=Price Growth %",
+      "signed": -5.13943330781067,
+      "abs": 5.13943330781067,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -2.555377152713123,
+      "abs": 2.555377152713123,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": 1.2932403189814552,
+      "abs": 1.2932403189814552,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": -0.4558751718457622,
+      "abs": 0.4558751718457622,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": 0.3811487907240157,
+      "abs": 0.3811487907240157,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 0.1910318742881805,
+      "abs": 0.1910318742881805,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.0935278456058481,
+      "abs": 0.0935278456058481,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.0472997412395001,
+      "abs": 0.0472997412395001,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -0.0444125569922776,
+      "abs": 0.0444125569922776,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/spelthorne_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/spelthorne_enriched_zoning_summary.md"
+  }
+}

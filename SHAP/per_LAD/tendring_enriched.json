@@ -1,0 +1,82 @@
+{
+  "lad_key": "tendring_enriched",
+  "lad_name": "Tendring Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -4.619839508163244,
+      "abs": 4.619839508163244,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 1.2989183398105248,
+      "abs": 1.2989183398105248,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -1.099810951337284,
+      "abs": 1.099810951337284,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": -0.6189028406032914,
+      "abs": 0.6189028406032914,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.4591054740187963,
+      "abs": 0.4591054740187963,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.2078598216486578,
+      "abs": 0.2078598216486578,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.0697675943763509,
+      "abs": 0.0697675943763509,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": 0.0108561999632085,
+      "abs": 0.0108561999632085,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.0063594394482494,
+      "abs": 0.0063594394482494,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/tendring_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/tendring_enriched_zoning_summary.md"
+  }
+}

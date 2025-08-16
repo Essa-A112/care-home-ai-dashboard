@@ -1,0 +1,82 @@
+{
+  "lad_key": "stratford_on_avon_enriched",
+  "lad_name": "Stratford On Avon Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -3.1859736295225782,
+      "abs": 3.1859736295225782,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": -2.313855632349999,
+      "abs": 2.313855632349999,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 1.2565559054643798,
+      "abs": 1.2565559054643798,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -0.5507979180378318,
+      "abs": 0.5507979180378318,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.2258584921577547,
+      "abs": 0.2258584921577547,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.2140504884500489,
+      "abs": 0.2140504884500489,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.1003004883609281,
+      "abs": 0.1003004883609281,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.0727484457178975,
+      "abs": 0.0727484457178975,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 0.012209026925008,
+      "abs": 0.012209026925008,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/stratford_on_avon_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/stratford_on_avon_enriched_zoning_summary.md"
+  }
+}

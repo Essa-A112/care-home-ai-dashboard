@@ -1,0 +1,82 @@
+{
+  "lad_key": "tameside_enriched",
+  "lad_name": "Tameside Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 9.617467812791569,
+      "abs": 9.617467812791569,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": 5.260953125932857,
+      "abs": 5.260953125932857,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": 2.940756133890757,
+      "abs": 2.940756133890757,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": 0.3425354866112979,
+      "abs": 0.3425354866112979,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.1608300380293522,
+      "abs": 0.1608300380293522,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.1450844963531607,
+      "abs": 0.1450844963531607,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": -0.1243405234256452,
+      "abs": 0.1243405234256452,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.1099417023080965,
+      "abs": 0.1099417023080965,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -0.0416811849034806,
+      "abs": 0.0416811849034806,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/tameside_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/tameside_enriched_zoning_summary.md"
+  }
+}

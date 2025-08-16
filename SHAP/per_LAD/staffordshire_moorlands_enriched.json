@@ -1,0 +1,82 @@
+{
+  "lad_key": "staffordshire_moorlands_enriched",
+  "lad_name": "Staffordshire Moorlands Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 11.426395696821128,
+      "abs": 11.426395696821128,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": 5.682327312428331,
+      "abs": 5.682327312428331,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": 3.392649436502761,
+      "abs": 3.392649436502761,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.6950569165744931,
+      "abs": 0.6950569165744931,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": 0.5453015864036266,
+      "abs": 0.5453015864036266,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.3282584387665651,
+      "abs": 0.3282584387665651,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 0.2135132654509876,
+      "abs": 0.2135132654509876,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.1850070999832075,
+      "abs": 0.1850070999832075,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": -0.035600862699217,
+      "abs": 0.035600862699217,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/staffordshire_moorlands_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/staffordshire_moorlands_enriched_zoning_summary.md"
+  }
+}

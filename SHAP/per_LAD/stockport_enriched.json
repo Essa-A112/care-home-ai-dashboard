@@ -1,0 +1,82 @@
+{
+  "lad_key": "stockport_enriched",
+  "lad_name": "Stockport Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 5.820910431847276,
+      "abs": 5.820910431847276,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": -1.2397320551383906,
+      "abs": 1.2397320551383906,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": 0.3726712375049522,
+      "abs": 0.3726712375049522,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.2363448257491717,
+      "abs": 0.2363448257491717,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.1987485437882576,
+      "abs": 0.1987485437882576,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.1817362951440558,
+      "abs": 0.1817362951440558,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.0452240065786237,
+      "abs": 0.0452240065786237,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.0395954272304991,
+      "abs": 0.0395954272304991,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.0162165810063984,
+      "abs": 0.0162165810063984,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/stockport_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/stockport_enriched_zoning_summary.md"
+  }
+}

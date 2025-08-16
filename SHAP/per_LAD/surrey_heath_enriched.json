@@ -1,0 +1,82 @@
+{
+  "lad_key": "surrey_heath_enriched",
+  "lad_name": "Surrey Heath Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -7.315322440891907,
+      "abs": 7.315322440891907,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": -2.2583920942905347,
+      "abs": 2.2583920942905347,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -1.8212727729156208,
+      "abs": 1.8212727729156208,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.3156068596939912,
+      "abs": 0.3156068596939912,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.2237336246110658,
+      "abs": 0.2237336246110658,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.2030636422547932,
+      "abs": 0.2030636422547932,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.1536847161662864,
+      "abs": 0.1536847161662864,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.1201086374917573,
+      "abs": 0.1201086374917573,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 0.111551767367773,
+      "abs": 0.111551767367773,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/surrey_heath_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/surrey_heath_enriched_zoning_summary.md"
+  }
+}

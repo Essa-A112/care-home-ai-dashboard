@@ -1,0 +1,82 @@
+{
+  "lad_key": "tamworth_enriched",
+  "lad_name": "Tamworth Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "House=Price Growth %",
+      "signed": 4.392032470469632,
+      "abs": 4.392032470469632,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 3.929133128854046,
+      "abs": 3.929133128854046,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -1.457044680704768,
+      "abs": 1.457044680704768,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.2304140305670827,
+      "abs": 0.2304140305670827,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": -0.2161840263071892,
+      "abs": 0.2161840263071892,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 0.1995502567523197,
+      "abs": 0.1995502567523197,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.1799464313931751,
+      "abs": 0.1799464313931751,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.1595860676550145,
+      "abs": 0.1595860676550145,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.0139612080303657,
+      "abs": 0.0139612080303657,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/tamworth_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/tamworth_enriched_zoning_summary.md"
+  }
+}

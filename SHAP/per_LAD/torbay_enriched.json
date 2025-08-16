@@ -1,0 +1,82 @@
+{
+  "lad_key": "torbay_enriched",
+  "lad_name": "Torbay Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "House=Price Growth %",
+      "signed": 2.5029552049725,
+      "abs": 2.5029552049725,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.7017570665413596,
+      "abs": 0.7017570665413596,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -0.6319267946682586,
+      "abs": 0.6319267946682586,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.2204067221357758,
+      "abs": 0.2204067221357758,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 0.1943987792826434,
+      "abs": 0.1943987792826434,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.1655707458638025,
+      "abs": 0.1655707458638025,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.095586652773486,
+      "abs": 0.095586652773486,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": -0.0734267301004204,
+      "abs": 0.0734267301004204,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.0567854648077849,
+      "abs": 0.0567854648077849,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/torbay_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/torbay_enriched_zoning_summary.md"
+  }
+}

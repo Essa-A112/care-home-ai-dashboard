@@ -1,0 +1,82 @@
+{
+  "lad_key": "tandridge_enriched",
+  "lad_name": "Tandridge Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -3.4185540418452467,
+      "abs": 3.4185540418452467,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": 1.616476869656459,
+      "abs": 1.616476869656459,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.723222435910403,
+      "abs": 0.723222435910403,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.4755993626776845,
+      "abs": 0.4755993626776845,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": 0.3986443202112486,
+      "abs": 0.3986443202112486,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.3808267549026327,
+      "abs": 0.3808267549026327,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.2914525084825236,
+      "abs": 0.2914525084825236,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": 0.2296581147953418,
+      "abs": 0.2296581147953418,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 0.2065683654744355,
+      "abs": 0.2065683654744355,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/tandridge_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/tandridge_enriched_zoning_summary.md"
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "lad_key": "tonbridge_and_malling_enriched",
+  "lad_name": "Tonbridge And Malling Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -4.639913448667458,
+      "abs": 4.639913448667458,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": -1.1595049855938138,
+      "abs": 1.1595049855938138,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -0.7109330034974279,
+      "abs": 0.7109330034974279,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.2745609165141157,
+      "abs": 0.2745609165141157,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.2474027713063632,
+      "abs": 0.2474027713063632,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.0877885600315233,
+      "abs": 0.0877885600315233,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 0.0412918309132545,
+      "abs": 0.0412918309132545,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.0362432254102847,
+      "abs": 0.0362432254102847,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": -0.0259138005104245,
+      "abs": 0.0259138005104245,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/tonbridge_and_malling_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/tonbridge_and_malling_enriched_zoning_summary.md"
+  }
+}

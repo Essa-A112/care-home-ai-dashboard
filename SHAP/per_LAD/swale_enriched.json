@@ -1,0 +1,82 @@
+{
+  "lad_key": "swale_enriched",
+  "lad_name": "Swale Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -4.763516746897644,
+      "abs": 4.763516746897644,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": -2.8265482176167884,
+      "abs": 2.8265482176167884,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -0.888193129749364,
+      "abs": 0.888193129749364,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.2039650763491122,
+      "abs": 0.2039650763491122,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.1328592648759176,
+      "abs": 0.1328592648759176,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.087622295872113,
+      "abs": 0.087622295872113,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": -0.0873133338840834,
+      "abs": 0.0873133338840834,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.036110574601615,
+      "abs": 0.036110574601615,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 0.0134390594128325,
+      "abs": 0.0134390594128325,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/swale_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/swale_enriched_zoning_summary.md"
+  }
+}

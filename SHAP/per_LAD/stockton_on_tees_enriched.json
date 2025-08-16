@@ -1,0 +1,82 @@
+{
+  "lad_key": "stockton_on_tees_enriched",
+  "lad_name": "Stockton On Tees Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -6.6138824663513125,
+      "abs": 6.6138824663513125,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": -1.914522686951793,
+      "abs": 1.914522686951793,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -1.393070969541882,
+      "abs": 1.393070969541882,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.2354987853187639,
+      "abs": 0.2354987853187639,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": -0.175915955938039,
+      "abs": 0.175915955938039,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.1118875248895339,
+      "abs": 0.1118875248895339,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.0651498544427973,
+      "abs": 0.0651498544427973,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.0414553995717655,
+      "abs": 0.0414553995717655,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -0.0155075156512535,
+      "abs": 0.0155075156512535,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/stockton_on_tees_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/stockton_on_tees_enriched_zoning_summary.md"
+  }
+}

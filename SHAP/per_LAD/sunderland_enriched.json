@@ -1,0 +1,82 @@
+{
+  "lad_key": "sunderland_enriched",
+  "lad_name": "Sunderland Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "House=Price Growth %",
+      "signed": -10.118381620872904,
+      "abs": 10.118381620872904,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -8.602642014763516,
+      "abs": 8.602642014763516,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -1.9373522559030367,
+      "abs": 1.9373522559030367,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.2896002953204399,
+      "abs": 0.2896002953204399,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.17299544967625,
+      "abs": 0.17299544967625,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.1043246971608709,
+      "abs": 0.1043246971608709,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": -0.1009862857305461,
+      "abs": 0.1009862857305461,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": -0.0958901422138021,
+      "abs": 0.0958901422138021,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": 0.0138174669442589,
+      "abs": 0.0138174669442589,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/sunderland_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/sunderland_enriched_zoning_summary.md"
+  }
+}

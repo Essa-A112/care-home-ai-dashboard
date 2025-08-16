@@ -1,0 +1,82 @@
+{
+  "lad_key": "three_rivers_enriched",
+  "lad_name": "Three Rivers Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "House=Price Growth %",
+      "signed": 4.026998469097317,
+      "abs": 4.026998469097317,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 0.6724318961507458,
+      "abs": 0.6724318961507458,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": 0.5365631786425547,
+      "abs": 0.5365631786425547,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.2382469286776375,
+      "abs": 0.2382469286776375,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 0.2131211122204934,
+      "abs": 0.2131211122204934,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.15384843449242,
+      "abs": 0.15384843449242,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": 0.0306563532038387,
+      "abs": 0.0306563532038387,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.0280277957843639,
+      "abs": 0.0280277957843639,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -0.0130438864351492,
+      "abs": 0.0130438864351492,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/three_rivers_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/three_rivers_enriched_zoning_summary.md"
+  }
+}

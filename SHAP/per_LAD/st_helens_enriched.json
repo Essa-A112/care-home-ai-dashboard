@@ -1,0 +1,82 @@
+{
+  "lad_key": "st_helens_enriched",
+  "lad_name": "St Helens Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "House=Price Growth %",
+      "signed": 6.391503227329864,
+      "abs": 6.391503227329864,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -5.266228586685839,
+      "abs": 5.266228586685839,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -1.0019769228520352,
+      "abs": 1.0019769228520352,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.3537961803181429,
+      "abs": 0.3537961803181429,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.182726886555888,
+      "abs": 0.182726886555888,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": -0.1141693827284932,
+      "abs": 0.1141693827284932,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.1026843873484622,
+      "abs": 0.1026843873484622,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.0375844048388689,
+      "abs": 0.0375844048388689,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": 0.0270120805152707,
+      "abs": 0.0270120805152707,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/st_helens_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/st_helens_enriched_zoning_summary.md"
+  }
+}

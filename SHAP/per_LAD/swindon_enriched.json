@@ -1,0 +1,82 @@
+{
+  "lad_key": "swindon_enriched",
+  "lad_name": "Swindon Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "House=Price Growth %",
+      "signed": 4.100604364525501,
+      "abs": 4.100604364525501,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -2.794080788174813,
+      "abs": 2.794080788174813,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": -0.4720627361582009,
+      "abs": 0.4720627361582009,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -0.4092059904824716,
+      "abs": 0.4092059904824716,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.2369971913160641,
+      "abs": 0.2369971913160641,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -0.2112494565633187,
+      "abs": 0.2112494565633187,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.1470073750951959,
+      "abs": 0.1470073750951959,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": -0.0701089155541418,
+      "abs": 0.0701089155541418,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.0046972209158099,
+      "abs": 0.0046972209158099,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/swindon_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/swindon_enriched_zoning_summary.md"
+  }
+}
