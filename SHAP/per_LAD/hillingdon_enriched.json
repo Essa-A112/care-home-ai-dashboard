@@ -1,0 +1,82 @@
+{
+  "lad_key": "hillingdon_enriched",
+  "lad_name": "Hillingdon Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -6.928149436425568,
+      "abs": 6.928149436425568,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": -3.2564648932129474,
+      "abs": 3.2564648932129474,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -1.859710174081956,
+      "abs": 1.859710174081956,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -1.2403594676810183,
+      "abs": 1.2403594676810183,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.2401062504313316,
+      "abs": 0.2401062504313316,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": 0.2121898072344278,
+      "abs": 0.2121898072344278,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.1664901877922188,
+      "abs": 0.1664901877922188,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.1094596833559373,
+      "abs": 0.1094596833559373,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.0618324751493899,
+      "abs": 0.0618324751493899,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/hillingdon_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/hillingdon_enriched_zoning_summary.md"
+  }
+}

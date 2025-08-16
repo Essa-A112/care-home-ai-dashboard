@@ -1,0 +1,82 @@
+{
+  "lad_key": "hertsmere_enriched",
+  "lad_name": "Hertsmere Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "House=Price Growth %",
+      "signed": -2.197614966750894,
+      "abs": 2.197614966750894,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.3406584882235806,
+      "abs": 0.3406584882235806,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -0.2197336830642937,
+      "abs": 0.2197336830642937,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.2193068935017336,
+      "abs": 0.2193068935017336,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": -0.1489354592886151,
+      "abs": 0.1489354592886151,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 0.123831755753235,
+      "abs": 0.123831755753235,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 0.0985696048773115,
+      "abs": 0.0985696048773115,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -0.0374956684663363,
+      "abs": 0.0374956684663363,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.0052784875167594,
+      "abs": 0.0052784875167594,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/hertsmere_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/hertsmere_enriched_zoning_summary.md"
+  }
+}
