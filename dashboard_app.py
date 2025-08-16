@@ -430,7 +430,10 @@ def _attach_zoning_if_available(lad_key: str, df: pd.DataFrame) -> Optional[str]
     if lad_key in _zoning_blobs:
         return _zoning_blobs[lad_key][:1600] + ("\n[...]" if len(_zoning_blobs[lad_key]) > 1600 else "")
     # try by display name variants
-    lad_name = df.loc[df["norm_lad"] == lad_key, "Local_Authority"].iloc[0] if not df.loc[df["norm_lad"] == lad_key].empty else ""
+    lad_name = df.loc[df["norm_lad"] == lad_key, "Local_Authority"].iloc[0] if notif os.path.exists(shap_path):
+    st.image(shap_path, width=800)
+else:
+    st.info("No SHAP image is available for this LAD.") df.loc[df["norm_lad"] == lad_key].empty else ""
     guess = best_match_norm(lad_name, _zoning_blobs.keys(), cutoff=0.8)
     if guess and guess in _zoning_blobs:
         txt = _zoning_blobs[guess]
@@ -671,7 +674,11 @@ with tab_map:
 
         st.markdown("##### SHAP visual")
         shap_path = os.path.join(SHAP_FOLDER, f"{key}.png")
-        st.image(shap_path, width=800) if os.path.exists(shap_path) else st.info("No SHAP image is available for this LAD.")
+        st.image(shap_path, width=800) 
+        if os.path.exists(shap_path):
+            st.image(shap_path, width=800)
+        else:
+            st.info("No SHAP image is available for this LAD.")
 
         st.markdown("##### LLM summary")
         gpt_path = os.path.join(GPT_FOLDER, f"{key}.txt")
