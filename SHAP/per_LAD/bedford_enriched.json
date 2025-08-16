@@ -1,0 +1,82 @@
+{
+  "lad_key": "bedford_enriched",
+  "lad_name": "Bedford Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 4.733414144727926,
+      "abs": 4.733414144727926,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": -3.197232892735021,
+      "abs": 3.197232892735021,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": 0.6554242057947696,
+      "abs": 0.6554242057947696,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -0.2595983855750815,
+      "abs": 0.2595983855750815,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.2259155825715696,
+      "abs": 0.2259155825715696,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.208267375837294,
+      "abs": 0.208267375837294,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.1298727523403986,
+      "abs": 0.1298727523403986,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.0757380038717451,
+      "abs": 0.0757380038717451,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": -0.0110953371500089,
+      "abs": 0.0110953371500089,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/bedford_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/bedford_enriched_zoning_summary.md"
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "lad_key": "bath_and_north_east_somerset_enriched",
+  "lad_name": "Bath And North East Somerset Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "House=Price Growth %",
+      "signed": 4.88178770948575,
+      "abs": 4.88178770948575,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -1.1337347405591212,
+      "abs": 1.1337347405591212,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.1888432034139383,
+      "abs": 0.1888432034139383,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.1697735259621089,
+      "abs": 0.1697735259621089,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.1480893046722473,
+      "abs": 0.1480893046722473,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.1277584591424936,
+      "abs": 0.1277584591424936,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.1081347922202393,
+      "abs": 0.1081347922202393,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -0.0655407562954797,
+      "abs": 0.0655407562954797,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.0166313860082823,
+      "abs": 0.0166313860082823,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/bath_and_north_east_somerset_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/bath_and_north_east_somerset_enriched_zoning_summary.md"
+  }
+}
