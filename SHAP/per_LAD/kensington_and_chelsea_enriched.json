@@ -1,0 +1,82 @@
+{
+  "lad_key": "kensington_and_chelsea_enriched",
+  "lad_name": "Kensington And Chelsea Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -7.209694349475425,
+      "abs": 7.209694349475425,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": 0.976895892472321,
+      "abs": 0.976895892472321,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -0.5961328261025384,
+      "abs": 0.5961328261025384,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": -0.5096198989026508,
+      "abs": 0.5096198989026508,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": 0.5010082182986922,
+      "abs": 0.5010082182986922,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.3055086325766815,
+      "abs": 0.3055086325766815,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.2522407150464444,
+      "abs": 0.2522407150464444,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.2183718818962217,
+      "abs": 0.2183718818962217,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 0.0936151197019869,
+      "abs": 0.0936151197019869,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/kensington_and_chelsea_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/kensington_and_chelsea_enriched_zoning_summary.md"
+  }
+}

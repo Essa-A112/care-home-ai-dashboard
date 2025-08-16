@@ -1,0 +1,82 @@
+{
+  "lad_key": "lancaster_enriched",
+  "lad_name": "Lancaster Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "House=Price Growth %",
+      "signed": 4.05564977873285,
+      "abs": 4.05564977873285,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -1.0010573153164684,
+      "abs": 1.0010573153164684,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": -0.377280669400475,
+      "abs": 0.377280669400475,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.2334380229317794,
+      "abs": 0.2334380229317794,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": -0.1526949756430126,
+      "abs": 0.1526949756430126,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.1325501049783294,
+      "abs": 0.1325501049783294,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.1153099627003727,
+      "abs": 0.1153099627003727,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.1138484701079759,
+      "abs": 0.1138484701079759,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.0553514465315282,
+      "abs": 0.0553514465315282,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/lancaster_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/lancaster_enriched_zoning_summary.md"
+  }
+}
