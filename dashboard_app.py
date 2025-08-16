@@ -671,7 +671,7 @@ with tab_map:
 
         st.markdown("##### SHAP visual")
         shap_path = os.path.join(SHAP_FOLDER, f"{key}.png")
-        st.image(shap_path, use_column_width=True) if os.path.exists(shap_path) else st.info("No SHAP image is available for this LAD.")
+        st.image(shap_path, width=800) if os.path.exists(shap_path) else st.info("No SHAP image is available for this LAD.")
 
         st.markdown("##### LLM summary")
         gpt_path = os.path.join(GPT_FOLDER, f"{key}.txt")
