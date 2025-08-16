@@ -1,0 +1,82 @@
+{
+  "lad_key": "uttlesford_enriched",
+  "lad_name": "Uttlesford Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC Good",
+      "signed": -0.9677917170139786,
+      "abs": 0.9677917170139786,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": -0.4855943174387951,
+      "abs": 0.4855943174387951,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": 0.2875477407142762,
+      "abs": 0.2875477407142762,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.2393010456480563,
+      "abs": 0.2393010456480563,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": 0.2346056574814649,
+      "abs": 0.2346056574814649,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": 0.1938233969460321,
+      "abs": 0.1938233969460321,
+      "direction": "up",
+      "strength": "medium"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": -0.1733675512438333,
+      "abs": 0.1733675512438333,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": 0.132729544778701,
+      "abs": 0.132729544778701,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": -0.029459109606436,
+      "abs": 0.029459109606436,
+      "direction": "down",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/uttlesford_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/uttlesford_enriched_zoning_summary.md"
+  }
+}

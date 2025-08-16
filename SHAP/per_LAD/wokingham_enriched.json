@@ -1,0 +1,82 @@
+{
+  "lad_key": "wokingham_enriched",
+  "lad_name": "Wokingham Enriched",
+  "roi_pct": null,
+  "drivers": [
+    {
+      "term": "%=CQC RequiresImprovement",
+      "signed": -3.224971956481076,
+      "abs": 3.224971956481076,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "House=Price Growth %",
+      "signed": -1.2068776771131229,
+      "abs": 1.2068776771131229,
+      "direction": "down",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Good",
+      "signed": 0.4386984806821238,
+      "abs": 0.4386984806821238,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "GDHI=per head 2022",
+      "signed": 0.3059766563141051,
+      "abs": 0.3059766563141051,
+      "direction": "up",
+      "strength": "high"
+    },
+    {
+      "term": "%=CQC Outstanding",
+      "signed": -0.3001547806750244,
+      "abs": 0.3001547806750244,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Total=Population",
+      "signed": -0.0891432465043154,
+      "abs": 0.0891432465043154,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Percent=65plus",
+      "signed": -0.0855315313524361,
+      "abs": 0.0855315313524361,
+      "direction": "down",
+      "strength": "medium"
+    },
+    {
+      "term": "Care=Homes per 10k",
+      "signed": 0.0480053148669742,
+      "abs": 0.0480053148669742,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC Inadequate",
+      "signed": 0.0339934305282627,
+      "abs": 0.0339934305282627,
+      "direction": "up",
+      "strength": "low"
+    },
+    {
+      "term": "%=CQC NotRated",
+      "signed": 0.0,
+      "abs": 0.0,
+      "direction": "neutral",
+      "strength": "low"
+    }
+  ],
+  "sources": {
+    "shap_csv": "/content/drive/MyDrive/care_home_ai_repeatable_project/SHAP/per_LAD/wokingham_enriched.csv",
+    "shap_png": null,
+    "zoning_md": "/content/drive/MyDrive/care_home_ai_repeatable_project/Outputs/gpt_summaries/wokingham_enriched_zoning_summary.md"
+  }
+}
