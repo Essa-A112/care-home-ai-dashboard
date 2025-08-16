@@ -1,6 +1,0 @@
-- House=Price Growth %: increases (positive); contribution 6.241. Signals local market momentum and potential capital appreciation.
-- %=CQC RequiresImprovement: decreases (negative); contribution 5.194. High proportion indicates quality risks and remediation costs.
-- %=CQC Good: decreases (negative); contribution 1.358. Higher share suggests a healthier care environment and lower operational risk.
-- Percent=65plus: increases (positive); contribution 0.744. Larger elderly cohort typically raises demand for care places.
-- %=CQC Outstanding: increases (positive); contribution 0.215. Top-rated provision signals strong service quality and reputation.
-- %=CQC Inadequate: decreases (negative); contribution 0.188. Indicates severe quality shortcomings and potential regulatory pressure.
