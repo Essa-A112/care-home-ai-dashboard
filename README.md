@@ -14,12 +14,12 @@ The system evaluates each Local Authority District using a predictive model trai
 
 Key capabilities include:
 
-- Investment potential scoring for UK Local Authority Districts
-- Interactive geographic visualisation of investment potential
-- SHAP-based model explainability
-- GPT-generated natural language investment explanations
-- ROI simulation summaries for each district
-- Zoning and planning report summaries where available
+- Investment potential scoring for UK Local Authority Districts  
+- Interactive geographic visualisation of investment potential  
+- SHAP-based model explainability  
+- GPT-generated natural language investment explanations  
+- ROI simulation summaries for each district  
+- Zoning and planning report summaries where available  
 
 The aim is to demonstrate how AI-driven analysis can support strategic decision-making in healthcare real estate investment.
 
@@ -51,11 +51,11 @@ Planning summaries and zoning context are provided for selected high-potential d
 
 The model integrates data from several UK public datasets, including:
 
-- Office for National Statistics (ONS)
-- Care Quality Commission (CQC)
-- UK House Price Index
-- Regional Gross Disposable Household Income (GDHI)
-- Population demographic estimates
+- Office for National Statistics (ONS)  
+- Care Quality Commission (CQC)  
+- UK House Price Index  
+- Regional Gross Disposable Household Income (GDHI)  
+- Population demographic estimates  
 
 These datasets are merged and processed at the Local Authority District level.
 
@@ -65,14 +65,118 @@ These datasets are merged and processed at the Local Authority District level.
 
 The investment scoring model was trained using regional indicators including:
 
-- Population aged 65+
-- Care home supply per capita
-- CQC quality ratings
-- Regional income levels
-- House price growth trends
+- Population aged 65+  
+- Care home supply per capita  
+- CQC quality ratings  
+- Regional income levels  
+- House price growth trends  
 
 Explainability is provided through SHAP analysis, enabling feature-level interpretation of model predictions.
 
 ---
 
 # Project Structure
+
+```
+care-home-ai-dashboard/
+│
+├── dashboard_app.py
+│   Main Streamlit dashboard application
+│
+├── final_model_data_with_grade.csv
+│   Processed dataset used for investment analysis
+│
+├── roi_by_district.csv
+│   ROI simulation results by Local Authority District
+│
+├── requirements.txt
+│   Python dependencies required to run the dashboard
+│
+├── README.md
+│   Project documentation
+│
+├── shap_visuals/
+│   SHAP explanation plots for each Local Authority District
+│
+├── SHAP/
+│   Additional SHAP feature importance data and drivers
+│
+├── gpt_explanation/
+│   GPT-generated explanations of investment potential for each district
+│
+├── roi_gpt/
+│   GPT-generated summaries explaining ROI simulations
+│
+├── zoning_planning_summary/
+│   Zoning and planning context summaries for selected districts
+│
+├── LAD_MAY_2025_Simplified.geojson
+│   UK Local Authority District boundary file
+│
+├── LAD_MAY_2025_Simplified_5.geojson
+│   Simplified boundary file used for faster dashboard map rendering
+│
+└── .devcontainer/
+    Development container configuration
+```
+
+---
+
+# Running the Dashboard
+
+### Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### Launch the Streamlit application
+
+```bash
+streamlit run dashboard_app.py
+```
+
+The dashboard will open locally in your browser.
+
+---
+
+# Deployment
+
+The dashboard is deployed using **Streamlit Community Cloud**, allowing the application to run directly from the GitHub repository without additional infrastructure.
+
+Users can interact with the dashboard through a web interface to explore investment opportunities across UK Local Authority Districts.
+
+---
+
+# Research Context
+
+This project was developed as part of an MSc research project exploring how artificial intelligence and explainable machine learning can support investment decision-making in healthcare real estate.
+
+The system demonstrates how predictive modelling, interpretability techniques, and natural language interfaces can be combined to improve transparency and usability in AI-driven analytics.
+
+The project integrates:
+
+- Machine learning prediction models  
+- Explainable AI (SHAP)  
+- Natural language explanation using large language models  
+- Interactive decision support through a Streamlit dashboard  
+
+---
+
+# Author
+
+Essa Abikar  
+MSc Robotics  
+King's College London
+
+---
+
+# Future Improvements
+
+Potential extensions include:
+
+- Incorporating additional regional economic indicators  
+- Improving ROI modelling with historical investment performance  
+- Integrating planning constraints directly into the scoring model  
+- Expanding the LLM assistant for deeper investment analysis  
+- Adding additional explainability methods alongside SHAP  
