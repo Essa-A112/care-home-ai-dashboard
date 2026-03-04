@@ -1,43 +1,34 @@
 # -*- coding: utf-8 -*-
 """
-Care Home Investment Decision Dashboard
+AI-Powered Care Home Investment Dashboard
 
 Author: Essa Abikar
 MSc Robotics – King's College London
 
-This Streamlit application presents the outputs of a machine learning
-pipeline designed to identify UK locations with strong potential for
-care home investment.
+This application visualises the output of a machine learning model
+designed to identify UK locations with strong potential for care
+home investment.
 
-The dashboard integrates:
-- Model predictions and investment scores
-- Regional ROI projections
-- SHAP-based feature explanations
-- Interactive geographic visualisation of Local Authority Districts
-- Natural language explanations generated from model outputs
+The dashboard combines:
+• demographic indicators
+• economic indicators
+• care quality data
+• machine learning investment scores
+• SHAP explainability
 
-The goal is to support transparent, data-driven decision making
-for care home real estate investment.
+It provides investors with an interpretable, data-driven overview
+of the UK care home market.
 """
-
-from __future__ import annotations
 
 import os
 import json
-import time
-import re
-from typing import Dict, List, Tuple, Iterable, Optional
-
 import pandas as pd
 import streamlit as st
 import folium
-
-from difflib import get_close_matches
 from streamlit_folium import st_folium
 
-
 # ==========================================================
-# APPLICATION CONFIGURATION
+# CONFIGURATION
 # ==========================================================
 
 st.set_page_config(
@@ -48,33 +39,7 @@ st.set_page_config(
 
 DATA_PATH = "final_model_data_with_grade.csv"
 GEOJSON_PATH = "LAD_MAY_2025_Simplified_5.geojson"
-
 SHAP_FOLDER = "shap_visuals"
-GPT_FOLDER = "gpt_explanation"
-ROI_FOLDER = "roi_gpt"
-
-ROI_TABLE_PATH = "roi_by_district.csv"
-
-# Optional directories used when additional analysis files exist
-PER_LAD_SHAP_DIR = "SHAP/per_LAD"
-FEATURE_GUIDE_JSON = "feature_guide.json"
-FEATURE_GUIDE_TXT = "feature_guide.txt"
-GLOBAL_LAD_SHAP_TOP = "lad_shap_top_drivers.csv"
-
-ZONING_DIR_CANDIDATES = [
-    "zoning_planning_summary",
-    "zoning_reports",
-    "Outputs/gpt_summaries",
-]
-
-OPENAI_API_KEY = st.secrets.get("OPENAI_API_KEY", os.getenv("OPENAI_API_KEY", ""))
-
-OPENAI_MODEL_PRIMARY = "gpt-5.2"
-OPENAI_MODEL_FALLBACK = "gpt-5-nano"
-
-TEMPERATURE = 0.3
-MAX_RETRIES = 2
-RETRY_BACKOFF_SECONDS = 2.0
 
 DEFAULT_MAP_CENTER = [54.5, -3.0]
 DEFAULT_MAP_ZOOM = 5
@@ -84,226 +49,54 @@ DEFAULT_MAP_ZOOM = 5
 # HELPER FUNCTIONS
 # ==========================================================
 
-def normalise(name: str) -> str:
-    """Standardise names for consistent matching across datasets."""
-    return (
-        str(name)
-        .strip()
-        .lower()
-        .replace("&", "and")
-        .replace("'", "")
-        .replace("/", "_")
-        .replace("-", "_")
-        .replace(" ", "_")
-    )
-
-
-def safe_number(val, digits=2, default="N/A") -> str:
-    """Safely format numerical values for display."""
+def safe_number(value, digits=2):
     try:
-        if pd.isna(val):
-            return default
-        return f"{float(val):.{digits}f}"
-    except Exception:
-        return default
+        return f"{float(value):.{digits}f}"
+    except:
+        return "N/A"
 
 
-def shap_available(key: str) -> bool:
-    """Check whether a SHAP visualisation exists for a LAD."""
-    return os.path.exists(os.path.join(SHAP_FOLDER, f"{key}.png"))
-
-
-def best_match_norm(key_like: str, known: Iterable[str], cutoff: float = 0.84) -> Optional[str]:
+def compute_risk(row):
     """
-    Attempt to match a LAD name against known normalised keys.
-    Handles suffix variations and approximate matches.
+    Simple market risk indicator based on
+    supply saturation and quality indicators.
     """
-    k = normalise(key_like)
 
-    if k in known:
-        return k
+    risk = 0
 
-    for suf in ["_enriched", "_lad", "_district"]:
-        if k.endswith(suf):
-            base = k[:-len(suf)]
+    if row["%_CQC_RequiresImprovement"] > 25:
+        risk += 1
 
-            if base in known:
-                return base
+    if row["Care_Homes_per_10k"] > 6:
+        risk += 1
 
-            close = get_close_matches(base, list(known), n=1, cutoff=cutoff)
-            if close:
-                return close[0]
+    if row["House_Price_Growth_%"] < 2:
+        risk += 1
 
-    close = get_close_matches(k, list(known), n=1, cutoff=cutoff)
-    return close[0] if close else None
+    return risk
 
 
 # ==========================================================
 # DATA LOADING
 # ==========================================================
 
-@st.cache_data(show_spinner=False)
-def load_base_data() -> pd.DataFrame:
-    """
-    Load the merged dataset used by the investment model.
-    """
-    if not os.path.exists(DATA_PATH):
-        st.error(f"Missing data file: {DATA_PATH}")
-        st.stop()
-
+@st.cache_data
+def load_data():
     df = pd.read_csv(DATA_PATH)
-
-    if "Local_Authority" not in df.columns:
-        st.error("Column 'Local_Authority' is missing from the model data.")
-        st.stop()
-
-    df = df.copy()
-    df["norm_lad"] = df["Local_Authority"].apply(normalise)
-
-    numeric_columns = [
-        "Investment_Potential_Score",
-        "Percent_65plus",
-        "GDHI_per_head_2022",
-        "House_Price_Growth_%",
-        "Care_Homes_Count",
-        "Care_Homes_per_10k",
-        "%_CQC_Good",
-        "%_CQC_RequiresImprovement",
-    ]
-
-    for col in numeric_columns:
-        if col in df.columns:
-            df[col] = pd.to_numeric(df[col], errors="coerce")
-
     return df
 
 
-@st.cache_data(show_spinner=False)
-def load_geojson() -> dict:
-    """Load geographic boundary data for Local Authority Districts."""
-    if not os.path.exists(GEOJSON_PATH):
-        st.error(f"Missing GeoJSON: {GEOJSON_PATH}")
-        st.stop()
+@st.cache_data
+def load_geojson():
 
-    with open(GEOJSON_PATH, "r", encoding="utf-8") as f:
-        return json.load(f)
+    with open(GEOJSON_PATH) as f:
+        geojson = json.load(f)
+
+    return geojson
 
 
-@st.cache_data(show_spinner=False)
-def load_roi_table() -> pd.DataFrame:
-    """Load ROI simulation outputs if available."""
-    if not os.path.exists(ROI_TABLE_PATH):
-        return pd.DataFrame(columns=["norm_lad", "ROI (%)"])
-
-    roi = pd.read_csv(ROI_TABLE_PATH)
-
-    if "District" in roi.columns:
-        roi["norm_lad"] = roi["District"].apply(normalise)
-    elif "LAD" in roi.columns:
-        roi["norm_lad"] = roi["LAD"].apply(normalise)
-    else:
-        name_col = next((c for c in roi.columns if roi[c].dtype == object), None)
-
-        if name_col:
-            roi["norm_lad"] = roi[name_col].apply(normalise)
-        else:
-            roi["norm_lad"] = ""
-
-    return roi
-
-
-@st.cache_data(show_spinner=False)
-def load_text_blob(folder: str) -> Dict[str, str]:
-    """Load text summaries stored for individual LADs."""
-    data = {}
-
-    if not os.path.isdir(folder):
-        return data
-
-    for f in os.listdir(folder):
-
-        if f.lower().endswith(".txt"):
-
-            key = normalise(os.path.splitext(f)[0])
-
-            try:
-                with open(os.path.join(folder, f), "r", encoding="utf-8") as fh:
-                    data[key] = fh.read()
-            except Exception:
-                pass
-
-    return data
-
-
-# ==========================================================
-# OPENAI CLIENT
-# ==========================================================
-
-def call_openai(prompt: str, model: str) -> str:
-    """
-    Send a prompt to the OpenAI API and return the response.
-    If the API fails, an error string is returned.
-    """
-
-    if not OPENAI_API_KEY:
-        return "LLM error: no API key configured."
-
-    try:
-
-        from openai import OpenAI
-
-        client = OpenAI(api_key=OPENAI_API_KEY)
-
-        response = client.chat.completions.create(
-            model=model,
-            temperature=TEMPERATURE,
-            messages=[
-                {
-                    "role": "system",
-                    "content": (
-                        "You are a UK care-home investment analyst. "
-                        "Provide concise, decision-focused answers "
-                        "based strictly on the supplied context."
-                    ),
-                },
-                {"role": "user", "content": prompt},
-            ],
-        )
-
-        return response.choices[0].message.content.strip()
-
-    except Exception as e:
-        return f"LLM error: {e}"
-
-
-def ask_gpt_with_retry(prompt: str) -> str:
-    """Retry the OpenAI request if the first attempt fails."""
-
-    for attempt in range(MAX_RETRIES):
-
-        output = call_openai(prompt, OPENAI_MODEL_PRIMARY)
-
-        if not output.startswith("LLM error:"):
-            return output
-
-        time.sleep(RETRY_BACKOFF_SECONDS * (attempt + 1))
-
-    return call_openai(prompt, OPENAI_MODEL_FALLBACK)
-
-
-# ==========================================================
-# STREAMLIT USER INTERFACE
-# ==========================================================
-
-st.title("🏡 Care Home Investment Dashboard (UK)")
-st.caption("MSc Project – AI for Care Home Investment Support")
-
-df = load_base_data()
+df = load_data()
 geojson = load_geojson()
-roi_table = load_roi_table()
-
-roi_blobs = load_text_blob(ROI_FOLDER)
-gpt_blobs = load_text_blob(GPT_FOLDER)
 
 
 # ==========================================================
@@ -312,35 +105,48 @@ gpt_blobs = load_text_blob(GPT_FOLDER)
 
 st.sidebar.header("Filters")
 
-grades = sorted(df["Investment_Grade"].dropna().unique().tolist())
+grades = sorted(df["Investment_Grade"].dropna().unique())
 
-chosen_grades = st.sidebar.multiselect(
-    "Investment grade",
-    options=grades,
+selected_grades = st.sidebar.multiselect(
+    "Investment Grade",
+    grades,
     default=grades
 )
 
-score_min, score_max = st.sidebar.slider(
-    "Score range",
+score_range = st.sidebar.slider(
+    "Investment Score Range",
     0.0,
     100.0,
-    (0.0, 100.0),
-    step=1.0
+    (0.0, 100.0)
 )
 
 filtered = df[
-    df["Investment_Grade"].isin(chosen_grades)
-    & df["Investment_Potential_Score"].between(score_min, score_max)
-].copy()
+    (df["Investment_Grade"].isin(selected_grades)) &
+    (df["Investment_Potential_Score"].between(score_range[0], score_range[1]))
+]
+
+
+# ==========================================================
+# MAIN TITLE
+# ==========================================================
+
+st.title("🏡 AI-Powered Care Home Investment Decision System")
+
+st.caption(
+    "MSc Robotics Project – Decision Support for UK Care Home Investment"
+)
 
 
 # ==========================================================
 # TABS
 # ==========================================================
 
-tab_overview, tab_map, tab_assistant = st.tabs(
-    ["Overview", "Map & Details", "LLM Assistant"]
-)
+tab_overview, tab_map, tab_compare, tab_method = st.tabs([
+    "Overview",
+    "Map",
+    "Compare Locations",
+    "Methodology"
+])
 
 
 # ==========================================================
@@ -349,32 +155,50 @@ tab_overview, tab_map, tab_assistant = st.tabs(
 
 with tab_overview:
 
-    st.subheader("National snapshot")
+    st.subheader("National Investment Snapshot")
 
-    c1, c2, c3 = st.columns(3)
+    col1, col2, col3 = st.columns(3)
 
-    c1.metric("LADs in dataset", len(df))
-    c2.metric("Median score", f"{df['Investment_Potential_Score'].median():.1f}")
-    c3.metric("Top grade share", f"{(df['Investment_Grade'].eq('Good').mean()*100):.1f}%")
+    col1.metric("Local Authorities Analysed", len(df))
+    col2.metric("Median Investment Score", f"{df['Investment_Potential_Score'].median():.1f}")
+    col3.metric("High Grade Areas (%)",
+                f"{(df['Investment_Grade']=='Good').mean()*100:.1f}")
 
-    st.markdown("#### Top 15 LADs by score")
 
-    top = (
-        filtered[
-            [
-                "Local_Authority",
-                "Investment_Potential_Score",
-                "Investment_Grade",
-                "Percent_65plus",
-                "%_CQC_Good",
-                "House_Price_Growth_%"
-            ]
+    st.markdown("### Top Investment Opportunities")
+
+    top5 = filtered.sort_values(
+        "Investment_Potential_Score",
+        ascending=False
+    ).head(5)
+
+    for _, row in top5.iterrows():
+
+        st.markdown(
+            f"""
+**{row['Local_Authority']}**
+
+Score: {safe_number(row['Investment_Potential_Score'])}/100  
+Grade: {row['Investment_Grade']}  
+House Price Growth: {safe_number(row['House_Price_Growth_%'])}%  
+Care Homes per 10k: {safe_number(row['Care_Homes_per_10k'])}
+"""
+        )
+
+    st.markdown("### Top 15 Areas")
+
+    table = filtered[
+        [
+            "Local_Authority",
+            "Investment_Potential_Score",
+            "Investment_Grade",
+            "Percent_65plus",
+            "%_CQC_Good",
+            "House_Price_Growth_%"
         ]
-        .sort_values("Investment_Potential_Score", ascending=False)
-        .head(15)
-    )
+    ].sort_values("Investment_Potential_Score", ascending=False).head(15)
 
-    st.dataframe(top, use_container_width=True)
+    st.dataframe(table, use_container_width=True)
 
 
 # ==========================================================
@@ -383,9 +207,7 @@ with tab_overview:
 
 with tab_map:
 
-    st.subheader("Interactive Local Authority Map")
-
-    df_map = filtered.copy()
+    st.subheader("Interactive Investment Map")
 
     m = folium.Map(
         location=DEFAULT_MAP_CENTER,
@@ -393,103 +215,142 @@ with tab_map:
         tiles="cartodbpositron"
     )
 
-    score_map = {
-        r["Local_Authority"]: float(r["Investment_Potential_Score"])
-        for _, r in df_map.iterrows()
-    }
-
-    folium.Choropleth(
+    choropleth = folium.Choropleth(
         geo_data=geojson,
-        data=pd.DataFrame({"LAD": list(score_map.keys()), "Score": list(score_map.values())}),
-        columns=["LAD", "Score"],
+        data=filtered,
+        columns=["Local_Authority", "Investment_Potential_Score"],
         key_on="feature.properties.LAD25NM",
         fill_color="YlGnBu",
-        nan_fill_color="#efefef",
-        fill_opacity=0.7,
-        line_opacity=0.2,
-        legend_name="Investment Potential Score",
+        legend_name="Investment Score"
     ).add_to(m)
 
-    folium.GeoJson(
-        geojson,
-        style_function=lambda x: {"fillOpacity": 0, "weight": 0.3, "color": "#333"},
-        highlight_function=lambda x: {"weight": 2, "color": "#111"},
-        tooltip=folium.GeoJsonTooltip(fields=["LAD25NM"], aliases=["LAD:"]),
-    ).add_to(m)
-
-    map_output = st_folium(m, height=540, returned_objects=["last_active_drawing"])
+    st_folium(m, height=550)
 
     st.markdown("---")
 
-    lad_names = df_map["Local_Authority"].sort_values().unique().tolist()
+    lad_list = filtered["Local_Authority"].unique()
 
-    if not lad_names:
-        st.info("No LADs match the current filters.")
-        st.stop()
+    selected_lad = st.selectbox(
+        "Select Location",
+        lad_list
+    )
 
-    selected_lad = st.selectbox("Select Local Authority District:", lad_names)
+    row = filtered[filtered["Local_Authority"] == selected_lad].iloc[0]
 
-    sel = df_map.loc[df_map["Local_Authority"] == selected_lad]
+    col1, col2, col3, col4 = st.columns(4)
 
-    if not sel.empty:
+    col1.metric("Score", f"{safe_number(row['Investment_Potential_Score'])}/100")
+    col2.metric("Grade", row["Investment_Grade"])
+    col3.metric("% aged 65+", safe_number(row["Percent_65plus"]))
+    col4.metric("House Price Growth", safe_number(row["House_Price_Growth_%"]))
 
-        r = sel.iloc[0]
-        key = r["norm_lad"]
 
-        c1, c2, c3, c4 = st.columns(4)
+    risk = compute_risk(row)
 
-        c1.metric("Score", f"{safe_number(r.get('Investment_Potential_Score'),2)} / 100")
-        c2.metric("Grade", str(r.get("Investment_Grade")))
-        c3.metric("% aged 65+", safe_number(r.get("Percent_65plus"),2))
-        c4.metric("House price growth %", safe_number(r.get("House_Price_Growth_%"),2))
+    if risk == 0:
+        st.success("Low investment risk")
+    elif risk == 1:
+        st.warning("Moderate investment risk")
+    else:
+        st.error("Higher investment risk")
 
-        shap_path = os.path.join(SHAP_FOLDER, f"{key}.png")
 
-        st.markdown("##### SHAP explanation")
+    shap_path = os.path.join(
+        SHAP_FOLDER,
+        f"{selected_lad.lower().replace(' ','_')}.png"
+    )
 
-        if os.path.exists(shap_path):
-            st.image(shap_path, width=800)
-        else:
-            st.info("No SHAP visualisation available.")
+    st.markdown("### Model Explanation")
+
+    if os.path.exists(shap_path):
+        st.image(shap_path, width=800)
+    else:
+        st.info("No SHAP explanation available for this location.")
 
 
 # ==========================================================
-# LLM ASSISTANT
+# COMPARISON TAB
 # ==========================================================
 
-with tab_assistant:
+with tab_compare:
 
-    st.subheader("Investment Assistant")
+    st.subheader("Compare Investment Locations")
 
-    if "chat_history" not in st.session_state:
-        st.session_state.chat_history = []
+    col1, col2 = st.columns(2)
 
-    for role, content in st.session_state.chat_history:
-        st.chat_message(role).markdown(content)
+    lad1 = col1.selectbox("Location 1", df["Local_Authority"])
+    lad2 = col2.selectbox("Location 2", df["Local_Authority"], index=1)
 
-    user_query = st.chat_input("Ask about any location or comparison")
+    row1 = df[df["Local_Authority"] == lad1].iloc[0]
+    row2 = df[df["Local_Authority"] == lad2].iloc[0]
 
-    if user_query:
+    comparison = pd.DataFrame({
 
-        st.chat_message("user").markdown(user_query)
+        "Metric": [
+            "Investment Score",
+            "% Population 65+",
+            "House Price Growth %",
+            "Care Homes per 10k",
+            "CQC Good %"
+        ],
 
-        st.session_state.chat_history.append(("user", user_query))
+        lad1: [
+            row1["Investment_Potential_Score"],
+            row1["Percent_65plus"],
+            row1["House_Price_Growth_%"],
+            row1["Care_Homes_per_10k"],
+            row1["%_CQC_Good"]
+        ],
 
-        with st.spinner("Generating response..."):
+        lad2: [
+            row2["Investment_Potential_Score"],
+            row2["Percent_65plus"],
+            row2["House_Price_Growth_%"],
+            row2["Care_Homes_per_10k"],
+            row2["%_CQC_Good"]
+        ]
 
-            prompt = f"""
-User question:
-{user_query}
+    })
 
-Available data relates to UK Local Authority District care home investment analysis.
-Provide a concise and evidence-based response.
-"""
+    st.dataframe(comparison, use_container_width=True)
 
-            answer = ask_gpt_with_retry(prompt)
 
-        st.chat_message("assistant").markdown(answer)
+# ==========================================================
+# METHODOLOGY TAB
+# ==========================================================
 
-        st.session_state.chat_history.append(("assistant", answer))
+with tab_method:
+
+    st.subheader("Methodology")
+
+    st.markdown("""
+
+### Model Overview
+
+This dashboard presents results from a machine learning model designed
+to identify UK Local Authority Districts with strong potential for
+care home investment.
+
+The model combines demographic, economic and healthcare quality
+indicators.
+
+### Key Features Used
+
+• Percentage of population aged 65+  
+• Gross Disposable Household Income (GDHI)  
+• House price growth  
+• Care home supply per capita  
+• Care Quality Commission ratings  
+
+### Explainability
+
+SHAP (Shapley Additive Explanations) values are used to interpret how
+each feature influences the predicted investment score for a given
+location.
+
+This enables transparent and interpretable investment analysis.
+
+""")
 
 
 # ==========================================================
@@ -499,7 +360,5 @@ Provide a concise and evidence-based response.
 st.markdown("---")
 
 st.caption(
-    "Created for MSc research on AI-assisted decision support for care home investment. "
-    "Data includes demographic indicators, economic metrics, care quality ratings, "
-    "and model-derived investment scores."
+    "Developed as part of MSc research into AI-driven investment decision support systems."
 )
