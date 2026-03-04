@@ -49,7 +49,7 @@ GLOBAL_LAD_SHAP_TOP = "lad_shap_top_drivers.csv"  # optional fallback per-LAD to
 ZONING_DIR_CANDIDATES = [
     "zoning_planning_summary",
     "zoning_reports",
-    "Outputs/gpt_summaries",                   # if copied in-repo
+    "Outputs/gpt_summaries",                   
 ]
 
 OPENAI_API_KEY        = st.secrets.get("OPENAI_API_KEY", os.getenv("OPENAI_API_KEY", ""))
@@ -187,7 +187,7 @@ def load_text_blob(folder: str) -> Dict[str, str]:
                 pass
     return data
 
-# ---------- NEW: SHAP + feature-guide + zoning loaders (optional & safe) ----------
+# ---------- NEW: SHAP + feature-guide + zoning loaders ----------
 @st.cache_data(show_spinner=False)
 def load_feature_guide() -> Dict[str, dict]:
     """
@@ -246,7 +246,6 @@ def load_per_lad_shap_drivers() -> Dict[str, List[dict]]:
                     df = df.rename(columns={c: "signed"})
                     break
 
-        # fill direction/strength if missing
         if "direction" not in df.columns and "signed" in df.columns:
             df["direction"] = df["signed"].apply(lambda v: "up" if pd.notna(v) and float(v) >= 0 else "down")
         if "strength" not in df.columns and "signed" in df.columns:
@@ -685,7 +684,7 @@ tab_overview, tab_map, tab_assistant, tab_zoning = st.tabs(
     ["Overview", "Map & Details", "LLM Assistant", "Zoning Reports"]
 )
 
-# Overview (unchanged)
+# Overview
 with tab_overview:
     st.subheader("National snapshot")
     c1, c2, c3 = st.columns(3)
@@ -704,7 +703,7 @@ with tab_overview:
     )
     st.dataframe(top, use_container_width=True)
 
-# Map & details (unchanged)
+# Map & details 
 with tab_map:
     st.subheader("Clickable LAD map")
 
