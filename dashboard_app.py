@@ -53,8 +53,8 @@ ZONING_DIR_CANDIDATES = [
 ]
 
 OPENAI_API_KEY        = st.secrets.get("OPENAI_API_KEY", os.getenv("OPENAI_API_KEY", ""))
-OPENAI_MODEL_PRIMARY  = "gpt-5-nano"
-OPENAI_MODEL_FALLBACK = "gpt-4o-mini"
+OPENAI_MODEL_PRIMARY  = "gpt-5.2"
+OPENAI_MODEL_FALLBACK = "gpt-5-nano"
 TEMPERATURE           = 0.3
 MAX_RETRIES           = 2
 RETRY_BACKOFF_SECONDS = 2.0
